@@ -13,7 +13,7 @@ const profile = {
     phone: "+91 992026289",
     location: "Mumbai, India",
     email: "mathurkabir336@gmail.com",
-    linkedin: "https://linkedin.com/in/KabirMathur",
+    linkedin: "https://www.linkedin.com/in/kabir-mathur-655429292/",
     github: "https://github.com/kabir-999",
   },
   about: `Hi! I'm Kabir, a passionate Computer Science student specializing in Data Science, Machine Learning, Web Scraping and Backend Development. I love building impactful projects and learning new technologies.`,
@@ -410,7 +410,7 @@ function ContactSection() {
           <div className="contact-list">
             <div className="contact-item"><FaEnvelope className="contact-icon" /> <span><a href="mailto:mathurkabir336@gmail.com">mathurkabir336@gmail.com</a></span></div>
             <div className="contact-item"><FaGithub className="contact-icon" /> <span><a href="https://github.com/kabir-999" target="_blank" rel="noopener noreferrer">github.com/kabir-999</a></span></div>
-            <div className="contact-item"><FaLinkedin className="contact-icon" /> <span><a href="https://linkedin.com/in/KabirMathur" target="_blank" rel="noopener noreferrer">linkedin.com/in/KabirMathur</a></span></div>
+            <div className="contact-item"><FaLinkedin className="contact-icon" /> <span><a href="https://www.linkedin.com/in/kabir-mathur-655429292/" target="_blank" rel="noopener noreferrer">linkedin.com/in/kabir-mathur-655429292/</a></span></div>
             <div className="contact-item"><FaPhone className="contact-icon" /> <span>+91 992026289</span></div>
             <div className="contact-item"><FaMapMarkerAlt className="contact-icon" /> <span>Mumbai, India</span></div>
           </div>
