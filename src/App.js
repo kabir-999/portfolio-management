@@ -16,7 +16,7 @@ const profile = {
     linkedin: "https://linkedin.com/in/KabirMathur",
     github: "https://github.com/kabir-999",
   },
-  about: `Hi! I'm Kabir, a passionate Computer Science student specializing in Data Science, Machine Learning, and Backend Development. I love building impactful projects and learning new technologies.`,
+  about: `Hi! I'm Kabir, a passionate Computer Science student specializing in Data Science, Machine Learning, Web Scraping and Backend Development. I love building impactful projects and learning new technologies.`,
   education: {
     college: "Dwarkadas J. Sanghvi College of Engineering (DJSCE)",
     gpa: "8.5/10",
@@ -25,7 +25,7 @@ const profile = {
   },
   achievements: [
     "Smart India Hackathon (SIH) Grand Finalist (Dec 2024)",
-    "Winner – Interdepartmental Championship, Data Science Branch (Mar 2025)",
+    "Winner – Interdepartmental Tournament, Data Science Branch (Mar 2025)",
     "AWS Machine Learning Certification (Nov 2024)",
     "AWS Academy: Cloud Foundations (Apr 2025)",
   ],
@@ -144,7 +144,7 @@ function About() {
         <img src={aboutImg} alt="About Kabir" className="about-img" />
       </div>
       <div>
-        <h2>About Me</h2>
+        
         <p>{profile.about}</p>
         <div className="education">
           <div>{profile.education.college}</div>
@@ -398,7 +398,7 @@ function ContactForm() {
   );
 }
 
-function Footer() {
+function ContactSection() {
   return (
     <section className="contact-section glass" id="contact">
       <h2>Get In Touch</h2>
@@ -417,6 +417,14 @@ function Footer() {
         </div>
       </div>
     </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="footer">
+      © 2025 Kabir Mathur. All rights reserved.
+    </footer>
   );
 }
 
@@ -478,7 +486,10 @@ function App() {
       <Skills />
       <Timeline />
       <ProjectWidgets />
-      <ContactForm />
+      <section className="section contact-row" id="contact">
+        <ContactSection />
+        <ContactForm />
+      </section>
       <Footer />
     </div>
   );
