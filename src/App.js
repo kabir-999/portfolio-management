@@ -185,7 +185,7 @@ function Flashcard({ project }) {
   let techLine = tech.startsWith('Stack:') ? tech.replace('Stack:', '').trim() : tech;
   return (
     <div className="flashcard glass">
-      <div className="flashcard-inner">
+      <div className="project-card-container">
         {project.img && (
           <img src={project.img} alt={project.title} className="flashcard-img" />
         )}
@@ -195,7 +195,9 @@ function Flashcard({ project }) {
             {details.map((d, i) => <li key={i}>{d}</li>)}
           </ul>
           <div className="stack-line-row"><span className="stack-title">Stack:</span> <span className="stack-line-comma">{techLine}</span></div>
-          {project.link && <a href={project.link} target="_blank" rel="noopener noreferrer">GitHub/Website</a>}
+          <div className="project-button-wrapper">
+            {project.link && <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link-button">GitHub/Website</a>}
+          </div>
         </div>
       </div>
     </div>
