@@ -1,8 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@600;700&family=Roboto:wght@400;500;600&display=swap');
-html {
-  scroll-behavior: smooth;
-}
-
 body, .app {
   background: #181a20;
   color: #f1f1f1;
@@ -25,22 +20,20 @@ body, .app {
   z-index: 100;
   display: flex;
   justify-content: center;
-  gap: 32px;
-  padding: 15px 0 10px 0;
-  background: rgba(24, 26, 32, 0.8);
-  backdrop-filter: blur(15px);
-  border-bottom: 1.5px solid #23262f66;
-  box-shadow: 0 3px 18px 0 #0003;
-  font-size: 1.2rem;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  gap: 28px;
+  padding: 12px 0 8px 0;
+  background: rgba(24, 26, 32, 0.7);
+  backdrop-filter: blur(12px);
+  border-bottom: 1.5px solid #23262f44;
+  box-shadow: 0 2px 16px 0 #0002;
+  font-size: 1.18rem;
 }
 .navbar a {
   color: #7fbcff;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 1px;
-  padding: 8px 15px;
+  padding: 6px 12px;
   border-radius: 8px;
   transition: background 0.2s, color 0.2s;
   font-family: 'Roboto', sans-serif;
@@ -106,22 +99,18 @@ body, .app {
   font-size: 3.2rem;
   font-weight: 700;
   color: #7fbcff;
-  margin-bottom: 12px;
-  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 6px;
 }
 .hero-content h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
+  font-size: 1.18rem;
+  font-weight: 500;
   color: #fff;
-  margin-bottom: 20px;
-  font-family: 'Roboto', sans-serif;
+  margin-bottom: 8px;
 }
 .hero-content p {
   margin: 0 0 20px 0;
   color: #b0c4d4;
-  font-size: 1.25rem;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  font-size: 1.08rem;
 }
 .hero-links {
   display: flex;
@@ -133,12 +122,9 @@ body, .app {
   background: #7fbcff;
   color: #181a20;
   text-decoration: none;
-  font-weight: 700;
-  font-size: 1.35rem;
-  border-radius: 12px;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  font-family: 'Roboto', sans-serif;
-  box-shadow: 0 4px 12px #7fbcff66;
+  font-weight: 500;
+  font-size: 1.13rem;
+  transition: color 0.2s;
 }
 .hero-links a:hover {
   background: #5a9bff;
@@ -218,38 +204,29 @@ body, .app {
 .about {
   display: flex;
   align-items: center;
-  gap: 60px;
-  margin: 50px auto 30px auto;
-  padding: 32px 32px;
-  max-width: 1000px;
-  border-radius: 18px;
-  box-shadow: 0 4px 20px 0 #0002;
+  gap: 24px;
+  margin: 32px 0 18px 0;
+  padding: 18px 18px;
 }
 .about-img {
-  width: 180px;
-  height: 200px;
+  width: 120px;
+  height: 120px;
   object-fit: cover;
   border-radius: 18px;
-  border: 4px solid #7fbcff;
-  box-shadow: 0 8px 48px 0 #7fbcff33;
+  border: 3px solid #7fbcff;
+  box-shadow: 0 4px 32px 0 #7fbcff33;
   background: #23262f;
   flex-shrink: 0;
 }
 .about h2 {
   color: #7fbcff;
-  font-size: 1.8rem;
-  margin-bottom: 16px;
-  text-align: left;
-  font-weight: 700;
-  font-family: 'Poppins', sans-serif;
+  font-size: 1.18rem;
+  margin-bottom: 8px;
 }
 .about p {
   color: #f1f1f1;
-  font-size: 1.15rem;
-  margin-bottom: 16px;
-  line-height: 1.7;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  font-size: 1.08rem;
+  margin-bottom: 8px;
 }
 
 .section {
@@ -274,10 +251,8 @@ body, .app {
 }
 
 .education > div {
-  margin-bottom: 6px;
-  font-size: 1.1rem;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  margin-bottom: 2px;
+  font-size: 1.08rem;
 }
 
 .achievements ul, .skills ul {
@@ -294,18 +269,16 @@ body, .app {
 }
 
 .projects {
-  text-align: left;
-  background: none;
-  padding: 60px 5% 80px 5%;
-  border-radius: 0;
-  box-shadow: none;
+  background: linear-gradient(120deg, #23262f 60%, #7fbcff22 100%);
+  padding: 40px 0 60px 0;
+  border-radius: 32px;
+  box-shadow: 0 8px 48px 0 #7fbcff33, 0 2px 8px 0 #0003;
   margin-bottom: 40px;
   position: relative;
   overflow: visible;
   border: none;
 }
 .flashcard-list {
-  align-items: stretch;
   display: flex;
   flex-wrap: wrap;
   gap: 120px;
@@ -317,12 +290,11 @@ body, .app {
   margin: 40px auto;
 }
 .flashcard {
-  background: rgba(35, 38, 47, 0.95);
-  border-radius: 20px;
-  box-shadow: 0 4px 15px 0 #7fbcff15, 0 2px 5px 0 #0002;
-  width: calc(33.33% - 26.66px);
-  max-width: unset;
-  min-height: auto;
+  background: rgba(35, 38, 47, 0.92);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 #7fbcff44, 0 2px 8px 0 #0003;
+  width: 340px;
+  min-height: 340px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -334,190 +306,7 @@ body, .app {
   padding: 0;
   position: relative;
   z-index: 1;
-  animation: cardGlow 5s ease-in-out infinite alternate;
-  line-height: 1.2;
-}
-
-.flashcard-inner {
-  display: flex;
-  flex-direction: column; /* Revert to column direction for image and content within card */
-  align-items: stretch;
-  width: 100%;
-  height: 100%;
-}
-
-.flashcard-img {
-  width: 100%; /* Image takes full width of the card */
-  height: 180px; /* Set a fixed height for images in a 3-column layout */
-  object-fit: cover;
-  border-bottom: 1px solid #23262f;
-  border-right: none;
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px; /* Revert to top rounded corners */
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  background: #23262f;
-  flex-shrink: 0;
-}
-
-.flashcard-img-placeholder {
-  background: linear-gradient(135deg, #23262f 60%, #7fbcff08 100%);
-  color: #7fbcff77;
-  height: 180px; /* Consistent height with image */
-  min-height: unset; /* Remove min-height override */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.05rem;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid #23262f; /* Revert bottom border */
-  border-right: none;
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.flashcard-content {
-  padding: 24px; /* Adjusted padding for 3-column layout */
-  flex: 1;
-  line-height: 1.6;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-}
-
-.flashcard-content h3 {
-  line-height: 1.3;
-  color: #7fbcff;
-  font-size: 1.3rem; /* Adjusted heading size for 3-column layout */
-  margin: 0 0 16px 0;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  font-family: 'Poppins', sans-serif;
-}
-
-.flashcard-content ul {
-  line-height: 1.6;
-  padding-left: 20px;
-  margin: 0 0 10px 0;
-  font-size: 1rem;
-  color: #e0eaff;
-  flex-grow: 1;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-}
-
-.stack-line-comma {
-  font-weight: 400;
-  color: #e0eaff;
-  flex: 1;
-  font-size: 0.95rem; /* Adjusted font size for 3-column layout */
-}
-
-.flashcard-content a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1rem;
-  margin-top: 18px;
-  font-weight: 600;
-  transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease, border 0.25s ease;
-  letter-spacing: 0.5px;
-  font-family: 'Roboto', sans-serif;
-  display: inline-flex;
-  align-self: center;
-  padding: 10px 20px;
-  border: 1px solid #7fbcff;
-  border-radius: 6px;
-  background: rgba(127, 188, 255, 0.08);
-  box-shadow: 0 1px 4px rgba(127, 188, 255, 0.15);
-}
-
-/* Responsive adjustments for flashcards to allow proper stacking */
-@media (max-width: 1200px) {
-  .flashcard {
-    width: calc(50% - 20px);
-  }
-}
-
-@media (max-width: 900px) {
-  .flashcard-list {
-    gap: 30px;
-  }
-  .flashcard {
-    width: 95%;
-  }
-  .flashcard-img {
-    height: 200px;
-  }
-  .flashcard-img-placeholder {
-    height: 200px;
-  }
-  .flashcard-content h3 {
-    font-size: 1.25rem;
-  }
-  .flashcard-content a {
-    font-size: 0.95rem;
-    padding: 8px 18px;
-  }
-}
-
-@media (max-width: 600px) {
-  .flashcard-list {
-    gap: 20px;
-  }
-  .flashcard {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  .flashcard-img {
-    height: 180px;
-  }
-  .flashcard-img-placeholder {
-    height: 180px;
-  }
-  .flashcard-content {
-    padding: 20px;
-  }
-  .flashcard-content h3 {
-    font-size: 1.1rem;
-  }
-  .flashcard-content ul {
-    font-size: 0.9rem;
-  }
-  .stack-title, .stack-line-comma {
-    font-size: 0.88rem;
-  }
-  .flashcard-content a {
-    font-size: 0.9rem;
-    padding: 6px 14px;
-  }
-}
-
-.flashcard {
-  background: rgba(35, 38, 47, 0.95);
-  border-radius: 20px;
-  box-shadow: 0 4px 15px 0 #7fbcff15, 0 2px 5px 0 #0002;
-  width: calc(33.33% - 26.66px);
-  max-width: unset;
-  min-height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border 0.2s ease-out;
-  margin-bottom: 0;
-  overflow: hidden;
-  border: 1px solid #23262f;
-  backdrop-filter: blur(15px);
-  padding: 0;
-  position: relative;
-  z-index: 1;
-  animation: cardGlow 5s ease-in-out infinite alternate;
-  line-height: 1.2;
+  animation: cardGlow 3s ease-in-out infinite alternate;
 }
 @keyframes cardGlow {
   0% { box-shadow: 0 4px 15px 0 #7fbcff15; }
@@ -536,6 +325,7 @@ body, .app {
   height: 100%;
 }
 .flashcard-img {
+  align-items: center;
   width: 100%;
   height: 180px;
   object-fit: cover;
@@ -570,47 +360,24 @@ body, .app {
 .flashcard-content {
   padding: 24px;
   flex: 1;
-  line-height: 1.6;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  justify-content: flex-start;
 }
 .flashcard-content h3 {
-  line-height: 1.3;
   color: #7fbcff;
   font-size: 1.3rem;
   margin: 0 0 16px 0;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  font-family: 'Poppins', sans-serif;
-  text-align: center;
+  letter-spacing: 1px;
 }
 .flashcard-content ul {
-  line-height: 1.6;
-  padding-left: 20px;
-  margin: 0 0 10px 0;
-  font-size: 1rem;
+  padding-left: 18px;
+  margin: 0 0 8px 0;
+  font-size: 1.08rem;
   color: #e0eaff;
-  flex-grow: 1;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
 }
-.flashcard-content li {
-  margin-bottom: 10px;
-  line-height: 1.5;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-}
-.stack-line-row {
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.stack-title {
-  font-weight: 700;
+.flashcard-content a {
   color: #7fbcff;
   margin-right: 8px;
   font-size: 1.05rem;
@@ -629,14 +396,6 @@ body, .app {
   font-weight: 600;
   transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease, border 0.25s ease;
   letter-spacing: 0.5px;
-  font-family: 'Roboto', sans-serif;
-  display: inline-flex;
-  align-self: center;
-  padding: 10px 20px;
-  border: 1px solid #7fbcff;
-  border-radius: 6px;
-  background: rgba(127, 188, 255, 0.08);
-  box-shadow: 0 1px 4px rgba(127, 188, 255, 0.15);
 }
 .flashcard-content a:hover {
   color: #181a20;
@@ -683,6 +442,38 @@ body, .app {
 ::-webkit-scrollbar-thumb {
   background: #7fbcff33;
   border-radius: 8px;
+}
+
+@media (max-width: 900px) {
+  .hero-content, .about {
+    flex-direction: column;
+    gap: 18px;
+    padding: 14px 4px;
+    align-items: center;
+  }
+  .about {
+    padding: 14px 4px;
+  }
+  .flashcard-list {
+    gap: 24px 0;
+  }
+  .flashcard {
+    width: 98vw;
+    min-width: 0;
+    max-width: 340px;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    gap: 8px;
+    font-size: 0.99rem;
+    padding: 6px 0 4px 0;
+  }
+  .hero-img, .about-img {
+    width: 80px;
+    height: 80px;
+  }
 }
 
 .fancy-skills {
@@ -760,10 +551,8 @@ body, .app {
   font-weight: 400;
 }
 .skill-card li {
-  margin-bottom: 6px;
-  line-height: 1.4;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
 }
 @media (max-width: 900px) {
   .skill-card-list {
@@ -846,6 +635,37 @@ body, .app {
   }
 }
 
+.contact-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+  margin-bottom: 40px;
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+}
+
+.contact-row .contact-section, .contact-row .contact-form-section {
+  flex: 1;
+  max-width: 520px;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .contact-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .contact-row .contact-section, .contact-row .contact-form-section {
+    width: 98vw;
+    min-width: 0;
+    max-width: 520px;
+  }
+}
+
 .contact-form-section {
   max-width: 580px;
   margin: 0 auto 0 auto;
@@ -856,21 +676,11 @@ body, .app {
   border: 1.5px solid #23262f;
   text-align: left;
 }
-.contact-form-section h2 {
-  font-size: 1.25rem;
-  margin-bottom: 12px;
-  font-weight: 700;
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-}
 
 .contact-form-desc {
   color: #b0c4d4;
-  font-size: 1.05rem;
-  margin-bottom: 24px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  text-align: center;
+  font-size: 1.08rem;
+  margin-bottom: 18px;
 }
 .contact-form {
   display: flex;
@@ -881,11 +691,11 @@ body, .app {
 .contact-form textarea {
   background: #181a20;
   color: #e0eaff;
-  border: 1px solid #23262f;
-  border-radius: 6px;
-  padding: 15px 18px;
-  font-size: 1rem;
-  font-family: 'Roboto', sans-serif;
+  border: 1.5px solid #23262f;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 1.08rem;
+  font-family: inherit;
   outline: none;
   transition: border 0.2s;
   font-weight: 400;
@@ -908,10 +718,8 @@ body, .app {
   border-radius: 6px;
   padding: 15px 0;
   cursor: pointer;
-  margin-top: 10px;
-  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
-  font-family: 'Roboto', sans-serif;
-  box-shadow: 0 2px 8px rgba(127, 188, 255, 0.3);
+  margin-top: 8px;
+  transition: background 0.2s, color 0.2s;
 }
 .contact-form button:disabled {
   opacity: 0.6;
@@ -926,9 +734,8 @@ body, .app {
 .contact-form-status {
   margin-top: 12px;
   color: #7fbcff;
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: 'Roboto', sans-serif;
+  font-size: 1.08rem;
+  font-weight: 500;
 }
 
 @media (max-width: 700px) {
@@ -966,8 +773,8 @@ body, .app {
   font-size: 2.2rem;
   color: #bfc9ff;
   font-weight: 700;
-  margin-bottom: 28px;
-  text-align: center;
+  margin-bottom: 24px;
+  text-align: left;
   letter-spacing: 1px;
   font-family: 'Poppins', sans-serif;
 }
@@ -986,15 +793,12 @@ body, .app {
   font-size: 1.35rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 6px;
-  font-family: 'Poppins', sans-serif;
+  margin-bottom: 8px;
 }
 .contact-desc {
   color: #b0c4d4;
-  font-size: 1.05rem;
-  margin-bottom: 20px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  font-size: 1.08rem;
+  margin-bottom: 18px;
 }
 .contact-list {
   display: flex;
@@ -1006,9 +810,7 @@ body, .app {
   align-items: center;
   font-size: 1.05rem;
   color: #e0eaff;
-  gap: 15px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  gap: 12px;
 }
 .contact-icon {
   font-size: 1.25rem;
@@ -1074,10 +876,8 @@ body, .app {
 .achievements .section-header {
   text-align: center;
   color: #7fbcff;
-  font-size: 2.2rem;
-  margin-bottom: 32px;
-  font-weight: 700;
-  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 24px;
 }
 .achievements-carousel {
   display: flex;
@@ -1106,9 +906,9 @@ body, .app {
   background: #181a20;
   color: #fff;
   border-radius: 12px;
-  padding: 18px 36px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  padding: 16px 32px;
+  font-size: 1.18rem;
+  font-weight: 500;
   box-shadow: 0 2px 8px 0 #7fbcff22;
   min-width: 350px;
   text-align: center;
@@ -1188,29 +988,23 @@ body, .app {
   font-size: 1.1rem;
   font-weight: 700;
   color: #7fbcff;
-  margin-bottom: 6px;
-  font-family: 'Poppins', sans-serif;
+  margin-bottom: 4px;
 }
 .timeline-date {
   font-size: 0.98rem;
   color: #b0c4d4;
-  margin-bottom: 10px;
-  font-weight: 600;
-  font-family: 'Roboto', sans-serif;
+  margin-bottom: 8px;
+  font-weight: 500;
 }
 .timeline-content ul {
   margin: 0;
   padding-left: 20px;
   font-size: 0.98rem;
   color: #e0eaff;
-  line-height: 1.6;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  line-height: 1.7;
 }
 .timeline-content li {
-  margin-bottom: 6px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  margin-bottom: 4px;
 }
 
 /* Responsive adjustments for Timeline section */
@@ -1335,8 +1129,7 @@ body, .app {
   font-size: 2.1rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 6px;
-  font-family: 'Poppins', sans-serif;
+  margin-bottom: 8px;
 }
 .widget-label {
   font-size: 1.05rem;

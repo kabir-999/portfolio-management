@@ -261,7 +261,7 @@ function Skills() {
     },
     {
       icon: <FaCogs size={32} color="#7fbcff" />, title: "Others", items: [
-        "EDA", "Data Preprocessing", "Render Deployment", "BeautifulSoup", "Blockchain"
+        "EDA", "Render Deployment", "BeautifulSoup", "Selenium","Blockchain","Hypothesis Testing","Statistics"
       ]
     },
     {
@@ -433,7 +433,7 @@ function ContactSection() {
           <div className="contact-list">
             <div className="contact-item"><FaEnvelope className="contact-icon" /> <span><a href="mailto:mathurkabir336@gmail.com">mathurkabir336@gmail.com</a></span></div>
             <div className="contact-item"><FaGithub className="contact-icon" /> <span><a href="https://github.com/kabir-999" target="_blank" rel="noopener noreferrer">github.com/kabir-999</a></span></div>
-            <div className="contact-item"><FaLinkedin className="contact-icon" /> <span><a href="https://www.linkedin.com/in/KabirMathur" target="_blank" rel="noopener noreferrer">linkedin.com/in/KabirMathur</a></span></div>
+            <div className="contact-item"><FaLinkedin className="contact-icon" /> <span><a href="https://www.linkedin.com/in/kabir-mathur-655429292/" target="_blank" rel="noopener noreferrer">linkedin.com/in/KabirMathur</a></span></div>
             <div className="contact-item"><FaPhone className="contact-icon" /> <span>+91 992026289</span></div>
             <div className="contact-item"><FaMapMarkerAlt className="contact-icon" /> <span>Mumbai, India</span></div>
             <div className="contact-item"><a href="https://drive.google.com/file/d/1GRPmOQFTL5ZKW5M5z9e_z0FCE3rFJPAa/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="resume-button">Resume</a></div>
