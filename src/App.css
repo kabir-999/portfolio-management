@@ -108,28 +108,24 @@ body, .app {
 .about {
   display: flex;
   align-items: center;
-  gap: 24px;
-  margin: 32px 0 18px 0;
-  padding: 18px 18px;
+  gap: 50px;
+  margin: 40px 0 24px 0;
+  padding: 24px 24px;
 }
 .about-img {
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  height: 180px;
   object-fit: cover;
   border-radius: 18px;
-  border: 3px solid #7fbcff;
-  box-shadow: 0 4px 32px 0 #7fbcff33;
+  border: 4px solid #7fbcff;
+  box-shadow: 0 6px 48px 0 #7fbcff33;
   background: #23262f;
 }
-.about h2 {
-  color: #7fbcff;
-  font-size: 1.18rem;
-  margin-bottom: 8px;
-}
+
 .about p {
   color: #f1f1f1;
-  font-size: 1.08rem;
-  margin-bottom: 8px;
+  font-size: 1.25rem;
+  margin-bottom: 12px;
 }
 
 .section {
@@ -146,14 +142,15 @@ body, .app {
 }
 .section h2 {
   color: #7fbcff;
-  font-size: 1.18rem;
+  font-size: 2.2rem;
   margin-bottom: 8px;
   font-weight: 600;
+  text-align: center;
 }
 
 .education > div {
-  margin-bottom: 2px;
-  font-size: 1.08rem;
+  margin-bottom: 4px;
+  font-size: 1.18rem;
 }
 
 .achievements ul, .skills ul {
@@ -166,6 +163,7 @@ body, .app {
 }
 
 .projects {
+  text-align: center;
   background: linear-gradient(120deg, #23262f 60%, #7fbcff22 100%);
   padding: 40px 0 60px 0;
   border-radius: 32px;
@@ -175,6 +173,7 @@ body, .app {
   overflow: visible;
 }
 .flashcard-list {
+  align-items: left;
   display: flex;
   flex-wrap: wrap;
   gap: 40px 48px;
@@ -182,6 +181,7 @@ body, .app {
   margin-top: 32px;
 }
 .flashcard {
+  align-items: left;
   background: rgba(35, 38, 47, 0.92);
   border-radius: 24px;
   box-shadow: 0 8px 32px 0 #7fbcff44, 0 2px 8px 0 #0003;
@@ -199,6 +199,7 @@ body, .app {
   position: relative;
   z-index: 1;
   animation: cardGlow 3s ease-in-out infinite alternate;
+  line-height: 1.2;
 }
 @keyframes cardGlow {
   0% { box-shadow: 0 8px 32px 0 #7fbcff44; }
@@ -210,6 +211,7 @@ body, .app {
   border: 3px solid #7fbcffcc;
 }
 .flashcard-img {
+  align-items: center;
   width: 100%;
   height: 160px;
   object-fit: cover;
@@ -231,11 +233,13 @@ body, .app {
 .flashcard-content {
   padding: 22px 22px 16px 22px;
   flex: 1;
+  line-height: 1.5;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 .flashcard-content h3 {
+  line-height: 1.2;
   color: #7fbcff;
   font-size: 1.32rem;
   margin: 0 0 8px 0;
@@ -243,12 +247,14 @@ body, .app {
   letter-spacing: 1px;
 }
 .flashcard-content ul {
+  line-height: 1.2;
   padding-left: 18px;
   margin: 0 0 8px 0;
   font-size: 1.08rem;
   color: #e0eaff;
 }
 .flashcard-content a {
+  line-height: 1.2;
   color: #7fbcff;
   text-decoration: none;
   font-size: 1.08rem;
@@ -258,6 +264,7 @@ body, .app {
   letter-spacing: 0.5px;
 }
 .flashcard-content a:hover {
+  line-height: 1.2;
   color: #fff;
   text-decoration: underline;
 }
@@ -297,12 +304,12 @@ body, .app {
 @media (max-width: 900px) {
   .hero-content, .about {
     flex-direction: column;
-    gap: 18px;
-    padding: 14px 4px;
+    gap: 24px;
+    padding: 18px 8px;
     align-items: center;
   }
   .about {
-    padding: 14px 4px;
+    padding: 18px 8px;
   }
   .flashcard-list {
     gap: 24px 0;
@@ -311,6 +318,10 @@ body, .app {
     width: 98vw;
     min-width: 0;
     max-width: 340px;
+  }
+  .hero-img, .about-img {
+    width: 100px;
+    height: 100px;
   }
 }
 
@@ -408,6 +419,25 @@ body, .app {
   .skill-card {
     padding: 24px 16px 18px 16px;
   }
+}
+
+.contact-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  line-height: 1.5;
+  gap: 40px;
+  margin-bottom: 40px;
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+}
+
+.contact-row .contact-section, .contact-row .contact-form-section {
+  flex: 1;
+  max-width: 520px;
+  margin: 0;
 }
 
 .contact-form-section {
@@ -756,5 +786,18 @@ body, .app {
     min-width: 0;
     width: 100%;
     max-width: 340px;
+  }
+}
+
+@media (max-width: 900px) {
+  .contact-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .contact-row .contact-section, .contact-row .contact-form-section {
+    width: 98vw;
+    min-width: 0;
+    max-width: 520px;
   }
 }
