@@ -84,7 +84,7 @@ const profile = {
   skills: [
     "C++, DSA in C, Java, Python, Solidity",
     "HTML, CSS, Flask, Django, web3.js",
-    "Model Development, Computer Vision, NLP, Deep Learning",
+    "Pandas, Numpy, MatplotLib,Seaborn, Scikit-learn , TensorFlow, PyTorch, Model Development, Computer Vision, NLP, Deep Learning",
     "SQL, Git/GitHub, Firebase, Cloudinary, ThingsBoard, API Integration, Metamask, Ganache",
     "EDA, Data Preprocessing, Render Deployment, BeautifulSoup, Blockchain",
   ],
@@ -228,17 +228,17 @@ function Skills() {
     },
     {
       icon: <FaBrain size={32} color="#7fbcff" />, title: "Machine Learning", items: [
-        "Model Development", "Computer Vision", "NLP", "Deep Learning"
+        "Pandas", "Numpy","MatplotLib","Seaborn", "Scikit-learn" , "TensorFlow", "PyTorch","Model Development", "Computer Vision", "NLP", "Deep Learning"
       ]
     },
     {
       icon: <FaTools size={32} color="#7fbcff" />, title: "Tools and Platforms", items: [
-        "SQL", "Git/GitHub", "Firebase", "Cloudinary", "ThingsBoard", "API Integration", "Metamask", "Ganache"
+        "SQL", "Git/GitHub", "Firebase", "Cloudinary", "ThingsBoard", "API Integration", "Metamask", "Ganache","Vercel","MongoDB"
       ]
     },
     {
       icon: <FaCogs size={32} color="#7fbcff" />, title: "Others", items: [
-        "EDA", "Data Preprocessing", "Render Deployment", "BeautifulSoup", "Blockchain"
+        "EDA", "Render Deployment", "BeautifulSoup", "Selenium","Blockchain","Hypothesis Testing","Statistics"
       ]
     },
     {
