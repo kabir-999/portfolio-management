@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer');
 
 const messageSchema = new mongoose.Schema({
   name: String,
@@ -9,6 +10,15 @@ const messageSchema = new mongoose.Schema({
 });
 
 const Message = mongoose.models.Message || mongoose.model('Message', messageSchema);
+
+// Nodemailer configuration
+const transporter = nodemailer.createTransport({
+  service: process.env.EMAIL_SERVICE, // e.g., 'Gmail', 'Outlook365'
+  auth: {
+    user: process.env.EMAIL_USER, // Your sending email address
+    pass: process.env.EMAIL_PASS, // Your email password or app password
+  },
+});
 
 let conn = null;
 
@@ -34,6 +44,29 @@ module.exports = async (req, res) => {
     }
 
     await Message.create({ name, email, phone, message });
+
+    // Send email notification
+    try {
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: process.env.TO_EMAIL, // Your personal email to receive notifications
+        subject: 'New Contact Form Submission',
+        html: `
+          <p>You have a new contact form submission:</p>
+          <ul>
+            <li><strong>Name:</strong> ${name}</li>
+            <li><strong>Email:</strong> ${email}</li>
+            <li><strong>Phone:</strong> ${phone}</li>
+            <li><strong>Message:</strong> ${message}</li>
+          </ul>
+        `,
+      };
+
+      await transporter.sendMail(mailOptions);
+      console.log('Email notification sent successfully');
+    } catch (emailError) {
+      console.error('Error sending email notification:', emailError);
+    }
 
     res.status(200).json({ success: true });
   } catch (err) {

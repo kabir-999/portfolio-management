@@ -80,6 +80,16 @@ const profile = {
       ],
       img: null,
     },
+    {
+      title: "Real Estate Price predictor",
+      link: "https://github.com/kabir-999/real-estate-price-predictor",
+      desc: [
+        "Developed a web application that predicts real estate property prices based on user inputs such as location, square footage, and number of bedrooms.",
+        "Integrated a machine learning model with a responsive UI to provide accurate, real-time price estimations for users.",
+        "Stack: Scikit-learn, Beautiful Soup, HTML/CSS, Flask, Pandas, Numpy, Render",
+      ],
+      img: null,
+    },
   ],
   skills: [
     "C++, DSA in C, Java, Python, Solidity",
@@ -114,15 +124,22 @@ function Navbar() {
       <a href="#projects">Projects</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
+      <a href="https://drive.google.com/file/d/1GRPmOQFTL5ZKW5M5z9e_z0FCE3rFJPAa/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Resume</a>
     </nav>
   );
 }
 
-function Hero() {
+function Hero({ openImageModal }) {
   return (
     <section className="hero" id="hero">
-      <div className="hero-content glass">
-        <img src={heroImg} alt="Kabir Mathur" className="hero-img" />
+      <div className="hero-content">
+        <img 
+          src={heroImg} 
+          alt="Kabir Mathur" 
+          className="hero-img" 
+          onClick={() => openImageModal(heroImg, "Kabir Mathur")} 
+          style={{ cursor: 'pointer' }}
+        />
         <div>
           <h1>{profile.name}</h1>
           <h2>{profile.tagline}</h2>
@@ -137,11 +154,15 @@ function Hero() {
   );
 }
 
-function About() {
+function About({ openImageModal }) {
   return (
     <section className="about glass" id="about">
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-        <img src={aboutImg} alt="About Kabir" className="about-img" />
+        <img 
+          src={aboutImg} 
+          alt="About Kabir" 
+          className="about-img" 
+        />
       </div>
       <div>
         
@@ -164,16 +185,18 @@ function Flashcard({ project }) {
   let techLine = tech.startsWith('Stack:') ? tech.replace('Stack:', '').trim() : tech;
   return (
     <div className="flashcard glass">
-      {project.img && (
-        <img src={project.img} alt={project.title} className="flashcard-img" />
-      )}
-      <div className="flashcard-content flashcard-carousel">
-        <h3>{project.title}</h3>
-        <ul>
-          {details.map((d, i) => <li key={i}>{d}</li>)}
-        </ul>
-        <div className="stack-line-row"><span className="stack-title">Stack:</span> <span className="stack-line-comma">{techLine}</span></div>
-        {project.link && <a href={project.link} target="_blank" rel="noopener noreferrer">GitHub/Website</a>}
+      <div className="flashcard-inner">
+        {project.img && (
+          <img src={project.img} alt={project.title} className="flashcard-img" />
+        )}
+        <div className="flashcard-content">
+          <h3>{project.title}</h3>
+          <ul>
+            {details.map((d, i) => <li key={i}>{d}</li>)}
+          </ul>
+          <div className="stack-line-row"><span className="stack-title">Stack:</span> <span className="stack-line-comma">{techLine}</span></div>
+          {project.link && <a href={project.link} target="_blank" rel="noopener noreferrer">GitHub/Website</a>}
+        </div>
       </div>
     </div>
   );
@@ -238,7 +261,7 @@ function Skills() {
     },
     {
       icon: <FaCogs size={32} color="#7fbcff" />, title: "Others", items: [
-        "EDA", "Render Deployment", "BeautifulSoup", "Selenium","Blockchain","Hypothesis Testing","Statistics"
+        "EDA", "Data Preprocessing", "Render Deployment", "BeautifulSoup", "Blockchain"
       ]
     },
     {
@@ -457,7 +480,7 @@ const ErrorDisplay = ({ error }) => (
         {error.stack || 'No stack trace available'}
       </pre>
     </div>
-    <button 
+    <button
       onClick={() => window.location.reload()}
       style={{
         padding: '10px 20px',
@@ -475,12 +498,59 @@ const ErrorDisplay = ({ error }) => (
   </div>
 );
 
+// New ImageModal Component
+function ImageModal({ src, alt, onClose }) {
+  if (!src) return null;
+
+  return (
+    <div className="image-modal-overlay" onClick={onClose}>
+      <div className="image-modal-content" onClick={(e) => e.stopPropagation()}> {/* Prevent clicks inside from closing */} 
+        <img src={src} alt={alt} className="image-modal-img" />
+        <button className="image-modal-close-btn" onClick={onClose}>&times;</button>
+      </div>
+    </div>
+  );
+}
+
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentModalImage, setCurrentModalImage] = useState(null);
+  const [currentModalImageAlt, setCurrentModalImageAlt] = useState('');
+
+  const openImageModal = (imageSrc, imageAlt) => {
+    setCurrentModalImage(imageSrc);
+    setCurrentModalImageAlt(imageAlt);
+    setIsModalOpen(true);
+  };
+
+  const closeImageModal = () => {
+    setIsModalOpen(false);
+    setCurrentModalImage(null);
+    setCurrentModalImageAlt('');
+  };
+
+  // Add keyboard listener for Escape key
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        closeImageModal();
+      }
+    };
+    if (isModalOpen) {
+      document.addEventListener('keydown', handleEscape);
+    } else {
+      document.removeEventListener('keydown', handleEscape);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isModalOpen]);
+
   return (
     <div className="app gradient-bg">
       <Navbar />
-      <Hero />
-      <About />
+      <Hero openImageModal={openImageModal} />
+      <About openImageModal={openImageModal} />
       <Achievements />
       <Projects />
       <Skills />
@@ -491,6 +561,13 @@ function App() {
         <ContactForm />
       </section>
       <Footer />
+      {isModalOpen && (
+        <ImageModal
+          src={currentModalImage}
+          alt={currentModalImageAlt}
+          onClose={closeImageModal}
+        />
+      )}
     </div>
   );
 }
