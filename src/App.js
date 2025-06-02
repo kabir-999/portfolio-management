@@ -223,7 +223,7 @@ function Skills() {
     },
     {
       icon: <FaLaptopCode size={32} color="#7fbcff" />, title: "Web Development", items: [
-        "HTML", "CSS", "Flask", "Django", "web3.js"
+        "HTML", "CSS", "React","Javascript","Node.js","Express.js","Flask", "Django", "web3.js"
       ]
     },
     {
