@@ -16,44 +16,39 @@
   ],
   "routes": [
     {
-      "src": "/manifest.json",
-      "dest": "/manifest.json",
-      "headers": {
-        "Content-Type": "application/manifest+json",
-        "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "public, max-age=0, must-revalidate"
-      }
-    },
-    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/manifest.json"
+    },
+    {
+      "src": "/favicon.png",
+      "dest": "/favicon.png"
+    },
+    {
+      "src": "/logo192.png",
+      "dest": "/logo192.png"
+    },
+    {
+      "src": "/logo512.png",
+      "dest": "/logo512.png"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/robots.txt"
     },
     {
       "src": "/static/(.*)",
       "dest": "/static/$1"
     },
     {
-      "src": "/favicon.png",
-      "dest": "/favicon.png",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "/(.*)\\.(?:png|jpg|jpeg|svg|gif|json|js|css|ico)$",
-      "dest": "/$1.$2",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "env": {
-    "MONGODB_URI": "${MONGODB_URI}",
-    "EMAIL_USER": "${EMAIL_USER}",
-    "EMAIL_PASSWORD": "${EMAIL_PASSWORD}"
-  }
+  ]
 }
