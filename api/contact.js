@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 
+// Define schema outside of handler to avoid redefinition on each invocation
 const messageSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -9,28 +10,42 @@ const messageSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-const Message = mongoose.models.Message || mongoose.model('Message', messageSchema);
+// Use mongoose.models to check if the model is already defined
+let Message;
+try {
+  Message = mongoose.model('Message');
+} catch {
+  Message = mongoose.model('Message', messageSchema);
+}
 
-// Nodemailer configuration
+// Create transporter outside the handler to reuse connection
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // Using Gmail service
+  service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER || 'mathurkabir336@gmail.com', // Your sending email address
-    pass: process.env.EMAIL_PASSWORD, // Your app password from .env
+    user: process.env.EMAIL_USER || 'mathurkabir336@gmail.com',
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 
-let conn = null;
+// Cache database connection between invocations
+let cachedConnection = null;
 
 async function connectToDatabase() {
-  if (conn) return conn;
+  // If the connection is already established, reuse it
+  if (cachedConnection && mongoose.connection.readyState === 1) {
+    return cachedConnection;
+  }
 
   const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Kabir999:Kabir999@portfolio.h9s6ckn.mongodb.net/?retryWrites=true&w=majority&appName=portfolio';
   
   try {
-    conn = await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+    cachedConnection = await mongoose.connect(mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+    });
     console.log('MongoDB connected');
-    return conn;
+    return cachedConnection;
   } catch (error) {
     console.error('MongoDB connection error:', error);
     throw error;
@@ -38,15 +53,42 @@ async function connectToDatabase() {
 }
 
 module.exports = async (req, res) => {
+  // Add CORS headers for Vercel deployment
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+
+  // Handle OPTIONS request for CORS preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
   try {
+    // Log environment variables (without exposing sensitive values)
+    console.log('Environment check:', {
+      MONGODB_URI: process.env.MONGODB_URI ? 'Set' : 'Not set',
+      EMAIL_USER: process.env.EMAIL_USER ? 'Set' : 'Not set',
+      EMAIL_PASSWORD: process.env.EMAIL_PASSWORD ? 'Set' : 'Not set',
+      NODE_ENV: process.env.NODE_ENV
+    });
+    
     // Log request for debugging
     console.log('Contact form submission received:', req.body);
     
-    await connectToDatabase();
+    // Connect to database
+    try {
+      await connectToDatabase();
+      console.log('Database connection successful');
+    } catch (dbConnError) {
+      console.error('Database connection failed:', dbConnError);
+      return res.status(500).json({ error: 'Failed to connect to database', details: dbConnError.message });
+    }
+    
     const { name, email, phone, message } = req.body;
 
     if (!name || !email || !phone || !message) {
@@ -55,12 +97,13 @@ module.exports = async (req, res) => {
     }
 
     // Save to database
+    let newMessage;
     try {
-      const newMessage = await Message.create({ name, email, phone, message });
+      newMessage = await Message.create({ name, email, phone, message });
       console.log('Message saved to database with ID:', newMessage._id);
     } catch (dbError) {
       console.error('Database error:', dbError);
-      return res.status(500).json({ error: 'Failed to save message to database.' });
+      return res.status(500).json({ error: 'Failed to save message to database', details: dbError.message });
     }
 
     // Send email notification
@@ -85,14 +128,19 @@ module.exports = async (req, res) => {
       await transporter.sendMail(mailOptions);
       console.log('Email notification sent successfully');
       
-      res.status(200).json({ success: true });
+      return res.status(200).json({ success: true, messageId: newMessage._id });
     } catch (emailError) {
       console.error('Error sending email notification:', emailError);
       // Still return success if DB save worked but email failed
-      res.status(200).json({ success: true, warning: 'Message saved but email notification failed' });
+      return res.status(200).json({ 
+        success: true, 
+        warning: 'Message saved but email notification failed',
+        details: emailError.message,
+        messageId: newMessage._id
+      });
     }
   } catch (err) {
     console.error('Error in contact API:', err);
-    res.status(500).json({ error: 'Server error processing your request.' });
+    return res.status(500).json({ error: 'Server error processing your request.', details: err.message });
   }
 }; 

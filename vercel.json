@@ -6,12 +6,16 @@
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/static/(.*)", "dest": "/static/$1" },
     { "src": "/manifest.json", "dest": "/manifest.json" },
+    { "src": "/favicon.ico", "dest": "/favicon.ico" },
+    { "src": "/logo192.png", "dest": "/logo192.png" },
+    { "src": "/logo512.png", "dest": "/logo512.png" },
     { "src": "/(.*)", "dest": "/index.html" }
   ],
   "env": {
-    "MONGODB_URI": "@mongodb_uri",
-    "EMAIL_USER": "@email_user",
-    "EMAIL_PASSWORD": "@email_password"
+    "MONGODB_URI": "${MONGODB_URI}",
+    "EMAIL_USER": "${EMAIL_USER}",
+    "EMAIL_PASSWORD": "${EMAIL_PASSWORD}"
   }
 }
