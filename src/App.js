@@ -175,7 +175,7 @@ function Hero({ openImageModal }) {
           onClick={() => openImageModal(heroImg, "Kabir Mathur")} 
           style={{ cursor: 'pointer' }}
         />
-        <div>
+        <div style={{ textAlign: 'center' }}>
           <h1>{profile.name}</h1>
           <h2>{profile.tagline}</h2>
           <p>{profile.contact.location} | <a href={`mailto:${profile.contact.email}`}>{profile.contact.email}</a></p>
@@ -302,7 +302,7 @@ function Skills() {
       ]
     },
     {
-      icon: <FaLayerGroup size={32} color="#7fbcff" />, title: "Soft Skills", items: [
+      icon: <FaUserFriends size={32} color="#7fbcff" />, title: "Soft Skills", items: [
         "Logical Thinking", "Teamwork", "Communication", "Leadership", "Time Management"
       ]
     },
