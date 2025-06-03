@@ -10,6 +10,14 @@ const transporter = nodemailer.createTransport({
 });
 
 module.exports = async (req, res) => {
+  // Handle preflight request
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(200).end();
+  }
+
   // Add CORS headers for Vercel deployment
   try {
     res.setHeader('Access-Control-Allow-Credentials', true);
