@@ -16,20 +16,40 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "api/$1.js",
+      "src": "/manifest.json",
+      "dest": "/manifest.json",
       "headers": {
+        "Content-Type": "application/manifest+json",
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
+        "Cache-Control": "public, max-age=0, must-revalidate"
       }
     },
-    { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/favicon.png", "dest": "/favicon.png" },
-    { "src": "/manifest.json", "dest": "/manifest.json" },
-    { "src": "/robots.txt", "dest": "/robots.txt" },
-    { "src": "^/(.*)\\.(js|css|json|png|jpg|jpeg|ico|svg)", "dest": "/$1.$2" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/favicon.png",
+      "dest": "/favicon.png",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/(.*)\\.(?:png|jpg|jpeg|svg|gif|json|js|css|ico)$",
+      "dest": "/$1.$2",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ],
   "env": {
     "MONGODB_URI": "${MONGODB_URI}",
