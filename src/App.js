@@ -440,6 +440,7 @@ function ContactForm() {
     setLoading(true);
     setStatus('');
     try {
+      // Use relative path for Vercel serverless function
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -449,7 +450,8 @@ function ContactForm() {
         setStatus('Message sent successfully!');
         setForm({ name: '', email: '', phone: '', message: '' });
       } else {
-        setStatus('Failed to send message. Please try again.');
+        const errorData = await res.json();
+        setStatus(`Failed to send message: ${errorData.error || 'Please try again.'}`);
       }
     } catch (err) {
       setStatus('Failed to send message. Please try again.');
