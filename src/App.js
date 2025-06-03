@@ -25,31 +25,24 @@ const profile = {
   },
   achievements: [
     {
+      title: "AWS Machine Learning Certification",
+      date: "Oct 2024",
+      desc: [
+        "Developed expertise in ML, NLP, computer vision, and generative AI through comprehensive AWS certification program"
+      ],
+    },
+    {
       title: "Smart India Hackathon (SIH) Grand Finalist",
       date: "Dec 2024",
       desc: [
-        "Grand Finalist in Smart India Hackathon (SIH)"
-      ],
-    },
-    {
-      title: "Winner – Interdepartmental Tournament, Data Science Branch",
-      date: "Mar 2025",
-      desc: [
-        "Won the Interdepartmental Tournament for Data Science Branch"
-      ],
-    },
-    {
-      title: "AWS Machine Learning Certification",
-      date: "Nov 2024",
-      desc: [
-        "Achieved AWS Machine Learning Certification"
+        "Selected as national finalist for innovative solution in India's premier hackathon (SIH 2025)"
       ],
     },
     {
       title: "AWS Academy: Cloud Foundations",
-      date: "Apr 2025",
+      date: "Mar 2025",
       desc: [
-        "Completed AWS Academy: Cloud Foundations"
+        "Mastered cloud architecture principles, deployment strategies, and core AWS services through certification program"
       ],
     },
   ],
@@ -125,18 +118,16 @@ const profile = {
   positions: [
     {
       title: "Events Co-committee Member, Society 4 Data Science (S4DS)",
-      date: "Aug 2024 - Mar 2025",
+      date: "Aug 2024",
       desc: [
-        "Created and assessed two original problem statements for ML hackathons, enhancing problem diversity for 100+ participants.",
-        "Spearheaded internship outreach, connecting with 7+ industry professionals, resulting in 3+ internship opportunities.",
+        "Created and assessed two original problem statements — one for the ML hackathon DataHack 3.0 and another for Xtract 3.0, enhancing problem diversity and real-world relevance for 100+ participants"
       ],
     },
     {
       title: "Co-Captain, Data Science Department",
-      date: "Jan 2025 - Apr 2025",
+      date: "Feb 2025",
       desc: [
-        "Led a team of 200+ students to 1st place among 6 departments in the annual interdepartmental championship.",
-        "Oversaw logistics and execution, ensuring 100% attendance and on-time performance across all activities.",
+        "Led 200+ students to 1st place in a 6-department interdepartmental tournament"
       ],
     },
   ],
@@ -341,7 +332,7 @@ function MyJourney() {
   const combinedJourney = [
     ...profile.achievements.map(item => ({ ...item, type: 'achievement' })),
     ...profile.positions.map(item => ({ ...item, type: 'position' })),
-  ].sort((a, b) => parseDate(b.date) - parseDate(a.date));
+  ].sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
   const timelineRef = useRef(null);
   
@@ -416,6 +407,13 @@ function MyJourney() {
           <div className={`timeline-item ${i % 2 === 0 ? 'left' : 'right'}`} key={i}>
             <div className="timeline-content glass">
               <div className="timeline-title">{item.title}</div>
+              {item.desc && item.desc.length > 0 && (
+                <div className="timeline-desc">
+                  {item.desc.map((point, idx) => (
+                    <div key={idx} className="timeline-desc-item">{point}</div>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="timeline-circle">
               <div className="timeline-dot" />
