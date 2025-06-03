@@ -364,8 +364,8 @@ function MyJourney() {
       
       // Calculate how much of the section is visible
       // const visibleTop = Math.max(0, -sectionTop); // Commented out unused variable
-      const visibleHeight = Math.min(windowHeight, sectionBottom) - Math.max(0, sectionTop);
-      // const visibleRatio = visibleHeight / totalHeight; // Commented out unused variable
+      // const visibleHeight = Math.min(windowHeight, sectionBottom) - Math.max(0, sectionTop); // Commented out unused variable
+      // const visibleRatio = (Math.min(windowHeight, sectionBottom) - Math.max(0, sectionTop)) / totalHeight; // Commented out unused variable
       
       // Calculate the scroll progress through the section
       const scrollProgress = Math.min(1, Math.max(0, (windowHeight - sectionTop) / (windowHeight + totalHeight)));
