@@ -506,7 +506,7 @@ function ContactForm() {
     setStatus('');
     try {
       // Use relative path for Vercel serverless function
-      const apiUrl = process.env.REACT_APP_API_URL || '/api';
+      const apiUrl = 'https://kabir-portfolio-management.vercel.app/api';
       console.log('Submitting to:', `${apiUrl}/contact`);
       const res = await fetch(`${apiUrl}/contact`, {
         method: 'POST',
