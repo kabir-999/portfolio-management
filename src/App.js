@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import heroImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
 import linkedInPic from "./assets/linkedIIN pic.jpeg";
 import posImg from "./assets/pos.jpg";
-import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt, FaPeopleCarry, FaLayerGroup } from "react-icons/fa";
 
 const profile = {
   name: "Kabir Mathur",
@@ -24,10 +24,34 @@ const profile = {
     years: "2023-2027",
   },
   achievements: [
-    "Smart India Hackathon (SIH) Grand Finalist (Dec 2024)",
-    "Winner – Interdepartmental Tournament, Data Science Branch (Mar 2025)",
-    "AWS Machine Learning Certification (Nov 2024)",
-    "AWS Academy: Cloud Foundations (Apr 2025)",
+    {
+      title: "Smart India Hackathon (SIH) Grand Finalist",
+      date: "Dec 2024",
+      desc: [
+        "Grand Finalist in Smart India Hackathon (SIH)"
+      ],
+    },
+    {
+      title: "Winner – Interdepartmental Tournament, Data Science Branch",
+      date: "Mar 2025",
+      desc: [
+        "Won the Interdepartmental Tournament for Data Science Branch"
+      ],
+    },
+    {
+      title: "AWS Machine Learning Certification",
+      date: "Nov 2024",
+      desc: [
+        "Achieved AWS Machine Learning Certification"
+      ],
+    },
+    {
+      title: "AWS Academy: Cloud Foundations",
+      date: "Apr 2025",
+      desc: [
+        "Completed AWS Academy: Cloud Foundations"
+      ],
+    },
   ],
   projects: [
     {
@@ -92,7 +116,7 @@ const profile = {
     },
   ],
   skills: [
-    "C++, DSA in C, Java, Python, Solidity",
+    "C++", "DSA in C", "Java", "Python", "Solidity",
     "HTML, CSS, Flask, Django, web3.js",
     "Pandas, Numpy, MatplotLib,Seaborn, Scikit-learn , TensorFlow, PyTorch, Model Development, Computer Vision, NLP, Deep Learning",
     "SQL, Git/GitHub, Firebase, Cloudinary, ThingsBoard, API Integration, Metamask, Ganache",
@@ -101,6 +125,7 @@ const profile = {
   positions: [
     {
       title: "Events Co-committee Member, Society 4 Data Science (S4DS)",
+      date: "Aug 2024 - Mar 2025",
       desc: [
         "Created and assessed two original problem statements for ML hackathons, enhancing problem diversity for 100+ participants.",
         "Spearheaded internship outreach, connecting with 7+ industry professionals, resulting in 3+ internship opportunities.",
@@ -108,12 +133,30 @@ const profile = {
     },
     {
       title: "Co-Captain, Data Science Department",
+      date: "Jan 2025 - Apr 2025",
       desc: [
         "Led a team of 200+ students to 1st place among 6 departments in the annual interdepartmental championship.",
         "Oversaw logistics and execution, ensuring 100% attendance and on-time performance across all activities.",
       ],
     },
   ],
+};
+
+// Helper to parse dates for sorting
+const parseDate = (dateString) => {
+  const parts = dateString.split(' ');
+  if (parts.length === 2) {
+    const [monthStr, yearStr] = parts;
+    const month = new Date(Date.parse(monthStr + " 1, 2000")).getMonth();
+    const year = parseInt(yearStr);
+    return new Date(year, month);
+  } else if (parts.length === 4 && parts[1] === '-') { // Handle "Month Year - Month Year" format
+    const [startMonthStr, startYearStr] = [parts[0], parts[2]];
+    const startMonth = new Date(Date.parse(startMonthStr + " 1, 2000")).getMonth();
+    const startYear = parseInt(startYearStr);
+    return new Date(startYear, startMonth);
+  }
+  return new Date(); // Fallback for unparseable dates
 };
 
 function Navbar() {
@@ -123,6 +166,7 @@ function Navbar() {
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="#skills">Skills</a>
+      <a href="#journey">My Journey</a>
       <a href="#contact">Contact</a>
       <a href="https://drive.google.com/file/d/1GRPmOQFTL5ZKW5M5z9e_z0FCE3rFJPAa/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Resume</a>
     </nav>
@@ -248,40 +292,43 @@ function Skills() {
     },
     {
       icon: <FaLaptopCode size={32} color="#7fbcff" />, title: "Web Development", items: [
-        "HTML", "CSS", "React","Javascript","Node.js","Express.js","Flask", "Django", "web3.js"
+        "HTML", "CSS","React","Node.js","JavaScript", "Flask", "Django", "web3.js"
       ]
     },
     {
-      icon: <FaBrain size={32} color="#7fbcff" />, title: "Machine Learning", items: [
-        "Pandas", "Numpy","MatplotLib","Seaborn", "Scikit-learn" , "TensorFlow", "PyTorch","Model Development", "Computer Vision", "NLP", "Deep Learning"
+      icon: <FaBrain size={32} color="#7fbcff" />, title: "Machine Learning & AI", items: [
+        "Pandas", "Numpy", "MatplotLib", "Seaborn", "Scikit-learn", "TensorFlow", "PyTorch", "Model Development", "Computer Vision", "NLP", "Deep Learning"
       ]
     },
     {
-      icon: <FaTools size={32} color="#7fbcff" />, title: "Tools and Platforms", items: [
-        "SQL", "Git/GitHub", "Firebase", "Cloudinary", "ThingsBoard", "API Integration", "Metamask", "Ganache","Vercel","MongoDB"
+      icon: <FaTools size={32} color="#7fbcff" />, title: "Tools & Platforms", items: [
+        "SQL", "Git/GitHub", "Firebase", "Cloudinary", "ThingsBoard", "API Integration","MONGODB", "Metamask", "Ganache","Vercel"
       ]
     },
     {
-      icon: <FaCogs size={32} color="#7fbcff" />, title: "Others", items: [
-        "EDA", "Render Deployment", "BeautifulSoup", "Selenium","Blockchain","Hypothesis Testing","Statistics"
+      icon: <FaCogs size={32} color="#7fbcff" />, title: "Other Skills", items: [
+        "EDA", "Data Preprocessing", "Render Deployment", "BeautifulSoup","Selenium", "Blockchain"
       ]
     },
     {
-      icon: <FaUserFriends size={32} color="#7fbcff" />, title: "Soft Skills", items: [
-        "Logical Thinking", "Problem Solving", "Communication", "Leadership", "Teamwork"
+      icon: <FaLayerGroup size={32} color="#7fbcff" />, title: "Soft Skills", items: [
+        "Logical Thinking", "Teamwork", "Communication", "Leadership", "Time Management"
       ]
     },
   ];
+
   return (
-    <section className="section skills fancy-skills" id="skills">
-      <SectionHeader>My Skills</SectionHeader>
+    <section className="fancy-skills section" id="skills">
+      <SectionHeader>Skills</SectionHeader>
       <div className="skill-card-list">
-        {skillCards.map((card, idx) => (
-          <div className="skill-card glass" key={idx}>
-            <div className="skill-icon">{card.icon}</div>
+        {skillCards.map((card, i) => (
+          <div className="skill-card glass" key={i}>
+            <div className="skill-icon">
+              {card.icon}
+            </div>
             <div className="skill-title">{card.title}</div>
             <ul>
-              {card.items.map((item, i) => <li key={i}>{item}</li>)}
+              {card.items.map((item, j) => <li key={j}>{item}</li>)}
             </ul>
           </div>
         ))}
@@ -290,87 +337,92 @@ function Skills() {
   );
 }
 
-function Achievements() {
-  const [idx, setIdx] = useState(0);
-  const [fade, setFade] = useState(false);
-  const achievements = profile.achievements;
-  useEffect(() => {
-    setFade(true);
-    const timer = setTimeout(() => {
-      setFade(false);
-      setTimeout(() => setIdx((prev) => (prev + 1) % achievements.length), 200);
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, [idx, achievements.length]);
-  const goLeft = () => {
-    setFade(true);
-    setTimeout(() => {
-      setFade(false);
-      setIdx((prev) => (prev === 0 ? achievements.length - 1 : prev - 1));
-    }, 200);
-  };
-  const goRight = () => {
-    setFade(true);
-    setTimeout(() => {
-      setFade(false);
-      setIdx((prev) => (prev + 1) % achievements.length);
-    }, 200);
-  };
-  return (
-    <section className="achievements">
-      <SectionHeader>Achievements & Certifications</SectionHeader>
-      <div className="carousel-row achievements-carousel">
-        <button className="carousel-arrow" onClick={goLeft} aria-label="Previous">&#8592;</button>
-        <div className={`carousel-bullet achievements-bullet simple-fade${fade ? ' fade' : ''}`}>{achievements[idx]}</div>
-        <button className="carousel-arrow" onClick={goRight} aria-label="Next">&#8594;</button>
-      </div>
-    </section>
-  );
-}
+function MyJourney() {
+  const combinedJourney = [
+    ...profile.achievements.map(item => ({ ...item, type: 'achievement' })),
+    ...profile.positions.map(item => ({ ...item, type: 'position' })),
+  ].sort((a, b) => parseDate(b.date) - parseDate(a.date));
 
-function Timeline() {
-  const timeline = [
-    {
-      title: "Events Co-committee Member, Society 4 Data Science (S4DS)",
-      date: "Aug 2024 - Mar 2025",
-      desc: [
-        "Created and assessed two original problem statements for ML hackathons, enhancing problem diversity for 100+ participants.",
-        "Spearheaded internship outreach, connecting with 7+ industry professionals, resulting in 3+ internship opportunities."
-      ]
-    },
-    {
-      title: "Co-Captain, Data Science Department",
-      date: "Jan 2025 - Apr 2025",
-      desc: [
-        "Led a team of 200+ students to 1st place among 6 departments in the annual interdepartmental championship.",
-        "Oversaw logistics and execution, ensuring 100% attendance and on-time performance across all activities."
-      ]
-    }
-  ];
+  const timelineRef = useRef(null);
+  
+  useEffect(() => {
+    const timelineLine = document.querySelector('.timeline-line');
+    const timelineSection = document.getElementById('journey');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const timelineCircles = document.querySelectorAll('.timeline-circle');
+    
+    if (!timelineLine || !timelineSection || !timelineItems.length) return;
+    
+    // Calculate the total height of the timeline
+    const totalHeight = timelineSection.offsetHeight;
+    
+    // Function to update the timeline line height based on scroll position
+    const updateTimelineLine = () => {
+      const rect = timelineSection.getBoundingClientRect();
+      const sectionTop = rect.top;
+      const sectionBottom = rect.bottom;
+      const windowHeight = window.innerHeight;
+      
+      // If the section is not visible at all, don't draw the line
+      if (sectionBottom <= 0 || sectionTop >= windowHeight) {
+        timelineLine.style.height = '0px';
+        return;
+      }
+      
+      // Calculate how much of the section is visible
+      const visibleTop = Math.max(0, -sectionTop);
+      const visibleHeight = Math.min(windowHeight, sectionBottom) - Math.max(0, sectionTop);
+      const visibleRatio = visibleHeight / totalHeight;
+      
+      // Calculate the scroll progress through the section
+      const scrollProgress = Math.min(1, Math.max(0, (windowHeight - sectionTop) / (windowHeight + totalHeight)));
+      
+      // Set the height of the timeline line based on scroll progress
+      const lineHeight = scrollProgress * totalHeight;
+      timelineLine.style.height = `${lineHeight}px`;
+      
+      // Update each timeline item and its elements based on line position
+      timelineItems.forEach((item, index) => {
+        const itemTop = item.getBoundingClientRect().top - rect.top;
+        const circle = item.querySelector('.timeline-circle');
+        
+        if (itemTop <= lineHeight + 100) { // Adding offset to activate slightly before line reaches
+          item.classList.add('active');
+          if (circle) circle.classList.add('active');
+        } else {
+          item.classList.remove('active');
+          if (circle) circle.classList.remove('active');
+        }
+      });
+    };
+    
+    // Update on scroll
+    window.addEventListener('scroll', updateTimelineLine);
+    // Initial update
+    updateTimelineLine();
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('scroll', updateTimelineLine);
+    };
+  }, []);
+  
   return (
-    <section className="timeline-section">
-      <SectionHeader>Positions of Responsibility</SectionHeader>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 32 }}>
-        <div style={{ flex: 2 }}>
-          <div className="timeline">
-            <div className="timeline-line" />
-            {timeline.map((item, i) => (
-              <div className="timeline-item" key={i}>
-                <div className="timeline-dot" />
-                <div className="timeline-content">
-                  <div className="timeline-title">{item.title}</div>
-                  <div className="timeline-date">{item.date}</div>
-                  <ul>
-                    {item.desc.map((d, j) => <li key={j}>{d}</li>)}
-                  </ul>
-                </div>
-              </div>
-            ))}
+    <section className="timeline-section" id="journey" ref={timelineRef}>
+      <SectionHeader>My Journey</SectionHeader>
+      <div className="timeline-container">
+        <div className="timeline-line" />
+        {combinedJourney.map((item, i) => (
+          <div className={`timeline-item ${i % 2 === 0 ? 'left' : 'right'}`} key={i}>
+            <div className="timeline-content glass">
+              <div className="timeline-title">{item.title}</div>
+            </div>
+            <div className="timeline-circle">
+              <div className="timeline-dot" />
+            </div>
+            <div className="timeline-date">{item.date}</div>
           </div>
-        </div>
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-          <img src={posImg} alt="Position of Responsibility IDPT" style={{ width: 350, height: 400, objectFit: 'cover', borderRadius: 12, boxShadow: '0 2px 8px #7fbcff33' }} />
-        </div>
+        ))}
       </div>
     </section>
   );
@@ -438,8 +490,7 @@ function ContactSection() {
             <div className="contact-item"><FaLinkedin className="contact-icon" /> <span><a href="https://www.linkedin.com/in/kabir-mathur-655429292/" target="_blank" rel="noopener noreferrer">linkedin.com/in/KabirMathur</a></span></div>
             <div className="contact-item"><FaPhone className="contact-icon" /> <span>+91 992026289</span></div>
             <div className="contact-item"><FaMapMarkerAlt className="contact-icon" /> <span>Mumbai, India</span></div>
-            <div className="contact-item"><a href="https://drive.google.com/file/d/1GRPmOQFTL5ZKW5M5z9e_z0FCE3rFJPAa/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="resume-button">Resume</a></div>
-          </div>
+           </div>
         </div>
       </div>
     </section>
@@ -487,27 +538,27 @@ const ErrorDisplay = ({ error }) => (
       onClick={() => window.location.reload()}
       style={{
         padding: '10px 20px',
-        backgroundColor: '#4e54c8',
-        color: 'white',
+        backgroundColor: '#7fbcff',
+        color: '#181a20',
         border: 'none',
-        borderRadius: '4px',
+        borderRadius: '5px',
         cursor: 'pointer',
-        fontSize: '16px',
-        marginTop: '20px'
+        fontSize: '1rem',
+        marginTop: '20px',
+        transition: 'background-color 0.3s, transform 0.2s'
       }}
     >
-      Refresh Page
+      Reload Page
     </button>
   </div>
 );
 
-// New ImageModal Component
 function ImageModal({ src, alt, onClose }) {
   if (!src) return null;
 
   return (
     <div className="image-modal-overlay" onClick={onClose}>
-      <div className="image-modal-content" onClick={(e) => e.stopPropagation()}> {/* Prevent clicks inside from closing */} 
+      <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
         <img src={src} alt={alt} className="image-modal-img" />
         <button className="image-modal-close-btn" onClick={onClose}>&times;</button>
       </div>
@@ -516,61 +567,54 @@ function ImageModal({ src, alt, onClose }) {
 }
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentModalImage, setCurrentModalImage] = useState(null);
-  const [currentModalImageAlt, setCurrentModalImageAlt] = useState('');
+  const [imageModalSrc, setImageModalSrc] = useState(null);
+  const [imageModalAlt, setImageModalAlt] = useState("");
 
   const openImageModal = (imageSrc, imageAlt) => {
-    setCurrentModalImage(imageSrc);
-    setCurrentModalImageAlt(imageAlt);
-    setIsModalOpen(true);
+    setImageModalSrc(imageSrc);
+    setImageModalAlt(imageAlt);
   };
 
   const closeImageModal = () => {
-    setIsModalOpen(false);
-    setCurrentModalImage(null);
-    setCurrentModalImageAlt('');
+    setImageModalSrc(null);
+    setImageModalAlt("");
   };
 
-  // Add keyboard listener for Escape key
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
         closeImageModal();
       }
     };
-    if (isModalOpen) {
+
+    if (imageModalSrc) {
       document.addEventListener('keydown', handleEscape);
     } else {
       document.removeEventListener('keydown', handleEscape);
     }
+
     return () => {
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [isModalOpen]);
+  }, [imageModalSrc]);
 
   return (
-    <div className="app gradient-bg">
+    <div className="app">
       <Navbar />
       <Hero openImageModal={openImageModal} />
-      <About openImageModal={openImageModal} />
-      <Achievements />
-      <Projects />
-      <Skills />
-      <Timeline />
-      <ProjectWidgets />
-      <section className="section contact-row" id="contact">
-        <ContactSection />
-        <ContactForm />
-      </section>
+      <div className="gradient-bg main-content">
+        <About openImageModal={openImageModal} />
+        <Projects />
+        <Skills />
+        <MyJourney />
+        <ProjectWidgets />
+        <div className="contact-row">
+          <ContactSection />
+          <ContactForm />
+        </div>
+      </div>
       <Footer />
-      {isModalOpen && (
-        <ImageModal
-          src={currentModalImage}
-          alt={currentModalImageAlt}
-          onClose={closeImageModal}
-        />
-      )}
+      <ImageModal src={imageModalSrc} alt={imageModalAlt} onClose={closeImageModal} />
     </div>
   );
 }
