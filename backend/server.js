@@ -39,7 +39,7 @@ const sendEmailNotification = async (messageData) => {
   
   const mailOptions = {
     from: 'mathurkabir336@gmail.com',
-    to: 'kabirmathur05@gmail.com', // Your email where you want to receive notifications
+    to: 'mathurkabir336@gmail.com', // Your email where you want to receive notifications
     subject: `New Portfolio Message from ${name}`,
     html: `
       <h2>You've received a new message from your portfolio contact form</h2>
