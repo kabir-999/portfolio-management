@@ -4,7 +4,7 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER || 'kabirmathur05@gmail.com',
+    user: process.env.EMAIL_USER || 'mathurkabir336@gmail.com',
     pass: process.env.EMAIL_PASSWORD,
   },
 });
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
       console.log('Attempting to send email notification');
       
       const mailOptions = {
-        from: process.env.EMAIL_USER || 'kabirmathur05@gmail.com',
+        from: process.env.EMAIL_USER || 'mathurkabir336@gmail.com',
         to: 'mathurkabir336@gmail.com',
         subject: `New Portfolio Message from ${name}`,
         html: `
