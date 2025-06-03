@@ -506,7 +506,9 @@ function ContactForm() {
     setStatus('');
     try {
       // Use relative path for Vercel serverless function
-      const res = await fetch('/api/contact', {
+      const apiUrl = process.env.REACT_APP_API_URL || '/api';
+      console.log('Submitting to:', `${apiUrl}/contact`);
+      const res = await fetch(`${apiUrl}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
