@@ -3,8 +3,8 @@ import "./App.css";
 import heroImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
 import linkedInPic from "./assets/linkedIIN pic.jpeg";
-import posImg from "./assets/pos.jpg";
-import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt, FaPeopleCarry, FaLayerGroup } from "react-icons/fa";
+// import posImg from "./assets/pos.jpg";  // Commented out unused import
+import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";  // Removed unused icons
 
 const profile = {
   name: "Kabir Mathur",
@@ -340,7 +340,7 @@ function MyJourney() {
     const timelineLine = document.querySelector('.timeline-line');
     const timelineSection = document.getElementById('journey');
     const timelineItems = document.querySelectorAll('.timeline-item');
-    const timelineCircles = document.querySelectorAll('.timeline-circle');
+    // const timelineCircles = document.querySelectorAll('.timeline-circle'); // Commented out unused variable
     
     if (!timelineLine || !timelineSection || !timelineItems.length) return;
     
@@ -361,9 +361,9 @@ function MyJourney() {
       }
       
       // Calculate how much of the section is visible
-      const visibleTop = Math.max(0, -sectionTop);
+      // const visibleTop = Math.max(0, -sectionTop); // Commented out unused variable
       const visibleHeight = Math.min(windowHeight, sectionBottom) - Math.max(0, sectionTop);
-      const visibleRatio = visibleHeight / totalHeight;
+      // const visibleRatio = visibleHeight / totalHeight; // Commented out unused variable
       
       // Calculate the scroll progress through the section
       const scrollProgress = Math.min(1, Math.max(0, (windowHeight - sectionTop) / (windowHeight + totalHeight)));
@@ -505,7 +505,9 @@ function Footer() {
   );
 }
 
-// Simple fallback component to display errors
+// Simple fallback component to display errors (currently unused)
+// Commented out to fix ESLint error
+/*
 const ErrorDisplay = ({ error }) => (
   <div style={{
     color: 'white',
@@ -552,6 +554,7 @@ const ErrorDisplay = ({ error }) => (
     </button>
   </div>
 );
+*/
 
 function ImageModal({ src, alt, onClose }) {
   if (!src) return null;
