@@ -337,11 +337,13 @@ function MyJourney() {
   const timelineRef = useRef(null);
   
   useEffect(() => {
+    // Safely query DOM elements with null checks
     const timelineLine = document.querySelector('.timeline-line');
     const timelineSection = document.getElementById('journey');
     const timelineItems = document.querySelectorAll('.timeline-item');
     // const timelineCircles = document.querySelectorAll('.timeline-circle'); // Commented out unused variable
     
+    // Exit early if any required element is missing
     if (!timelineLine || !timelineSection || !timelineItems.length) return;
     
     // Calculate the total height of the timeline
@@ -374,27 +376,50 @@ function MyJourney() {
       
       // Update each timeline item and its elements based on line position
       timelineItems.forEach((item, index) => {
-        const itemTop = item.getBoundingClientRect().top - rect.top;
-        const circle = item.querySelector('.timeline-circle');
+        if (!item) return; // Skip if item is null
         
-        if (itemTop <= lineHeight + 100) { // Adding offset to activate slightly before line reaches
-          item.classList.add('active');
-          if (circle) circle.classList.add('active');
-        } else {
-          item.classList.remove('active');
-          if (circle) circle.classList.remove('active');
+        try {
+          const itemTop = item.getBoundingClientRect().top - rect.top;
+          const circle = item.querySelector('.timeline-circle');
+          
+          if (itemTop <= lineHeight + 100) { // Adding offset to activate slightly before line reaches
+            item.classList.add('active');
+            if (circle) circle.classList.add('active');
+          } else {
+            item.classList.remove('active');
+            if (circle) circle.classList.remove('active');
+          }
+        } catch (err) {
+          console.error('Error updating timeline item:', err);
         }
       });
     };
     
-    // Update on scroll
-    window.addEventListener('scroll', updateTimelineLine);
-    // Initial update
-    updateTimelineLine();
+    // Add scroll event listener with error handling
+    const safeUpdateTimeline = (...args) => {
+      try {
+        updateTimelineLine(...args);
+      } catch (err) {
+        console.error('Error in timeline update:', err);
+      }
+    };
     
-    // Cleanup
+    window.addEventListener('scroll', safeUpdateTimeline);
+    
+    // Initial update with error handling
+    try {
+      updateTimelineLine();
+    } catch (err) {
+      console.error('Error in initial timeline update:', err);
+    }
+    
+    // Cleanup with error handling
     return () => {
-      window.removeEventListener('scroll', updateTimelineLine);
+      try {
+        window.removeEventListener('scroll', safeUpdateTimeline);
+      } catch (err) {
+        console.error('Error removing event listener:', err);
+      }
     };
   }, []);
   
@@ -584,20 +609,35 @@ function App() {
   };
 
   useEffect(() => {
+    // Safe event handler with error handling
     const handleEscape = (event) => {
-      if (event.key === 'Escape') {
-        closeImageModal();
+      try {
+        if (event && event.key === 'Escape') {
+          closeImageModal();
+        }
+      } catch (err) {
+        console.error('Error in escape key handler:', err);
       }
     };
 
-    if (imageModalSrc) {
-      document.addEventListener('keydown', handleEscape);
-    } else {
-      document.removeEventListener('keydown', handleEscape);
+    // Safely add/remove event listeners
+    try {
+      if (imageModalSrc) {
+        document.addEventListener('keydown', handleEscape);
+      } else {
+        document.removeEventListener('keydown', handleEscape);
+      }
+    } catch (err) {
+      console.error('Error managing keydown event listener:', err);
     }
 
+    // Safe cleanup function
     return () => {
-      document.removeEventListener('keydown', handleEscape);
+      try {
+        document.removeEventListener('keydown', handleEscape);
+      } catch (err) {
+        console.error('Error removing keydown event listener:', err);
+      }
     };
   }, [imageModalSrc]);
 
