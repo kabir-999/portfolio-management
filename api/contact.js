@@ -11,10 +11,15 @@ const transporter = nodemailer.createTransport({
 
 module.exports = async (req, res) => {
   // Add CORS headers for Vercel deployment
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  try {
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  } catch (headerError) {
+    console.error('Error setting CORS headers:', headerError);
+    // Continue execution even if headers fail
+  }
 
   // Handle OPTIONS request for CORS preflight
   if (req.method === 'OPTIONS') {
@@ -46,6 +51,10 @@ module.exports = async (req, res) => {
     // Send email notification
     try {
       console.log('Attempting to send email notification');
+      console.log('Using email credentials:', {
+        from: process.env.EMAIL_USER || 'mathurkabir336@gmail.com',
+        to: 'mathurkabir336@gmail.com'
+      });
       
       const mailOptions = {
         from: process.env.EMAIL_USER || 'mathurkabir336@gmail.com',
@@ -60,15 +69,25 @@ module.exports = async (req, res) => {
           <p>${message}</p>
           <p><em>This is an automated notification from your portfolio website.</em></p>
         `,
+        text: `New message from ${name} (${email}, ${phone}): ${message}` // Plain text fallback
       };
 
-      await transporter.sendMail(mailOptions);
-      console.log('Email notification sent successfully');
+      // Verify transporter before sending
+      if (!transporter) {
+        throw new Error('Email transporter not initialized properly');
+      }
+
+      // Send the email
+      const info = await transporter.sendMail(mailOptions);
+      console.log('Email notification sent successfully:', info.messageId);
       
       return res.status(200).json({ success: true });
     } catch (emailError) {
       console.error('Error sending email notification:', emailError);
-      return res.status(500).json({ 
+      // Return a 200 status with error details to prevent client-side error
+      // This helps in debugging while not breaking the user experience
+      return res.status(200).json({ 
+        success: false,
         error: 'Failed to send email', 
         details: emailError.message
       });
