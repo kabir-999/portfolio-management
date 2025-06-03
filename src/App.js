@@ -1,10 +1,39 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Component } from "react";
 import "./App.css";
 import heroImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
 import linkedInPic from "./assets/linkedIIN pic.jpeg";
 // import posImg from "./assets/pos.jpg";  // Commented out unused import
 import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";  // Removed unused icons
+
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{color: 'white', padding: '20px', textAlign: 'center'}}>
+          <h2>Something went wrong</h2>
+          <p>Please refresh the page or try again later.</p>
+          <pre>{this.state.error?.toString()}</pre>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
 
 const profile = {
   name: "Kabir Mathur",
@@ -229,9 +258,20 @@ function Flashcard({ project }) {
           <ul>
             {details.map((d, i) => <li key={i}>{d}</li>)}
           </ul>
-          <div className="stack-line-row"><span className="stack-title">Stack:</span> <span className="stack-line-comma">{techLine}</span></div>
-          <div className="project-button-wrapper">
-            {project.link && <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link-button">GitHub/Website</a>}
+          <div className="tech-stack">
+            <strong>Tech Stack:</strong> {techLine}
+          </div>
+          <div className="project-links">
+            {project.github && (
+              <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-link">
+                <FaGithub /> GitHub
+              </a>
+            )}
+            {project.demo && (
+              <a href={project.demo} target="_blank" rel="noopener noreferrer" className="project-link">
+                <FaLaptopCode /> Demo
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -595,8 +635,11 @@ function ImageModal({ src, alt, onClose }) {
 }
 
 function App() {
+  console.log('App component rendering...');
+
   const [imageModalSrc, setImageModalSrc] = useState(null);
   const [imageModalAlt, setImageModalAlt] = useState("");
+  console.log('States initialized successfully');
 
   const openImageModal = (imageSrc, imageAlt) => {
     setImageModalSrc(imageSrc);
@@ -662,4 +705,10 @@ function App() {
   );
 }
 
-export default App;
+const AppWithErrorBoundary = () => (
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>
+);
+
+export default AppWithErrorBoundary;
