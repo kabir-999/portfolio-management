@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, Component } from "react";
 import "./App.css";
 import "./styles/dark-theme.css";
-import heroImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
 // import linkedInPic from "./assets/linkedIIN pic.jpeg"; // Removed this import
 import ProfileCard from "./components/ProfileCard/ProfileCard";
