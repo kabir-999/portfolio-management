@@ -505,26 +505,65 @@ body, .app {
 }
 
 .project-link-button {
-  display: inline-flex; /* Use inline-flex for better icon alignment */
-  align-items: center; /* Vertically align icon and text */
-  justify-content: center; /* Center content within button */
-  padding: 8px 16px; /* Slightly reduced padding */
-  background: #7fbcff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  background: var(--accent-color, #7fbcff);
   color: #181a20;
   border-radius: 8px;
   text-decoration: none;
-  font-weight: 500; /* Slightly reduced font-weight */
-  font-size: 0.9rem; /* Slightly reduced font-size */
-  gap: 6px; /* Space between icon and text */
-  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  gap: 6px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 12px rgba(127, 188, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
 }
 
 .project-link-button:hover {
-  background: #5a9bff;
+  background: var(--accent-hover, #5a9bff);
   color: #fff;
   transform: translateY(-3px);
   box-shadow: 0 6px 18px rgba(127, 188, 255, 0.4);
+}
+
+/* Ensure consistent text color in both themes */
+.project-link-button,
+.project-link-button .shiny-text {
+  color: #181a20 !important;
+}
+
+/* Add a subtle shine effect on hover */
+.project-link-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transition: 0.5s;
+  pointer-events: none;
+}
+
+.project-link-button:hover::after {
+  left: 100%;
+  color: black;
+}
+
+/* Fix for dark theme button text color */
+.dark-theme .project-link-button,
+.dark-theme .project-link-button .shiny-text {
+  color: #181a20 !important;
 }
 
 .project-button-wrapper {
@@ -532,6 +571,7 @@ body, .app {
   justify-content: center;
   width: 100%;
   margin-top: auto;
+  color: black;
 }
 
 .position {
@@ -891,7 +931,7 @@ body, .app {
 }
 .contact-form button {
   background: #7fbcff;
-  color: black;
+  color: #000;
   font-size: 1.1rem;
   font-weight: 600;
   border: none;
@@ -899,19 +939,19 @@ body, .app {
   padding: 15px 0;
   cursor: pointer;
   margin-top: 8px;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.2s ease;
 }
 .contact-form button:disabled {
   background: #7fbcff;
-  color: black;
+  color: #000;
   opacity: 0.6;
   cursor: not-allowed;
 }
 .contact-form button:hover:not(:disabled) {
   background: #5a9bff;
-  color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(127, 188, 255, 0.5);
+  color: #fff;
 }
 .contact-form-status {
   margin-top: 12px;

@@ -8,6 +8,7 @@ import ProfileCard from "./components/ProfileCard/ProfileCard";
 import Particles from "./components/Particles/Particles"; // Import Particles component
 // import posImg from "./assets/pos.jpg";  // Commented out unused import
 import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt, FaSun, FaMoon } from "react-icons/fa";  // Added FaSun and FaMoon
+import ShinyText from "./components/ShinyText/ShinyText";
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -286,11 +287,11 @@ function Flashcard({ project }) {
             {project.link && (
               project.link.includes('github.com') ? (
                 <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link-button">
-                  <FaGithub /> GitHub
+                  <FaGithub /> <ShinyText text="GitHub" speed={3} />
                 </a>
               ) : (
                 <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link-button">
-                  <FaLaptopCode /> Demo
+                  <FaLaptopCode /> <ShinyText text="Demo" speed={3} />
                 </a>
               )
             )}

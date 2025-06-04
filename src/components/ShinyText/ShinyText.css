@@ -1,0 +1,60 @@
+.shiny-text {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.9) 50%, 
+    transparent 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-position: -100% 0;
+  animation: shine var(--animation-duration, 5s) infinite;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+@keyframes shine {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Dark theme specific styles */
+.dark-theme .shiny-text {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(127, 188, 255, 0.9) 50%, 
+    transparent 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+/* Light theme specific styles */
+.light-theme .shiny-text {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 0, 0, 0.9) 50%, 
+    transparent 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+/* Disabled state */
+.shiny-text.disabled {
+  animation: none;
+  background: none;
+  color: inherit;
+}
+
+/* Ensure proper alignment with icons */
+.project-link-button .shiny-text {
+  margin-left: 4px;
+}
