@@ -1,0 +1,11 @@
+/* Basic styling for particles container */
+.particles-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0; /* Ensure it's behind ProfileCard but above Hero's own background if any */
+  overflow: hidden;
+  background-color: var(--projects-section-bg-start); /* Ensure particles are visible */
+}

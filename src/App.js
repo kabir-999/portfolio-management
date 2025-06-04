@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef, Component } from "react";
 import "./App.css";
+import "./styles/dark-theme.css";
 import heroImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
-import linkedInPic from "./assets/linkedIIN pic.jpeg";
+// import linkedInPic from "./assets/linkedIIN pic.jpeg"; // Removed this import
+import ProfileCard from "./components/ProfileCard/ProfileCard";
+import Particles from "./components/Particles/Particles"; // Import Particles component
 // import posImg from "./assets/pos.jpg";  // Commented out unused import
-import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";  // Removed unused icons
+import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt, FaSun, FaMoon } from "react-icons/fa";  // Added FaSun and FaMoon
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -179,7 +182,7 @@ const parseDate = (dateString) => {
   return new Date(); // Fallback for unparseable dates
 };
 
-function Navbar() {
+function Navbar({ theme, toggleTheme }) {
   return (
     <nav className="navbar glass">
       <a href="#hero">Home</a>
@@ -189,30 +192,48 @@ function Navbar() {
       <a href="#journey">My Journey</a>
       <a href="#contact">Contact</a>
       <a href="https://drive.google.com/file/d/1GRPmOQFTL5ZKW5M5z9e_z0FCE3rFJPAa/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Resume</a>
+      <button onClick={toggleTheme} className="theme-toggle-button" aria-label="Toggle theme">
+        {theme === 'light' ? <FaMoon size="1.2em" /> : <FaSun size="1.2em" />}
+      </button>
     </nav>
   );
 }
 
-function Hero({ openImageModal }) {
+function Hero() {
+  const particleColors = ["#00ffff", "#ff00ff", "#00ff00"]; // Cyan, Magenta, Green neon
   return (
-    <section className="hero" id="hero">
-      <div className="hero-content">
-        <img 
-          src={heroImg} 
-          alt="Kabir Mathur" 
-          className="hero-img" 
-          onClick={() => openImageModal(heroImg, "Kabir Mathur")} 
-          style={{ cursor: 'pointer' }}
+    <section 
+      className="hero" 
+      id="hero" 
+      style={{ 
+        position: 'relative', // Needed for absolute positioning of Particles
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh', 
+        paddingTop: '80px', 
+        paddingBottom: '40px',
+        overflow: 'hidden' // Ensure particles don't cause scrollbars on the section
+      }}
+    >
+      <Particles 
+        particleCount={800}  // Significantly increased count for more intensity
+        particleSpread={15} // Keeping spread the same, adjust if needed
+        speed={0.25} // Increased speed
+        particleColors={particleColors}
+        alphaParticles={false} // Keeping as solid particles
+        particleBaseSize={150}  // Increased base size for larger particles
+        cameraDistance={15} // Keeping camera distance the same
+      />
+      <div style={{ zIndex: 1, position: 'relative' }}> {/* Wrapper to ensure ProfileCard is above particles */}
+        <ProfileCard 
+          avatarUrl="/assets/linkedIIN_pic.jpeg" // Using direct public path
         />
-        <div style={{ textAlign: 'center' }}>
-          <h1>{profile.name}</h1>
-          <h2>{profile.tagline}</h2>
-          <p>{profile.contact.location} | <a href={`mailto:${profile.contact.email}`}>{profile.contact.email}</a></p>
-          <div className="hero-links">
-            <a href={profile.contact.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href={profile.contact.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-          </div>
-        </div>
+      </div>
+      <div style={{ textAlign: 'center', marginTop: '20px', zIndex: 1, position: 'relative' }}>
+        <h1 style={{ color: 'white', fontSize: '2.5rem', marginBottom: '0.5rem' }}>{profile.name}</h1>
+        <p style={{ color: 'white', fontSize: '1.25rem' }}>{profile.tagline}</p>
       </div>
     </section>
   );
@@ -548,7 +569,7 @@ function ContactSection() {
     <section className="contact-section glass" id="contact">
       <h2>Get In Touch</h2>
       <div className="contact-box" style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-        <img src={linkedInPic} alt="LinkedIn Profile" style={{ width: 60, height: 60, borderRadius: '50%', border: '2px solid #7fbcff', objectFit: 'cover', boxShadow: '0 2px 8px #7fbcff55' }} />
+        <img src="/assets/linkedIIN_pic.jpeg" alt="LinkedIn Profile" style={{ width: 60, height: 60, borderRadius: '50%', border: '2px solid #7fbcff', objectFit: 'cover', boxShadow: '0 2px 8px #7fbcff55' }} />
         <div>
           <div className="contact-title">Contact Information</div>
           <div className="contact-desc">Feel free to reach out through any of these channels.</div>
@@ -638,7 +659,25 @@ function ImageModal({ src, alt, onClose }) {
 }
 
 function App() {
-  console.log('App component rendering...');
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme ? savedTheme : 'dark'; // Default to dark if nothing is saved
+  });
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.body.classList.add('light-theme');
+      document.body.classList.remove('dark-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+      document.body.classList.add('dark-theme');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
 
   const [imageModalSrc, setImageModalSrc] = useState(null);
   const [imageModalAlt, setImageModalAlt] = useState("");
@@ -689,7 +728,7 @@ function App() {
 
   return (
     <div className="app">
-      <Navbar />
+      <Navbar theme={theme} toggleTheme={toggleTheme} />
       <Hero openImageModal={openImageModal} />
       <div className="gradient-bg main-content">
         <About openImageModal={openImageModal} />

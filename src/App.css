@@ -1,6 +1,56 @@
+:root {
+  /* Core Dark Theme - Preserving original look */
+  --page-background: #181a20;
+  --primary-text: #f1f1f1;
+  --secondary-text: #b0c4d4; /* From original hero text, etc. */
+  --accent-color: #7fbcff;   /* Original prominent light blue */
+  --accent-color-rgb: 127, 188, 255;
+  --accent-hover-bg: rgba(var(--accent-color-rgb), 0.2); /* #7fbcff33 */
+  --accent-text-hover: #fff;
+
+  /* Component specific original dark theme values */
+  --navbar-background: rgba(24, 26, 32, 0.7);
+  --navbar-border-color: rgba(35, 38, 47, 0.26); /* Original #23262f44 */
+  --navbar-box-shadow: 0 2px 16px 0 rgba(0,0,0, 0.1); /* Original #0002 */
+
+  --glass-background: rgba(35, 38, 47, 0.82);
+  --glass-box-shadow1: rgba(var(--accent-color-rgb), 0.13); /* Original #7fbcff22 */
+  --glass-box-shadow2: rgba(0,0,0,0.12); /* Original #0003 */
+  --glass-border-color: rgba(var(--accent-color-rgb),0.2);
+
+  /* Projects Section Specific (Dark Theme Defaults) */
+  --projects-section-bg-start: #23262f;
+  --projects-section-bg-end-transparent: rgba(var(--accent-color-rgb), 0.13); /* #7fbcff22 */
+  --projects-section-shadow: 0 8px 48px 0 rgba(var(--accent-color-rgb), 0.2), 0 2px 8px 0 rgba(0,0,0,0.12); /* #7fbcff33, #0003 */
+
+  /* Flashcard Specific (Dark Theme Defaults) */
+  --flashcard-background: rgba(35, 38, 47, 0.92);
+  --flashcard-border-color: #23262f;
+  --flashcard-shadow: 0 8px 32px 0 rgba(var(--accent-color-rgb), 0.27), 0 2px 8px 0 rgba(0,0,0,0.12); /* #7fbcff44, #0003 */
+  --flashcard-hover-border-color: rgba(var(--accent-color-rgb), 0.4); /* #7fbcff66 */
+  --flashcard-hover-shadow: 0 12px 30px 0 rgba(var(--accent-color-rgb), 0.2), 0 3px 10px 0 rgba(0,0,0,0.16); /* #7fbcff33, #0004 */
+  --flashcard-glow-shadow-start: 0 4px 15px 0 rgba(var(--accent-color-rgb), 0.08); /* #7fbcff15 */
+  --flashcard-glow-shadow-end: 0 8px 25px 0 rgba(var(--accent-color-rgb), 0.13); /* #7fbcff22 */
+
+  /* General purpose dark theme vars (derived from original styles) */
+  --section-container-background: #23262f; /* From original gradient-bg */
+  --card-background: #2a2d35; /* Common card color, can adjust if needed */
+  --input-background: #23262f;
+  --button-text-on-accent: #181a20; /* Dark text for light accent buttons (e.g., hero links) */
+  --button-text-on-dark: #f1f1f1; /* Light text for dark bg buttons */
+  --border-color-primary: #475569; /* General borders, can be refined */
+
+  /* Standard Shadows & Radii (kept from previous definition) */
+  --shadow-color-light: rgba(0, 0, 0, 0.1);
+  --shadow-color-dark: rgba(0, 0, 0, 0.06);
+  --border-radius-sm: 6px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+}
+
 body, .app {
-  background: #181a20;
-  color: #f1f1f1;
+  background: var(--page-background);
+  color: var(--primary-text);
   font-family: 'Roboto', sans-serif;
   min-height: 100vh;
   margin: 0;
@@ -9,8 +59,8 @@ body, .app {
   font-weight: 400;
 }
 
-.gradient-bg {
-  background: linear-gradient(135deg, #181a20 0%, #23262f 60%, #2b5876 100%);
+.gradient-bg { /* Original gradient, now using variables */
+  background: linear-gradient(135deg, var(--page-background) 0%, var(--section-container-background) 60%, #2b5876 100%); /* #2b5876 was part of original gradient */
   min-height: 100vh;
 }
 
@@ -22,33 +72,55 @@ body, .app {
   justify-content: center;
   gap: 28px;
   padding: 12px 0 8px 0;
-  background: rgba(24, 26, 32, 0.7);
+  background: var(--navbar-background);
   backdrop-filter: blur(12px);
-  border-bottom: 1.5px solid #23262f44;
-  box-shadow: 0 2px 16px 0 #0002;
+  border-bottom: 1.5px solid var(--navbar-border-color);
+  box-shadow: var(--navbar-box-shadow);
   font-size: 1.18rem;
 }
 .navbar a {
-  color: #7fbcff;
+  color: var(--accent-color);
   text-decoration: none;
   font-weight: 500;
   letter-spacing: 1px;
   padding: 6px 12px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   transition: background 0.2s, color 0.2s;
   font-family: 'Roboto', sans-serif;
 }
 .navbar a:hover {
-  background: #7fbcff33;
-  color: #fff;
+  background: blue;
+  color: var(--accent-text-hover);
 }
 
+.theme-toggle-button {
+  background-color: var(--accent-color); /* Uses accent color for dark mode button */
+  color: var(--button-text-on-accent); /* Dark text on light blue button */
+  border: 1px solid var(--glass-border-color); /* Consistent with glass border */
+  padding: 6px 12px;
+  border-radius: var(--border-radius-md);
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  margin-left: 10px;
+}
+
+.theme-toggle-button:hover {
+  background-color: var(--accent-hover-bg);
+  color: var(--accent-text-hover);
+  border-color: var(--accent-color);
+}
+
+/* Light theme adjustments for toggle button are handled by body.light-theme .theme-toggle-button below */
+
 .glass {
-  background: rgba(35, 38, 47, 0.82);
-  box-shadow: 0 4px 32px 0 #7fbcff22, 0 2px 8px 0 #0003;
-  border-radius: 18px;
+  background: var(--glass-background);
+  box-shadow: var(--glass-box-shadow1), var(--glass-box-shadow2);
+  border-radius: var(--border-radius-lg);
   backdrop-filter: blur(16px);
-  border: 2.5px solid #7fbcff33;
+  border: 2.5px solid var(--glass-border-color);
 }
 
 .hero {
@@ -57,7 +129,7 @@ body, .app {
   justify-content: center;
   min-height: 85vh;
   padding: 120px 10% 60px 10%;
-  background: linear-gradient(120deg, #181a20 0%, #23262f 55%, #2b5876 100%);
+  background: linear-gradient(120deg, var(--page-background) 0%, var(--section-container-background) 55%, #2b5876 100%); /* #2b5876 is part of original distinct gradient */
   position: relative;
   overflow: hidden;
   animation: backgroundPan 18s ease-in-out infinite alternate;
@@ -81,9 +153,9 @@ body, .app {
 }
 
 @keyframes contentFloat {
-  0% { transform: translateY(0px) scale(1); box-shadow: 0 4px 32px 0 #7fbcff22, 0 2px 8px 0 #0003; }
-  50% { transform: translateY(-12px) scale(1.02); box-shadow: 0 10px 60px 0 #7fbcff77, 0 5px 20px 0 #0005; }
-  100% { transform: translateY(0px) scale(1); box-shadow: 0 4px 32px 0 #7fbcff22, 0 2px 8px 0 #0003; }
+  0% { transform: translateY(0px) scale(1); box-shadow: 0 4px 32px 0 var(--glass-box-shadow1), 0 2px 8px 0 var(--glass-box-shadow2); }
+  50% { transform: translateY(-12px) scale(1.02); box-shadow: 0 10px 60px 0 rgba(var(--accent-color-rgb), 0.47), 0 5px 20px 0 rgba(0,0,0,0.2); }
+  100% { transform: translateY(0px) scale(1); box-shadow: 0 4px 32px 0 var(--glass-box-shadow1), 0 2px 8px 0 var(--glass-box-shadow2); }
 }
 
 .hero-img {
@@ -91,25 +163,25 @@ body, .app {
   height: 200px;
   object-fit: cover;
   border-radius: 50%;
-  border: 6px solid #7fbcff;
-  box-shadow: 0 8px 50px 0 #7fbcff66;
-  background: #23262f;
+  border: 6px solid var(--accent-color);
+  box-shadow: 0 8px 50px 0 rgba(var(--accent-color-rgb), 0.4);
+  background: var(--section-container-background);
 }
 .hero-content h1 {
   font-size: 3.2rem;
   font-weight: 700;
-  color: #7fbcff;
+  color: var(--accent-color);
   margin-bottom: 6px;
 }
 .hero-content h2 {
   font-size: 1.18rem;
   font-weight: 500;
-  color: #fff;
+  color: var(--primary-text); /* Was #fff, now primary text for theme consistency */
   margin-bottom: 8px;
 }
 .hero-content p {
   margin: 0 0 20px 0;
-  color: #b0c4d4;
+  color: var(--secondary-text);
   font-size: 1.08rem;
 }
 .hero-links {
@@ -119,25 +191,25 @@ body, .app {
 }
 .hero-links a {
   padding: 15px 30px;
-  background: #7fbcff;
-  color: #181a20;
+  background: var(--accent-color);
+  color: var(--button-text-on-accent);
   text-decoration: none;
   font-weight: 500;
   font-size: 1.13rem;
-  transition: color 0.2s;
+  transition: color 0.2s, background-color 0.2s;
 }
 .hero-links a:hover {
-  background: #5a9bff;
-  color: #fff;
+  background: var(--accent-hover-bg); /* Using a lighter shade of accent or a new variable if #5a9bff is distinct */
+  color: var(--accent-text-hover);
   transform: translateY(-8px);
   text-decoration: none;
-  box-shadow: 0 8px 25px #7fbcffaa;
+  box-shadow: 0 8px 25px rgba(var(--accent-color-rgb), 0.67); /* #7fbcffaa */
 }
 
 /* Animation for hero content */
 @keyframes heroGlow {
-  0% { box-shadow: 0 4px 32px 0 #7fbcff22, 0 2px 8px 0 #0003; }
-  100% { box-shadow: 0 8px 48px 0 #7fbcff55, 0 4px 16px 0 #0004; }
+  0% { box-shadow: 0 4px 32px 0 var(--glass-box-shadow1), 0 2px 8px 0 var(--glass-box-shadow2); }
+  100% { box-shadow: 0 8px 48px 0 rgba(var(--accent-color-rgb), 0.33), 0 4px 16px 0 rgba(0,0,0,0.16); }
 }
 
 .hero-content.glass {
@@ -269,10 +341,10 @@ body, .app {
 }
 
 .projects {
-  background: linear-gradient(120deg, #23262f 60%, #7fbcff22 100%);
+  background: linear-gradient(120deg, var(--projects-section-bg-start) 60%, var(--projects-section-bg-end-transparent) 100%);
   padding: 40px 0 60px 0;
   border-radius: 32px;
-  box-shadow: 0 8px 48px 0 #7fbcff33, 0 2px 8px 0 #0003;
+  box-shadow: var(--projects-section-shadow);
   margin-bottom: 40px;
   position: relative;
   overflow: visible;
@@ -295,9 +367,9 @@ body, .app {
 .flashcard {
   width: calc(48% - 10px);
   flex-grow: 1;
-  background: rgba(35, 38, 47, 0.92);
+  background: var(--flashcard-background);
   border-radius: 24px;
-  box-shadow: 0 8px 32px 0 #7fbcff44, 0 2px 8px 0 #0003;
+  box-shadow: var(--flashcard-shadow);
   min-height: 300px;
   display: flex;
   flex-direction: column;
@@ -305,7 +377,7 @@ body, .app {
   transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border 0.2s ease-out;
   margin-bottom: 0;
   overflow: hidden;
-  border: 1px solid #23262f;
+  border: 1px solid var(--flashcard-border-color);
   backdrop-filter: blur(15px);
   padding: 0;
   position: relative;
@@ -313,14 +385,14 @@ body, .app {
   animation: cardGlow 3s ease-in-out infinite alternate;
 }
 @keyframes cardGlow {
-  0% { box-shadow: 0 4px 15px 0 #7fbcff15; }
-  100% { box-shadow: 0 8px 25px 0 #7fbcff22; }
+  0% { box-shadow: var(--flashcard-glow-shadow-start); }
+  100% { box-shadow: var(--flashcard-glow-shadow-end); }
 }
 
 .flashcard:hover {
   transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 12px 30px 0 #7fbcff33, 0 3px 10px 0 #0004;
-  border: 1.5px solid #7fbcff66;
+  box-shadow: var(--flashcard-hover-shadow);
+  border: 1.5px solid var(--flashcard-hover-border-color);
 }
 
 .project-card-container {
@@ -335,7 +407,7 @@ body, .app {
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-bottom: 1px solid #23262f;
+  border-bottom: 1px solid var(--flashcard-border-color);
   border-right: none;
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
@@ -373,24 +445,26 @@ body, .app {
   justify-content: flex-start;
   align-items: flex-start;
   font-size: 20px;
+  color: black;
 }
 
 .flashcard-content h3 {
-  color: #7fbcff;
+  color: black;
   margin: 0 0 16px 0;
   font-weight: 700;
   letter-spacing: 1px;
   font-size: 22px;
+  text-align: center;
 }
 
 .flashcard-content ul {
   padding-left: 18px;
   margin: 0 0 10px 0;
-  color: #e0eaff;
+  color: black;
   font-size: 20px;
 }
 .flashcard-content a {
-  color: #7fbcff;
+  color: black;
   margin-right: 8px;
   font-size: 1.05rem;
 }
@@ -527,6 +601,7 @@ body, .app {
   }
   .flashcard-content h3 {
     font-size: 1.25rem;
+    text-align: center;
   }
   .flashcard-content a {
     font-size: 0.95rem;
@@ -631,7 +706,7 @@ body, .app {
 .skill-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #fff;
+  color: black;
   margin-bottom: 10px;
   letter-spacing: 0.8px;
   display: flex;
@@ -642,7 +717,7 @@ body, .app {
   margin: 0;
   padding-left: 20px;
   font-size: 1rem;
-  color: #e0eaff;
+  color: black;
   line-height: 1.7;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
@@ -651,6 +726,7 @@ body, .app {
 .skill-card li {
   margin-bottom: 0.5rem;
   line-height: 1.2;
+  color: black;
 }
 @media (max-width: 900px) {
   .skill-card-list {
@@ -684,13 +760,16 @@ body, .app {
   }
   .skill-title {
     font-size: 1.15rem;
+    color: black;
   }
   .skill-card ul {
     font-size: 0.95rem;
+    color: black;
   }
 }
 
 .contact-row {
+  background-color: var(--section-container-background); /* Light Blue #c8dafa */
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -703,6 +782,7 @@ body, .app {
 }
 
 .contact-row .contact-section, .contact-row .contact-form-section {
+  background-color: var(--section-container-background); 
   flex: 1;
   max-width: 580px;
   margin: 0;
@@ -776,19 +856,20 @@ body, .app {
 }
 
 .contact-form-desc {
-  color: #b0c4d4;
+  color: black;
   font-size: 1.08rem;
   margin-bottom: 18px;
 }
 .contact-form {
   display: flex;
+  color: black;
   flex-direction: column;
   gap: 20px;
 }
 .contact-form input,
 .contact-form textarea {
   background: #181a20;
-  color: #e0eaff;
+  color: white;
   border: 1.5px solid #23262f;
   border-radius: 8px;
   padding: 14px 16px;
@@ -803,13 +884,14 @@ body, .app {
   border: 1.5px solid #7fbcff;
 }
 .contact-form textarea {
+  color: white;
   resize: vertical;
   min-height: 90px;
   max-height: 250px;
 }
 .contact-form button {
   background: #7fbcff;
-  color: #181a20;
+  color: black;
   font-size: 1.1rem;
   font-weight: 600;
   border: none;
@@ -820,6 +902,8 @@ body, .app {
   transition: background 0.2s, color 0.2s;
 }
 .contact-form button:disabled {
+  background: #7fbcff;
+  color: black;
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -849,6 +933,7 @@ body, .app {
   .contact-form input, .contact-form textarea {
     padding: 12px 15px;
     font-size: 0.95rem;
+    color: white;
   }
   .contact-form button {
     font-size: 1.05rem;
@@ -869,10 +954,11 @@ body, .app {
 
 .contact-section h2 {
   font-size: 2.2rem;
-  color: #bfc9ff;
+  color: black;
   font-weight: 700;
   margin-bottom: 24px;
-  text-align: left;
+  text-align: center;
+  line-height: 2;
   letter-spacing: 1px;
   font-family: 'Poppins', sans-serif;
 }
@@ -888,13 +974,14 @@ body, .app {
   box-shadow: 0 4px 15px #7fbcff44;
 }
 .contact-title {
+  line-height: 3;
   font-size: 1.35rem;
   font-weight: 700;
-  color: #fff;
+  color: black;
   margin-bottom: 8px;
 }
 .contact-desc {
-  color: #b0c4d4;
+  color: black;
   font-size: 1.08rem;
   margin-bottom: 18px;
 }
@@ -971,7 +1058,7 @@ body, .app {
 
 .timeline-section .section-header {
   font-size: 2.2rem;
-  color: #7fbcff;
+  color: black;
   font-weight: 700;
   margin-bottom: 40px;
   text-align: center;
@@ -1102,7 +1189,7 @@ body, .app {
   transform: translateX(-50%);
   width: 20px;
   height: 20px;
-  background-color: #1e1e1e;
+  background-color: var(--accent-color);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1158,11 +1245,13 @@ body, .app {
 
 .timeline-item.left .timeline-date {
   right: 52%;
+  background-color: var(--accent-color);
   margin-right: 20px;
   text-align: right;
 }
 
 .timeline-item.right .timeline-date {
+  background-color: var(--accent-color);
   left: 52%;
   margin-left: 20px;
   text-align: left;
@@ -1229,7 +1318,8 @@ body, .app {
   margin-right: auto;
 }
 .project-widget {
-  background: rgba(35, 38, 47, 0.95);
+  background: var(--section-container-background);
+  
   border-radius: 16px;
   box-shadow: 0 4px 15px 0 #7fbcff15, 0 2px 5px 0 #0002;
   border: 1.5px solid #23262f;
@@ -1252,12 +1342,12 @@ body, .app {
 .widget-value {
   font-size: 2.1rem;
   font-weight: 700;
-  color: #fff;
+  color: black;
   margin-bottom: 8px;
 }
 .widget-label {
   font-size: 1.05rem;
-  color: #b0c4d4;
+  color: black;
   font-weight: 600;
   font-family: 'Roboto', sans-serif;
 }
@@ -1289,6 +1379,7 @@ body, .app {
     justify-content: center;
   }
   .project-widget {
+    color: blue;
     flex: 1 1 100%;
     max-width: 100%;
     padding: 20px 10px;
@@ -1418,10 +1509,12 @@ body, .app {
   }
   .flashcard-content h3 {
     font-size: 1.25rem;
+    color: black;
   }
   .flashcard-content a {
     font-size: 0.95rem;
     padding: 8px 18px;
+    color: black;
   }
 }
 
@@ -1528,4 +1621,318 @@ body, .app {
   .navbar a {
     padding: 5px 8px;
   }
+}
+
+/* Light Theme Definition */
+body.light-theme {
+  --page-background: #ffffff; /* White */
+  --primary-text: #111111;    /* Black */
+  --secondary-text: #333333;  /* Dark Grey */
+  
+  --accent-color: #6ca7f1; /* New Accent - Blue for timeline, borders */
+  --accent-color-rgb: 108, 167, 241;
+  --accent-hover-bg: #558ac7; /* Darker Blue */
+  --accent-text-hover: #FFFFFF; /* White text on hover */
+
+  --highlight-color: var(--accent-color);
+  --highlight-color-rgb: var(--accent-color-rgb);
+
+  /* Component specific light theme values */
+  --navbar-background: #a9c2e8; /* Complementary light blue for Navbar */
+  --navbar-border-color: rgba(var(--accent-color-rgb), 0.3);
+  --navbar-box-shadow: 0 2px 8px 0 rgba(0,0,0, 0.08);
+
+  /* Glass effect derived from new container color */
+  --glass-background: rgba(200, 218, 250, 0.65); /* #c8dafa with opacity */
+  --glass-box-shadow1: rgba(200, 218, 250, 0.1);
+  --glass-box-shadow2: rgba(0,0,0,0.05);
+  --glass-border-color: rgba(200, 218, 250, 0.25);
+
+  /* General purpose light theme vars */
+  --section-container-background: #c8dafa; /* General Containers */
+  --card-background: #c8dafa; /* Default for cards, overridden by flashcard */
+  --input-background: #e6effd; /* Very light blue for inputs */
+  
+  /* Button specific vars for light theme */
+  --button-background: #75473a; /* Brown for buttons */
+  --button-text-color: #FFFFFF; /* White text for buttons */
+  --button-hover-background: #5e392e; /* Darker Brown for button hover */
+
+  /* Text on specific backgrounds */
+  --button-text-on-accent: #FFFFFF; /* Text on new accent bg (#6ca7f1) */
+  --button-text-on-dark: #FFFFFF;   /* Text on new button bg (#75473a) */
+
+  --border-color-primary: var(--accent-color); /* New Accent (#6ca7f1) */
+  --border-color-secondary: #97bdef; /* Lighter version of accent */
+
+  /* Standard Shadows & Radii (lighter) */
+  --shadow-color-light: rgba(0, 0, 0, 0.06);
+  --shadow-color-dark: rgba(0, 0, 0, 0.04);
+  
+  color: var(--primary-text); /* Apply primary text color to body */
+
+  /* Specific overrides for light theme */
+  --hero-background:var(--projects-section-bg-end-transparent) 100%;
+  ; /* Background behind profile card */
+
+  /* Projects Section Specific (Light Theme Overrides) */
+  /* The .projects wrapper will use --section-container-background (#c8dafa) for its gradient start */
+  --projects-section-bg-start: var(--section-container-background);
+  --projects-section-bg-end-transparent: rgba(var(--accent-color-rgb), 0.1);
+  --projects-section-shadow: 0 6px 20px var(--shadow-color-light);
+
+  /* Flashcard (Project cards, Skill cards) & Specific Sections (Contact form area) Background */
+  --flashcard-background: #6ca7f1; /* Blue for these specific elements */
+  --flashcard-border-color: var(--border-color-primary); 
+  --flashcard-shadow: 0 5px 12px var(--shadow-color-light);
+  --flashcard-hover-border-color: #558ac7; /* Darker accent blue */
+  --flashcard-hover-shadow: 0 7px 18px var(--shadow-color-dark);
+  --flashcard-glow-shadow-start: 0 2px 8px rgba(var(--accent-color-rgb), 0.05);
+  --flashcard-glow-shadow-end: 0 4px 15px rgba(var(--accent-color-rgb), 0.1);
+}
+
+/* Light Theme Timeline Styles */
+body.light-theme .timeline-line {
+  background: var(--accent-color);
+}
+
+body.light-theme .timeline-dot {
+  background-color: var(--accent-color);
+  border-color: var(--page-background); /* To contrast against the dot */
+}
+
+body.light-theme .timeline-content {
+  background: #6ca7f1; /* Specific blue for timeline content boxes */
+  border-left-color: var(--accent-color);
+  box-shadow: 0 3px 10px var(--shadow-color-light);
+}
+
+body.light-theme .timeline-content h3,
+body.light-theme .timeline-content p,
+body.light-theme .timeline-content span {
+  color: var(--primary-text);
+}
+
+body.light-theme .timeline-title {
+    color: var(--primary-text);
+}
+
+/* Specific light theme styles for the toggle button */
+body.light-theme .theme-toggle-button {
+  background-color: var(--accent-color);
+  color: var(--button-text-color);
+  border-color: var(--button-background);
+}
+
+body.light-theme .theme-toggle-button:hover {
+  background-color: blue;
+  color: var(--button-text-color);
+  border-color: var(--button-hover-background);
+}
+
+/* Example of using the new --highlight-color, can be applied to specific elements as needed */
+/* 
+body.light-theme .some-special-element {
+  color: var(--highlight-color);
+  border-left: 3px solid var(--highlight-color);
+} 
+*/
+
+/* Additional light theme overrides for specific elements */
+body.light-theme .hero {
+  background: var(--hero-background) !important; /* Solid color, overrides gradient. Important to ensure override. */
+}
+
+body.light-theme .navbar a {
+  color: var(--primary-text); /* Black links */
+}
+
+body.light-theme .hero-links a,
+body.light-theme .project-card-link,
+body.light-theme .contact-form button {
+  background-color: var(--accent-color);
+  color: var(--button-text-color);
+  border: 1px var(--accent-color); /* Use button background for border */
+}
+
+body.light-theme .hero-links a:hover,
+body.light-theme .project-card-link:hover,
+body.light-theme .contact-form button:hover {
+  background-color: blue  ;
+  color: var(--button-text-color);
+  border-color: blue;
+}
+
+body.light-theme .skills-container {
+  background-color: var(--flashcard-background); /* Brighter Blue #6ca7f1 */
+  padding: 30px 20px;
+  border-radius: var(--border-radius-xlarge);
+  margin-bottom: 40px;
+  box-shadow: var(--projects-section-shadow); /* Consistent with other flashcards */
+}
+
+body.light-theme .contact-section-wrapper { /* Main wrapper for Get In Touch & Send Message */
+  background-color: var(--flashcard-background); /* Brighter Blue #6ca7f1 */
+  padding: 30px 20px;
+  border-radius: var(--border-radius-xlarge);
+  margin-bottom: 40px;
+  box-shadow: var(--projects-section-shadow); /* Consistent with other flashcards */
+}
+
+/* Ensure flashcards within .projects still get their specific background if .projects itself changes */
+body.light-theme .projects .flashcard {
+    background-color: var(--flashcard-background);
+}
+
+body.light-theme .contact-item {
+  color: var(--primary-text); /* Ensure base text color is black */
+}
+body.light-theme .contact-item svg {
+  color: var(--primary-text); /* Black icons */
+}
+body.light-theme .contact-item a {
+  color: var(--primary-text); /* Black links */
+}
+body.light-theme .contact-item a:hover {
+  color: var(--secondary-text); /* Dark Grey for link hover */
+}
+
+body.light-theme .footer a {
+  color: var(--accent-color); /* Orange */
+}
+body.light-theme .footer a:hover {
+  color: var(--accent-hover-bg); /* Darker Orange */
+}
+
+body.light-theme .image-modal-close {
+  background-color: var(--button-background);
+  color: var(--button-text-color);
+}
+
+body.light-theme .section h2 { /* Section Titles */
+  color: var(--primary-text);
+}
+
+/* Skill Card Icons & Text */
+body.light-theme .skill-card h3,
+body.light-theme .skill-card p {
+  color: var(--primary-text); /* Ensure text within skill cards is black */
+}
+
+body.light-theme .skill-card h3 svg,
+body.light-theme .skill-card .skill-icon { /* General class for skill icons if used */
+  color: var(--primary-text); /* Black icons */
+}
+
+/* Stat Cards (CGPA, Hackathons, Experience) */
+body.light-theme .stat-card { /* Assuming a class like .stat-card */
+  background-color: var(--flashcard-background) !important; /* Brighter Blue #6ca7f1 */
+  color: var(--primary-text) !important; /* Ensure default text color is black */
+  padding: 20px;
+  border-radius: var(--border-radius-medium); /* Or your preferred radius */
+  box-shadow: var(--projects-section-shadow); /* Consistent with other flashcards */
+  text-align: center;
+  margin-bottom: 20px; /* If they are stacked or need spacing */
+}
+
+body.light-theme .stat-card h4 { /* Assuming a heading for the number */
+  font-size: 2rem; /* Example size */
+  margin-bottom: 5px;
+  color: var(--primary-text) !important;
+}
+
+body.light-theme .stat-card p { /* Assuming a paragraph for the label */
+  font-size: 0.9rem;
+  color: var(--primary-text) !important; /* Black text */
+}
+
+/* Individual Skill Flashcards */
+body.light-theme .skill-card {
+  background-color: var(--flashcard-background); /* Brighter Blue #6ca7f1 */
+  box-shadow: var(--projects-section-shadow); /* Consistent with other flashcards */
+  /* Text color for h3, p, li, svg inside .skill-card is already set to var(--primary-text) */
+}
+
+/* Keyframes for hero text animation */
+@keyframes fadeInUpHeroText {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Specific styles for hero text in light theme */
+body.light-theme .hero h1 {
+  color: var(--primary-text) !important; /* Force black text */
+  background-color: transparent; /* Ensure no unwanted background */
+  animation: fadeInUpHeroText 0.8s ease-out forwards;
+  opacity: 0; /* Start hidden for animation */
+}
+
+body.light-theme .hero p { /* Covers subtitle */
+  color: var(--primary-text) !important; /* Force black text */
+  background-color: transparent; /* Ensure no unwanted background */
+  animation: fadeInUpHeroText 0.8s ease-out 0.3s forwards; /* Delay for subtitle */
+  opacity: 0; /* Start hidden for animation */
+}
+
+/* Ensure general text elements are black in light theme */
+body.light-theme #about p { /* About section paragraphs */
+  color: var(--primary-text);
+}
+body.light-theme .project-card p,
+body.light-theme .project-card li,
+body.light-theme .project-card strong { /* For "Tech Stack:" label and other strong text */
+  color: var(--primary-text) !important;
+}
+body.light-theme .timeline-content p,
+body.light-theme .timeline-content h3, /* Timeline item titles */
+body.light-theme .timeline-item .timeline-date, /* Timeline dates */
+body.light-theme .contact-section-wrapper p, /* For "Feel free to reach out", "I'll get back to you" */
+body.light-theme .contact-section-wrapper h3, /* For subheadings like "Contact Information" if not section h2 */
+body.light-theme .footer {
+  color: var(--primary-text);
+}
+
+/* Restore footer link colors if overridden by the general .footer rule */
+body.light-theme .footer a {
+  color: var(--accent-color);
+}
+body.light-theme .footer a:hover {
+  color: var(--accent-hover-bg);
+}
+
+/* Timeline section background in light theme */
+body.light-theme #journey { /* Assuming #journey is the ID for the 'My Journey' section */
+  background: var(--section-container-background); /* Light Blue #c8dafa */
+  padding-top: 40px; /* Add some padding if needed, similar to other sections */
+  padding-bottom: 40px;
+}
+
+/* Specific styling for the 'Get In Touch' panel if it's a separate block */
+body.light-theme .contact-info-panel { /* Hypothetical class for the 'Get In Touch' block */
+  background-color: var(--flashcard-background); /* Brighter Blue #6ca7f1 */
+  color: var(--primary-text); /* Ensure text is black */
+  padding: 20px; /* Adjust padding as needed */
+  border-radius: var(--border-radius-large); /* Consistent border radius */
+  box-shadow: var(--projects-section-shadow);
+}
+
+/* Ensure text elements within this specific panel are black */
+body.light-theme .contact-info-panel h2,
+body.light-theme .contact-info-panel h3,
+body.light-theme .contact-info-panel p,
+body.light-theme .contact-info-panel li,
+body.light-theme .contact-info-panel a,
+body.light-theme .contact-info-panel svg {
+  color: var(--primary-text) !important; /* Force black text */
+  background-color: transparent !important; /* Ensure no background on text elements */
+}
+
+body.light-theme .contact-info-panel a:hover {
+  color: var(--secondary-text) !important;
 }
