@@ -262,15 +262,16 @@ function Flashcard({ project }) {
             <strong>Tech Stack:</strong> {techLine}
           </div>
           <div className="project-links">
-            {project.github && (
-              <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-link">
-                <FaGithub /> GitHub
-              </a>
-            )}
-            {project.demo && (
-              <a href={project.demo} target="_blank" rel="noopener noreferrer" className="project-link">
-                <FaLaptopCode /> Demo
-              </a>
+            {project.link && (
+              project.link.includes('github.com') ? (
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link-button">
+                  <FaGithub /> GitHub
+                </a>
+              ) : (
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link-button">
+                  <FaLaptopCode /> Demo
+                </a>
+              )
             )}
           </div>
         </div>
