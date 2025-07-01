@@ -9,7 +9,6 @@ import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelo
 import ShinyText from "./components/ShinyText/ShinyText";
 import SplashScreen from "./components/SplashScreen";
 import Particles from "./components/Particles/Particles";
-import { fallbackImages } from './utils/images';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -779,11 +778,6 @@ function App() {
   const [imageModalSrc, setImageModalSrc] = useState(null);
   const [imageModalAlt, setImageModalAlt] = useState("");
   console.log('States initialized successfully');
-
-  const openImageModal = (imageSrc, imageAlt) => {
-    setImageModalSrc(imageSrc);
-    setImageModalAlt(imageAlt);
-  };
 
   const closeImageModal = () => {
     setImageModalSrc(null);
