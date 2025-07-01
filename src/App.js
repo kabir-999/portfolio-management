@@ -9,6 +9,7 @@ import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelo
 import ShinyText from "./components/ShinyText/ShinyText";
 import SplashScreen from "./components/SplashScreen";
 import Particles from "./components/Particles/Particles";
+import { fallbackImages } from './utils/images';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -76,6 +77,13 @@ const profile = {
       date: "Mar 2025",
       desc: [
         "Mastered cloud architecture principles, deployment strategies, and core AWS services through certification program"
+      ],
+    },
+    {
+      title: "Coders Arena 2025 – The Battle of Algorithms",
+      date: "1st July, 2025",
+      desc: [
+        "Cracked 4 out of 5 problems in the final showdown — made it to the ultimate round"
       ],
     },
   ],
@@ -197,7 +205,8 @@ function Navbar({ theme, toggleTheme }) {
   );
 }
 
-function Hero() {
+function Hero({ theme }) {
+  const isLight = theme === 'light';
   const particleColors = ["#00ffff", "#ff00ff", "#00ff00"];
   // Standard image size for all containers
   const imgWidth = 260;
@@ -207,15 +216,15 @@ function Hero() {
     height: imgHeight,
     objectFit: 'cover',
     borderRadius: 18,
-    border: '3px solid #7fbcff',
-    boxShadow: '0 4px 32px 0 #7fbcff33',
-    background: '#23262f',
+    border: isLight ? '3px solid #4B6EAF' : '3px solid #7fbcff',
+    boxShadow: isLight ? '0 4px 32px 0 #E0E4EC' : '0 4px 32px 0 #7fbcff33',
+    background: isLight ? '#FFFFFF' : '#23262f',
     display: 'block',
   };
   const imgContainerStyle = {
-    background: '#23262f',
+    background: isLight ? '#FFFFFF' : '#23262f',
     borderRadius: 24,
-    boxShadow: '0 8px 40px 0 #7fbcff55',
+    boxShadow: isLight ? '0 8px 40px 0 #E0E4EC' : '0 8px 40px 0 #7fbcff55',
     padding: 12,
     display: 'flex',
     justifyContent: 'center',
@@ -231,15 +240,15 @@ function Hero() {
     justifyContent: 'center',
     maxWidth: 1000,
     width: '100%',
-    background: 'rgba(35,38,47,0.85)',
+    background: isLight ? '#FFFFFF' : 'rgba(35,38,47,0.85)',
     borderRadius: 18,
-    boxShadow: '0 4px 24px 0 #7fbcff33',
+    boxShadow: isLight ? '0 4px 24px 0 #E0E4EC' : '0 4px 24px 0 #7fbcff33',
     padding: '32px 24px',
     margin: '0 auto',
   };
   return (
     <section 
-      className="hero" 
+      className={`hero${isLight ? ' light-theme' : ' dark-theme'}`}
       id="hero" 
       style={{ 
         position: 'relative',
@@ -468,52 +477,74 @@ function MyJourney() {
   const timelineRef = useRef(null);
   
   useEffect(() => {
-    // Safely query DOM elements with null checks
     const timelineLine = document.querySelector('.timeline-line');
     const timelineSection = document.getElementById('journey');
     const timelineItems = document.querySelectorAll('.timeline-item');
-    // const timelineCircles = document.querySelectorAll('.timeline-circle'); // Commented out unused variable
-    
-    // Exit early if any required element is missing
     if (!timelineLine || !timelineSection || !timelineItems.length) return;
-    
-    // Calculate the total height of the timeline
+
     const totalHeight = timelineSection.offsetHeight;
-    
-    // Function to update the timeline line height based on scroll position
+    const everFullyRevealedRef = { current: false };
+
     const updateTimelineLine = () => {
       const rect = timelineSection.getBoundingClientRect();
       const sectionTop = rect.top;
       const sectionBottom = rect.bottom;
       const windowHeight = window.innerHeight;
-      
-      // If the section is not visible at all, don't draw the line
+
+      // If the section is not visible at all, don't draw the line and reset the flag
       if (sectionBottom <= 0 || sectionTop >= windowHeight) {
         timelineLine.style.height = '0px';
+        everFullyRevealedRef.current = false;
         return;
       }
-      
-      // Calculate how much of the section is visible
-      // const visibleTop = Math.max(0, -sectionTop); // Commented out unused variable
-      // const visibleHeight = Math.min(windowHeight, sectionBottom) - Math.max(0, sectionTop); // Commented out unused variable
-      // const visibleRatio = (Math.min(windowHeight, sectionBottom) - Math.max(0, sectionTop)) / totalHeight; // Commented out unused variable
-      
+
+      // If the timeline was ever fully revealed, keep it at full height and do nothing else
+      if (everFullyRevealedRef.current) {
+        timelineLine.style.height = `${totalHeight}px`;
+        // All timeline items should be active
+        timelineItems.forEach((item) => {
+          if (!item) return;
+          try {
+            item.classList.add('active');
+            const circle = item.querySelector('.timeline-circle');
+            if (circle) circle.classList.add('active');
+          } catch (err) {
+            console.error('Error updating timeline item:', err);
+          }
+        });
+        return;
+      }
+
       // Calculate the scroll progress through the section
       const scrollProgress = Math.min(1, Math.max(0, (windowHeight - sectionTop) / (windowHeight + totalHeight)));
-      
-      // Set the height of the timeline line based on scroll progress
       const lineHeight = scrollProgress * totalHeight;
+
+      // If fully scrolled, set the flag and freeze the timeline
+      if (scrollProgress >= 1) {
+        timelineLine.style.height = `${totalHeight}px`;
+        everFullyRevealedRef.current = true;
+        // All timeline items should be active
+        timelineItems.forEach((item) => {
+          if (!item) return;
+          try {
+            item.classList.add('active');
+            const circle = item.querySelector('.timeline-circle');
+            if (circle) circle.classList.add('active');
+          } catch (err) {
+            console.error('Error updating timeline item:', err);
+          }
+        });
+        return;
+      }
+
+      // Normal animation before fully revealed
       timelineLine.style.height = `${lineHeight}px`;
-      
-      // Update each timeline item and its elements based on line position
       timelineItems.forEach((item, index) => {
-        if (!item) return; // Skip if item is null
-        
+        if (!item) return;
         try {
           const itemTop = item.getBoundingClientRect().top - rect.top;
           const circle = item.querySelector('.timeline-circle');
-          
-          if (itemTop <= lineHeight + 100) { // Adding offset to activate slightly before line reaches
+          if (itemTop <= parseFloat(timelineLine.style.height) + 100) {
             item.classList.add('active');
             if (circle) circle.classList.add('active');
           } else {
@@ -525,8 +556,7 @@ function MyJourney() {
         }
       });
     };
-    
-    // Add scroll event listener with error handling
+
     const safeUpdateTimeline = (...args) => {
       try {
         updateTimelineLine(...args);
@@ -534,17 +564,13 @@ function MyJourney() {
         console.error('Error in timeline update:', err);
       }
     };
-    
+
     window.addEventListener('scroll', safeUpdateTimeline);
-    
-    // Initial update with error handling
     try {
       updateTimelineLine();
     } catch (err) {
       console.error('Error in initial timeline update:', err);
     }
-    
-    // Cleanup with error handling
     return () => {
       try {
         window.removeEventListener('scroll', safeUpdateTimeline);
@@ -620,7 +646,6 @@ function ContactForm() {
   return (
     <>
       <SectionHeader>Send a Message</SectionHeader>
-      <div className="contact-form-desc">I'll get back to you as soon as possible.</div>
       <form className="contact-form" onSubmit={handleSubmit}>
         <input name="name" type="text" placeholder="Your Name" value={form.name} onChange={handleChange} required />
         <input name="email" type="email" placeholder="Your Email" value={form.email} onChange={handleChange} required />
@@ -803,76 +828,41 @@ function App() {
 
   return (
     <div className="app">
+      {theme === 'light' && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            zIndex: 0,
+            pointerEvents: 'none',
+          }}
+        />
+      )}
       {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
       {!showSplash && <>
         {/* Fixed top-right theme toggle switch */}
         <div style={{ position: 'fixed', top: 18, right: 24, zIndex: 2000 }}>
-          <label className="switch">
-            <input
-              id="input"
-              type="checkbox"
-              checked={theme === 'dark'}
-              onChange={toggleTheme}
-              aria-label="Toggle theme"
-            />
-            <div className="slider round">
-              <div className="sun-moon">
-                <svg id="moon-dot-1" className="moon-dot" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-                <svg id="moon-dot-2" className="moon-dot" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-                <svg id="moon-dot-3" className="moon-dot" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-                <svg id="light-ray-1" className="light-ray" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-                <svg id="light-ray-2" className="light-ray" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-                <svg id="light-ray-3" className="light-ray" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-                <svg id="cloud-1" className="cloud-dark" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-                <svg id="cloud-2" className="cloud-dark" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-                <svg id="cloud-3" className="cloud-dark" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-                <svg id="cloud-4" className="cloud-light" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-                <svg id="cloud-5" className="cloud-light" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-                <svg id="cloud-6" className="cloud-light" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="50"></circle>
-                </svg>
-              </div>
-              <div className="stars">
-                <svg id="star-1" className="star" viewBox="0 0 20 20">
-                  <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
-                </svg>
-                <svg id="star-2" className="star" viewBox="0 0 20 20">
-                  <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
-                </svg>
-                <svg id="star-3" className="star" viewBox="0 0 20 20">
-                  <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
-                </svg>
-                <svg id="star-4" className="star" viewBox="0 0 20 20">
-                  <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
-                </svg>
-              </div>
-            </div>
-          </label>
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: 28,
+              color: theme === 'dark' ? '#FFD700' : '#4B6EAF',
+              transition: 'color 0.2s',
+              padding: 0,
+            }}
+          >
+            {theme === 'dark' ? '🌙' : '☀️'}
+          </button>
         </div>
         <Navbar theme={theme} toggleTheme={toggleTheme} />
-        <Hero openImageModal={openImageModal} />
+        <Hero theme={theme} />
         {/* Add space before Projects section */}
         <div style={{ height: 48 }} />
         <GlowingDivider />

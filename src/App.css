@@ -116,7 +116,7 @@ body, .app {
 /* Light theme adjustments for toggle button are handled by body.light-theme .theme-toggle-button below */
 
 .glass {
-  background: var(--glass-background);
+  background: #F2F2F2;
   box-shadow: var(--glass-box-shadow1), var(--glass-box-shadow2);
   border-radius: var(--border-radius-lg);
   backdrop-filter: blur(16px);
@@ -129,7 +129,7 @@ body, .app {
   justify-content: center;
   min-height: 85vh;
   padding: 120px 10% 60px 10%;
-  background: linear-gradient(120deg, var(--page-background) 0%, var(--section-container-background) 55%, #2b5876 100%); /* #2b5876 is part of original distinct gradient */
+  background: #F2F2F2 !important;
   position: relative;
   overflow: hidden;
   animation: backgroundPan 18s ease-in-out infinite alternate;
@@ -302,7 +302,7 @@ body, .app {
 }
 
 .section {
-  background: rgba(35, 38, 47, 0.82);
+  background: #F2F2F2 !important;
   border-radius: 18px;
   box-shadow: 0 2px 16px 0 #0002;
   margin-bottom: 18px;
@@ -341,7 +341,7 @@ body, .app {
 }
 
 .projects {
-  background: linear-gradient(120deg, var(--projects-section-bg-start) 60%, var(--projects-section-bg-end-transparent) 100%);
+  background: #F2F2F2 !important;
   padding: 40px 0 60px 0;
   border-radius: 32px;
   box-shadow: var(--projects-section-shadow);
@@ -525,8 +525,8 @@ body, .app {
 }
 
 .project-link-button:hover {
-  background: var(--accent-hover, #5a9bff);
-  color: #fff;
+  background: var(--accent-hover-bg);
+  color: var(--accent-text-hover);
   transform: translateY(-3px);
   box-shadow: 0 6px 18px rgba(127, 188, 255, 0.4);
 }
@@ -1665,280 +1665,147 @@ body, .app {
 
 /* Light Theme Definition */
 body.light-theme {
-  --page-background: #ffffff; /* White */
-  --primary-text: #111111;    /* Black */
-  --secondary-text: #333333;  /* Dark Grey */
-  
-  --accent-color: #6ca7f1; /* New Accent - Blue for timeline, borders */
-  --accent-color-rgb: 108, 167, 241;
-  --accent-hover-bg: #558ac7; /* Darker Blue */
-  --accent-text-hover: #FFFFFF; /* White text on hover */
+  --page-background: #F7F8FA; /* Soft warm gray / eggshell */
+  --primary-text: #2D2D2D;    /* Dark Gray */
+  --secondary-text: #6D6D6D;  /* Muted Gray */
 
-  --highlight-color: var(--accent-color);
-  --highlight-color-rgb: var(--accent-color-rgb);
+  --accent-color: #4B6EAF; /* Muted Indigo (primary accent) */
+  --accent-color-rgb: 75, 110, 175;
+  --accent-hover-bg: #3B82F6; /* Soft Blue for hover/links */
+  --accent-text-hover: #ffffff; /* White text on hover */
 
-  /* Component specific light theme values */
-  --navbar-background: #a9c2e8; /* Complementary light blue for Navbar */
-  --navbar-border-color: rgba(var(--accent-color-rgb), 0.3);
-  --navbar-box-shadow: 0 2px 8px 0 rgba(0,0,0, 0.08);
+  --highlight-color: #F6C90E; /* Warm Amber / Golden highlight */
+  --highlight-color-rgb: 246, 201, 14;
 
-  /* Glass effect derived from new container color */
-  --glass-background: rgba(200, 218, 250, 0.65); /* #c8dafa with opacity */
-  --glass-box-shadow1: rgba(200, 218, 250, 0.1);
-  --glass-box-shadow2: rgba(0,0,0,0.05);
-  --glass-border-color: rgba(200, 218, 250, 0.25);
+  --navbar-background: #FFFFFF; /* Subtle warm white for navbar */
+  --navbar-border-color: #E0E4EC; /* Pale Slate border */
+  --navbar-box-shadow: 0 2px 8px 0 rgba(0,0,0, 0.04);
 
-  /* General purpose light theme vars */
-  --section-container-background: #c8dafa; /* General Containers */
-  --card-background: #c8dafa; /* Default for cards, overridden by flashcard */
-  --input-background: #e6effd; /* Very light blue for inputs */
-  
-  /* Button specific vars for light theme */
-  --button-background: #75473a; /* Brown for buttons */
-  --button-text-color: #FFFFFF; /* White text for buttons */
-  --button-hover-background: #5e392e; /* Darker Brown for button hover */
+  --glass-background: #FFFFFF; /* Section background: subtle warm white */
+  --glass-box-shadow1: rgba(224, 228, 236, 0.13);
+  --glass-box-shadow2: rgba(0,0,0,0.03);
+  --glass-border-color: #E0E4EC;
 
-  /* Text on specific backgrounds */
-  --button-text-on-accent: #FFFFFF; /* Text on new accent bg (#6ca7f1) */
-  --button-text-on-dark: #FFFFFF;   /* Text on new button bg (#75473a) */
+  --section-container-background: #F2F2F2;
+  --card-background: #F2F2F2; /* Card backgrounds: light beige-gray */
+  --input-background: #FFFFFF; /* Inputs: clean white */
 
-  --border-color-primary: var(--accent-color); /* New Accent (#6ca7f1) */
-  --border-color-secondary: #97bdef; /* Lighter version of accent */
+  --button-background: #4B6EAF; /* Indigo for buttons */
+  --button-text-color: #ffffff; /* White text for buttons */
+  --button-hover-background: #3B82F6; /* Soft blue for button hover */
 
-  /* Standard Shadows & Radii (lighter) */
-  --shadow-color-light: rgba(0, 0, 0, 0.06);
-  --shadow-color-dark: rgba(0, 0, 0, 0.04);
-  
-  color: var(--primary-text); /* Apply primary text color to body */
+  --button-text-on-accent: #ffffff; /* Text on accent bg */
+  --button-text-on-dark: #2D2D2D;   /* Text on dark bg */
 
-  /* Specific overrides for light theme */
-  --hero-background:var(--projects-section-bg-end-transparent) 100%;
-  ; /* Background behind profile card */
+  --border-color-primary: #E0E4EC; /* Pale Slate for borders */
+  --border-color-secondary: #F2F2F2;
 
-  /* Projects Section Specific (Light Theme Overrides) */
-  /* The .projects wrapper will use --section-container-background (#c8dafa) for its gradient start */
-  --projects-section-bg-start: var(--section-container-background);
-  --projects-section-bg-end-transparent: rgba(var(--accent-color-rgb), 0.1);
-  --projects-section-shadow: 0 6px 20px var(--shadow-color-light);
+  --shadow-color-light: rgba(224, 228, 236, 0.18);
+  --shadow-color-dark: rgba(0, 0, 0, 0.03);
 
-  /* Flashcard (Project cards, Skill cards) & Specific Sections (Contact form area) Background */
-  --flashcard-background: #6ca7f1; /* Blue for these specific elements */
-  --flashcard-border-color: var(--border-color-primary); 
-  --flashcard-shadow: 0 5px 12px var(--shadow-color-light);
-  --flashcard-hover-border-color: #558ac7; /* Darker accent blue */
-  --flashcard-hover-shadow: 0 7px 18px var(--shadow-color-dark);
-  --flashcard-glow-shadow-start: 0 2px 8px rgba(var(--accent-color-rgb), 0.05);
-  --flashcard-glow-shadow-end: 0 4px 15px rgba(var(--accent-color-rgb), 0.1);
-}
-
-/* Light Theme Timeline Styles */
-body.light-theme .timeline-line {
-  background: var(--accent-color);
-}
-
-body.light-theme .timeline-dot {
-  background-color: var(--accent-color);
-  border-color: var(--page-background); /* To contrast against the dot */
-}
-
-body.light-theme .timeline-content {
-  background: #6ca7f1; /* Specific blue for timeline content boxes */
-  border-left-color: var(--accent-color);
-  box-shadow: 0 3px 10px var(--shadow-color-light);
-}
-
-body.light-theme .timeline-content h3,
-body.light-theme .timeline-content p,
-body.light-theme .timeline-content span {
   color: var(--primary-text);
-}
-
-body.light-theme .timeline-title {
-    color: var(--primary-text);
-}
-
-/* Specific light theme styles for the toggle button */
-body.light-theme .theme-toggle-button {
-  background-color: var(--accent-color);
-  color: var(--button-text-color);
-  border-color: var(--button-background);
-}
-
-body.light-theme .theme-toggle-button:hover {
-  background-color: blue;
-  color: var(--button-text-color);
-  border-color: var(--button-hover-background);
-}
-
-/* Example of using the new --highlight-color, can be applied to specific elements as needed */
-/* 
-body.light-theme .some-special-element {
-  color: var(--highlight-color);
-  border-left: 3px solid var(--highlight-color);
-} 
-*/
-
-/* Additional light theme overrides for specific elements */
-body.light-theme .hero {
-  background: var(--hero-background) !important; /* Solid color, overrides gradient. Important to ensure override. */
 }
 
 body.light-theme .navbar a {
-  color: var(--primary-text); /* Black links */
+  color: var(--primary-text);
 }
 
-body.light-theme .hero-links a,
-body.light-theme .project-card-link,
+body.light-theme .hero {
+  background: #F2F2F2 !important;
+}
+
+body.light-theme .hero .glass,
+body.light-theme .hero .section,
+body.light-theme .hero .about,
+body.light-theme .hero .hero-content > div,
+body.light-theme .hero .rowContainerStyle {
+  background: #FFFFFF !important;
+  color: var(--primary-text) !important;
+  opacity: 1 !important;
+}
+
+body.light-theme .flashcard,
+body.light-theme .skill-card,
+body.light-theme .project-widget {
+  background: var(--card-background) !important;
+  border: 1.5px solid var(--border-color-primary);
+  box-shadow: 0 4px 15px 0 var(--shadow-color-light), 0 2px 5px 0 var(--shadow-color-dark);
+}
+
+body.light-theme .contact-form input,
+body.light-theme .contact-form textarea {
+  background: var(--input-background);
+  color: var(--primary-text);
+  border: 1.5px solid var(--border-color-primary);
+}
+
+body.light-theme .contact-form input:focus,
+body.light-theme .contact-form textarea:focus {
+  border: 1.5px solid var(--accent-color);
+}
+
 body.light-theme .contact-form button {
-  background-color: var(--accent-color);
-  color: var(--button-text-color);
-  border: 1px var(--accent-color); /* Use button background for border */
+  background: #F7E9D7 !important;
+  color: #222 !important;
 }
 
-body.light-theme .hero-links a:hover,
-body.light-theme .project-card-link:hover,
-body.light-theme .contact-form button:hover {
-  background-color: blue  ;
-  color: var(--button-text-color);
-  border-color: blue;
+body.light-theme .contact-form button:hover:not(:disabled) {
+  background: #F7E9D7 !important;
+  color: #222 !important;
 }
 
-body.light-theme .skills-container {
-  background-color: var(--flashcard-background); /* Brighter Blue #6ca7f1 */
-  padding: 30px 20px;
-  border-radius: var(--border-radius-xlarge);
-  margin-bottom: 40px;
-  box-shadow: var(--projects-section-shadow); /* Consistent with other flashcards */
+body.light-theme .particles-container {
+  background: #F7F8FA !important;
 }
 
-body.light-theme .contact-section-wrapper { /* Main wrapper for Get In Touch & Send Message */
-  background-color: var(--flashcard-background); /* Brighter Blue #6ca7f1 */
-  padding: 30px 20px;
-  border-radius: var(--border-radius-xlarge);
-  margin-bottom: 40px;
-  box-shadow: var(--projects-section-shadow); /* Consistent with other flashcards */
+body.light-theme .glowing-divider {
+  background: var(--border-color-primary);
+  opacity: 1;
+  box-shadow: none;
 }
 
-/* Ensure flashcards within .projects still get their specific background if .projects itself changes */
-body.light-theme .projects .flashcard {
-    background-color: var(--flashcard-background);
+body.light-theme .section-header,
+body.light-theme #projects > h2,
+body.light-theme #skills > h2,
+body.light-theme #journey > h2 {
+  color: var(--primary-text) !important;
+  display: inline-block;
+  background: none;
+  text-align: center !important;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 28px;
 }
 
-body.light-theme .contact-item {
-  color: var(--primary-text); /* Ensure base text color is black */
+body.light-theme .project-link-button,
+body.light-theme .theme-toggle-button {
+  background: #F7E9D7;
+  color: var(--primary-text);
 }
-body.light-theme .contact-item svg {
-  color: var(--primary-text); /* Black icons */
+body.light-theme .project-link-button:hover,
+body.light-theme .theme-toggle-button:hover {
+  background: #F7E9D7;
+  color: var(--primary-text);
 }
+body.light-theme .navbar a:hover {
+  background: #F7E9D7;
+  color: var(--primary-text);
+}
+
+body.light-theme .contact-item,
+body.light-theme .contact-item svg,
 body.light-theme .contact-item a {
-  color: var(--primary-text); /* Black links */
+  color: var(--primary-text) !important;
 }
 body.light-theme .contact-item a:hover {
-  color: var(--secondary-text); /* Dark Grey for link hover */
+  color: var(--accent-color) !important;
 }
 
-body.light-theme .footer a {
-  color: var(--accent-color); /* Orange */
-}
-body.light-theme .footer a:hover {
-  color: var(--accent-hover-bg); /* Darker Orange */
-}
-
-body.light-theme .image-modal-close {
-  background-color: var(--button-background);
-  color: var(--button-text-color);
-}
-
-body.light-theme .section h2 { /* Section Titles */
-  color: var(--primary-text);
-}
-
-/* Skill Card Icons & Text */
-body.light-theme .skill-card h3,
-body.light-theme .skill-card p {
-  color: var(--primary-text); /* Ensure text within skill cards is black */
-}
-
-body.light-theme .skill-card h3 svg,
-body.light-theme .skill-card .skill-icon { /* General class for skill icons if used */
-  color: var(--primary-text); /* Black icons */
-}
-
-/* Stat Cards (CGPA, Hackathons, Experience) */
-body.light-theme .stat-card { /* Assuming a class like .stat-card */
-  background-color: var(--flashcard-background) !important; /* Brighter Blue #6ca7f1 */
-  color: var(--primary-text) !important; /* Ensure default text color is black */
-  padding: 20px;
-  border-radius: var(--border-radius-medium); /* Or your preferred radius */
-  box-shadow: var(--projects-section-shadow); /* Consistent with other flashcards */
-  text-align: center;
-  margin-bottom: 20px; /* If they are stacked or need spacing */
-}
-
-body.light-theme .stat-card h4 { /* Assuming a heading for the number */
-  font-size: 2rem; /* Example size */
-  margin-bottom: 5px;
-  color: var(--primary-text) !important;
-}
-
-body.light-theme .stat-card p { /* Assuming a paragraph for the label */
-  font-size: 0.9rem;
-  color: var(--primary-text) !important; /* Black text */
-}
-
-/* Individual Skill Flashcards */
-body.light-theme .skill-card {
-  background-color: var(--flashcard-background); /* Brighter Blue #6ca7f1 */
-  box-shadow: var(--projects-section-shadow); /* Consistent with other flashcards */
-  /* Text color for h3, p, li, svg inside .skill-card is already set to var(--primary-text) */
-}
-
-/* Keyframes for hero text animation */
-@keyframes fadeInUpHeroText {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Specific styles for hero text in light theme */
-body.light-theme .hero h1 {
-  color: var(--primary-text) !important; /* Force black text */
-  background-color: transparent; /* Ensure no unwanted background */
-  animation: fadeInUpHeroText 0.8s ease-out forwards;
-  opacity: 0; /* Start hidden for animation */
-}
-
-body.light-theme .hero p { /* Covers subtitle */
-  color: var(--primary-text) !important; /* Force black text */
-  background-color: transparent; /* Ensure no unwanted background */
-  animation: fadeInUpHeroText 0.8s ease-out 0.3s forwards; /* Delay for subtitle */
-  opacity: 0; /* Start hidden for animation */
-}
-
-/* Ensure general text elements are black in light theme */
-body.light-theme #about p { /* About section paragraphs */
-  color: var(--primary-text);
-}
-body.light-theme .project-card p,
-body.light-theme .project-card li,
-body.light-theme .project-card strong { /* For "Tech Stack:" label and other strong text */
-  color: var(--primary-text) !important;
-}
-body.light-theme .timeline-content p,
-body.light-theme .timeline-content h3, /* Timeline item titles */
-body.light-theme .timeline-item .timeline-date, /* Timeline dates */
-body.light-theme .contact-section-wrapper p, /* For "Feel free to reach out", "I'll get back to you" */
-body.light-theme .contact-section-wrapper h3, /* For subheadings like "Contact Information" if not section h2 */
 body.light-theme .footer {
-  color: var(--primary-text);
+  color: var(--secondary-text);
 }
-
-/* Restore footer link colors if overridden by the general .footer rule */
 body.light-theme .footer a {
   color: var(--accent-color);
 }
@@ -1946,35 +1813,46 @@ body.light-theme .footer a:hover {
   color: var(--accent-hover-bg);
 }
 
-/* Timeline section background in light theme */
-body.light-theme #journey { /* Assuming #journey is the ID for the 'My Journey' section */
-  background: var(--section-container-background); /* Light Blue #c8dafa */
-  padding-top: 40px; /* Add some padding if needed, similar to other sections */
-  padding-bottom: 40px;
+body.light-theme .stat-card {
+  background: var(--card-background) !important;
+  color: var(--primary-text) !important;
+  border: 1.5px solid var(--border-color-primary);
 }
-
-/* Specific styling for the 'Get In Touch' panel if it's a separate block */
-body.light-theme .contact-info-panel { /* Hypothetical class for the 'Get In Touch' block */
-  background-color: var(--flashcard-background); /* Brighter Blue #6ca7f1 */
-  color: var(--primary-text); /* Ensure text is black */
-  padding: 20px; /* Adjust padding as needed */
-  border-radius: var(--border-radius-large); /* Consistent border radius */
-  box-shadow: var(--projects-section-shadow);
+body.light-theme .stat-card h4 {
+  color: var(--primary-text) !important;
 }
-
-/* Ensure text elements within this specific panel are black */
-body.light-theme .contact-info-panel h2,
-body.light-theme .contact-info-panel h3,
-body.light-theme .contact-info-panel p,
-body.light-theme .contact-info-panel li,
-body.light-theme .contact-info-panel a,
-body.light-theme .contact-info-panel svg {
-  color: var(--primary-text) !important; /* Force black text */
-  background-color: transparent !important; /* Ensure no background on text elements */
-}
-
-body.light-theme .contact-info-panel a:hover {
+body.light-theme .stat-card p {
   color: var(--secondary-text) !important;
+}
+
+body.light-theme .skill-card h3,
+body.light-theme .skill-card p,
+body.light-theme .skill-card li {
+  color: var(--primary-text) !important;
+}
+body.light-theme .skill-card h3 svg,
+body.light-theme .skill-card .skill-icon {
+  color: var(--accent-gold, #ffd700);
+}
+
+body.light-theme .timeline-line {
+  background: var(--border-color-primary);
+}
+body.light-theme .timeline-dot {
+  background-color: var(--accent-color);
+  border-color: var(--page-background);
+}
+body.light-theme .timeline-content {
+  background: var(--card-background);
+  border-left-color: var(--accent-color);
+  box-shadow: 0 3px 10px var(--shadow-color-light);
+}
+body.light-theme .timeline-title {
+  color: var(--primary-text);
+}
+body.light-theme .timeline-date {
+  background: #F7E9D7 !important;
+  color: #222 !important;
 }
 
 /* --- Uiverse.io Theme Toggle Switch Styles --- */
@@ -2185,7 +2063,7 @@ body.light-theme .contact-info-panel a:hover {
 
 .stars {
   transform: translateY(-32px);
-  opacity: 0;
+    opacity: 0;
   transition: 0.4s;
 }
 
@@ -2202,7 +2080,7 @@ body.light-theme .contact-info-panel a:hover {
 #input:checked + .slider .stars {
   -webkit-transform: translateY(0);
   -ms-transform: translateY(0);
-  transform: translateY(0);
+    transform: translateY(0);
   opacity: 1;
 }
 
@@ -2255,9 +2133,9 @@ body.light-theme .contact-info-panel a:hover {
   width: 100%;
   height: 2px;
   border-radius: 0;
-  background: #4ecdc4; /* or a faint #333 or #7fbcff33 for dark mode */
+  background: #4ecdc4;
   box-shadow: none;
-  margin: 32px 0 32px 0;
+  margin: 12px 0 24px 0;
   opacity: 0.25;
   animation: none;
 }
@@ -2268,6 +2146,8 @@ body.light-theme .contact-info-panel a:hover {
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  margin-top: 8px;
+  margin-bottom: 28px;
 }
 
 /* Remove box backgrounds from main sections */
@@ -2286,4 +2166,65 @@ body.light-theme .contact-info-panel a:hover {
   border: none !important;
   padding: 0 !important;
   margin: 0 !important;
+}
+
+/* From Uiverse.io by cuzpq */ 
+.theme-checkbox {
+  --toggle-size: 12px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 6.25em;
+  height: 2.5em;
+  background: -webkit-gradient(linear, left top, right top, color-stop(50%, #efefef), color-stop(50%, #2a2a2a)) no-repeat;
+  background: -o-linear-gradient(left, #efefef 50%, #2a2a2a 50%) no-repeat;
+  background: linear-gradient(to right, #efefef 50%, #2a2a2a 50%) no-repeat;
+  background-size: 205%;
+  background-position: 0;
+  -webkit-transition: 0.4s;
+  -o-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 99em;
+  position: relative;
+  cursor: pointer;
+  font-size: var(--toggle-size);
+}
+
+.theme-checkbox::before {
+  content: "";
+  width: 2.25em;
+  height: 2.25em;
+  position: absolute;
+  top: 0.2em;
+  left: 0.438em;
+  background: -webkit-gradient(linear, left top, right top, color-stop(50%, #efefef), color-stop(50%, #2a2a2a)) no-repeat;
+  background: -o-linear-gradient(left, #efefef 50%, #2a2a2a 50%) no-repeat;
+  background: linear-gradient(to right, #efefef 50%, #2a2a2a 50%) no-repeat;
+  background-size: 205%;
+  background-position: 100%;
+  border-radius: 50%;
+  -webkit-transition: 0.4s;
+  -o-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.theme-checkbox:checked::before {
+  left: calc(100% - 2.25em - 0.438em);
+  background-position: 0;
+}
+
+.theme-checkbox:checked {
+  background-position: 100%;
+}
+
+body.light-theme .timeline-content,
+body.light-theme .timeline-title,
+body.light-theme .timeline-desc-item,
+body.light-theme .timeline-date {
+  color: #222 !important;
+}
+
+body.light-theme .timeline-circle,
+body.light-theme .timeline-dot {
+  background: #F7E9D7 !important;
 }
