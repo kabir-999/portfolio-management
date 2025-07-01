@@ -8,6 +8,7 @@ import Particles from "./components/Particles/Particles"; // Import Particles co
 // import posImg from "./assets/pos.jpg";  // Commented out unused import
 import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt, FaSun, FaMoon } from "react-icons/fa";  // Added FaSun and FaMoon
 import ShinyText from "./components/ShinyText/ShinyText";
+import SplashScreen from "./components/SplashScreen";
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ const profile = {
     linkedin: "https://www.linkedin.com/in/kabir-mathur-655429292/",
     github: "https://github.com/kabir-999",
   },
-  about: `Hi! I'm Kabir, a passionate Computer Science student specializing in Data Science, Machine Learning, Web Scraping and Backend Development. I love building impactful projects and learning new technologies.`,
+  about: `Hi, I'm Kabir — I treat code like the beautiful game: fast, smart, and always strategic. From ML plays to backend build-ups, I'm here to dominate the data pitch`,
   education: {
     college: "Dwarkadas J. Sanghvi College of Engineering (DJSCE)",
     gpa: "8.5/10",
@@ -192,71 +193,131 @@ function Navbar({ theme, toggleTheme }) {
       <a href="#journey">My Journey</a>
       <a href="#contact">Contact</a>
       <a href="https://drive.google.com/file/d/1GRPmOQFTL5ZKW5M5z9e_z0FCE3rFJPAa/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Resume</a>
-      <button onClick={toggleTheme} className="theme-toggle-button" aria-label="Toggle theme">
-        {theme === 'light' ? <FaMoon size="1.2em" /> : <FaSun size="1.2em" />}
-      </button>
     </nav>
   );
 }
 
 function Hero() {
-  const particleColors = ["#00ffff", "#ff00ff", "#00ff00"]; // Cyan, Magenta, Green neon
+  const particleColors = ["#00ffff", "#ff00ff", "#00ff00"];
+  // Standard image size for all containers
+  const imgWidth = 260;
+  const imgHeight = 300;
+  const imgStyle = {
+    width: imgWidth,
+    height: imgHeight,
+    objectFit: 'cover',
+    borderRadius: 18,
+    border: '3px solid #7fbcff',
+    boxShadow: '0 4px 32px 0 #7fbcff33',
+    background: '#23262f',
+    display: 'block',
+  };
+  const imgContainerStyle = {
+    background: '#23262f',
+    borderRadius: 24,
+    boxShadow: '0 8px 40px 0 #7fbcff55',
+    padding: 12,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+  // Container style for all three
+  const rowContainerStyle = {
+    zIndex: 1,
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    maxWidth: 1000,
+    width: '100%',
+    background: 'rgba(35,38,47,0.85)',
+    borderRadius: 18,
+    boxShadow: '0 4px 24px 0 #7fbcff33',
+    padding: '32px 24px',
+    margin: '0 auto',
+  };
   return (
     <section 
       className="hero" 
       id="hero" 
       style={{ 
-        position: 'relative', // Needed for absolute positioning of Particles
+        position: 'relative',
         display: 'flex', 
-        flexDirection: 'column', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        minHeight: '100vh', 
-        paddingTop: '80px', 
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        minHeight: '100vh',
+        paddingTop: '60px',
         paddingBottom: '40px',
-        overflow: 'hidden' // Ensure particles don't cause scrollbars on the section
+        overflow: 'hidden',
       }}
     >
       <Particles 
-        particleCount={800}  // Significantly increased count for more intensity
-        particleSpread={15} // Keeping spread the same, adjust if needed
-        speed={0.25} // Increased speed
+        particleCount={800}
+        particleSpread={15}
+        speed={0.25}
         particleColors={particleColors}
-        alphaParticles={false} // Keeping as solid particles
-        particleBaseSize={150}  // Increased base size for larger particles
-        cameraDistance={15} // Keeping camera distance the same
+        alphaParticles={false}
+        particleBaseSize={150}
+        cameraDistance={15}
       />
-      <div style={{ zIndex: 1, position: 'relative' }}> {/* Wrapper to ensure ProfileCard is above particles */}
-        <ProfileCard 
-          avatarUrl="/assets/linkedIIN_pic.jpeg" // Using direct public path
-        />
+      {/* First Container: About */}
+      <div style={{ ...rowContainerStyle, marginBottom: 40 }}>
+        {/* Left: About text */}
+        <div style={{ flex: 2, textAlign: 'left', padding: '40px 40px 40px 0', minWidth: 0 }}>
+          <p style={{ fontSize: '1.18rem', color: 'var(--primary-text)' }}>{profile.about}</p>
+          <div className="education" style={{ marginTop: 18 }}>
+            <div>{profile.education.college}</div>
+            <div>{profile.education.degree}</div>
+            <div>GPA: {profile.education.gpa}</div>
+            <div>{profile.education.years}</div>
+          </div>
+        </div>
+        {/* Right: About image */}
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+          <div style={imgContainerStyle}>
+            <img 
+              src={aboutImg} 
+              alt="About Kabir" 
+              className="about-img" 
+              style={imgStyle}
+            />
+          </div>
+        </div>
       </div>
-      <div style={{ textAlign: 'center', marginTop: '20px', zIndex: 1, position: 'relative' }}>
-        <h1 style={{ color: 'white', fontSize: '2.5rem', marginBottom: '0.5rem' }}>{profile.name}</h1>
-        <p style={{ color: 'white', fontSize: '1.25rem' }}>{profile.tagline}</p>
+      {/* Second Container: Hackathon/LeetCode/Projects */}
+      <div style={{ ...rowContainerStyle, marginBottom: 40 }}>
+        {/* Left: New image */}
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: 32 }}>
+          <div style={imgContainerStyle}>
+            <img 
+              src={require('./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg')} 
+              alt="Kabir Hackathon" 
+              style={imgStyle}
+            />
+          </div>
+        </div>
+        {/* Right: Content */}
+        <div style={{ flex: 2, color: 'var(--primary-text)', fontSize: '1.18rem', fontWeight: 500, lineHeight: 1.6, textAlign: 'left' }}>
+          Hackathons are my World cup, LeetCode is my daily training ground, and building projects? That's my matchday magic. I don't just code — I play to create, compete, and leave a mark on the scoreboard.
+        </div>
       </div>
-    </section>
-  );
-}
-
-function About({ openImageModal }) {
-  return (
-    <section className="about glass" id="about">
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-        <img 
-          src={aboutImg} 
-          alt="About Kabir" 
-          className="about-img" 
-        />
-      </div>
-      <div>
-        
-        <p>{profile.about}</p>
-        <div className="education">
-          <div>{profile.education.college}</div>
-          <div>{profile.education.degree}</div>
-          <div>GPA: {profile.education.gpa}</div>
-          <div>{profile.education.years}</div>
+      {/* Third Container: One Piece/Calculus/Full-stack */}
+      <div style={rowContainerStyle}>
+        {/* Left: Content */}
+        <div style={{ flex: 2, color: 'var(--primary-text)', fontSize: '1.18rem', fontWeight: 500, lineHeight: 1.6, textAlign: 'left', paddingRight: 40 }}>
+          When I'm not coding like a Galáctico in a hackathon final, I'm rewatching Luffy chase the One Piece or solving calculus for fun (yeah, weird flex). Whether it's building full-stack projects or last-minute LeetCode goals, I bring the same energy Madrid brings to Champions League nights — calculated, creative, and clutch.
+        </div>
+        {/* Right: New image */}
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={imgContainerStyle}>
+            <img 
+              src={require('./assets/pos.jpg')} 
+              alt="Kabir One Piece" 
+              style={imgStyle}
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -323,16 +384,24 @@ function ProjectWidgets() {
   );
 }
 
+function GlowingDivider() {
+  return (
+    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '48px 0' }}>
+      <div className="glowing-divider" />
+    </div>
+  );
+}
+
 function Projects() {
   return (
-    <section className="section projects" id="projects">
+    <div id="projects">
       <SectionHeader>Projects</SectionHeader>
       <div className="flashcard-list">
         {profile.projects.map((p, i) => (
           <Flashcard project={p} key={i} />
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -371,7 +440,7 @@ function Skills() {
   ];
 
   return (
-    <section className="fancy-skills section" id="skills">
+    <div id="skills">
       <SectionHeader>Skills</SectionHeader>
       <div className="skill-card-list">
         {skillCards.map((card, i) => (
@@ -386,7 +455,7 @@ function Skills() {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -486,7 +555,7 @@ function MyJourney() {
   }, []);
   
   return (
-    <section className="timeline-section" id="journey" ref={timelineRef}>
+    <div id="journey" ref={timelineRef}>
       <SectionHeader>My Journey</SectionHeader>
       <div className="timeline-container">
         <div className="timeline-line" />
@@ -509,7 +578,7 @@ function MyJourney() {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -549,8 +618,8 @@ function ContactForm() {
   };
 
   return (
-    <section className="section contact-form-section">
-      <h2 className="section-header">Send a Message</h2>
+    <>
+      <SectionHeader>Send a Message</SectionHeader>
       <div className="contact-form-desc">I'll get back to you as soon as possible.</div>
       <form className="contact-form" onSubmit={handleSubmit}>
         <input name="name" type="text" placeholder="Your Name" value={form.name} onChange={handleChange} required />
@@ -560,7 +629,7 @@ function ContactForm() {
         <button type="submit" disabled={loading}>{loading ? 'Sending...' : 'Send Message'}</button>
         {status && <div className="contact-form-status">{status}</div>}
       </form>
-    </section>
+    </>
   );
 }
 
@@ -664,6 +733,9 @@ function App() {
     return savedTheme ? savedTheme : 'dark'; // Default to dark if nothing is saved
   });
 
+  // Splash screen state
+  const [showSplash, setShowSplash] = useState(true);
+
   useEffect(() => {
     if (theme === 'light') {
       document.body.classList.add('light-theme');
@@ -726,23 +798,101 @@ function App() {
     };
   }, [imageModalSrc]);
 
+  // Hide splash after it finishes
+  const handleSplashFinish = () => setShowSplash(false);
+
   return (
     <div className="app">
-      <Navbar theme={theme} toggleTheme={toggleTheme} />
-      <Hero openImageModal={openImageModal} />
-      <div className="gradient-bg main-content">
-        <About openImageModal={openImageModal} />
+      {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
+      {!showSplash && <>
+        {/* Fixed top-right theme toggle switch */}
+        <div style={{ position: 'fixed', top: 18, right: 24, zIndex: 2000 }}>
+          <label className="switch">
+            <input
+              id="input"
+              type="checkbox"
+              checked={theme === 'dark'}
+              onChange={toggleTheme}
+              aria-label="Toggle theme"
+            />
+            <div className="slider round">
+              <div className="sun-moon">
+                <svg id="moon-dot-1" className="moon-dot" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="moon-dot-2" className="moon-dot" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="moon-dot-3" className="moon-dot" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="light-ray-1" className="light-ray" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="light-ray-2" className="light-ray" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="light-ray-3" className="light-ray" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-1" className="cloud-dark" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-2" className="cloud-dark" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-3" className="cloud-dark" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-4" className="cloud-light" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-5" className="cloud-light" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-6" className="cloud-light" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+              </div>
+              <div className="stars">
+                <svg id="star-1" className="star" viewBox="0 0 20 20">
+                  <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
+                </svg>
+                <svg id="star-2" className="star" viewBox="0 0 20 20">
+                  <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
+                </svg>
+                <svg id="star-3" className="star" viewBox="0 0 20 20">
+                  <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
+                </svg>
+                <svg id="star-4" className="star" viewBox="0 0 20 20">
+                  <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
+                </svg>
+              </div>
+            </div>
+          </label>
+        </div>
+        <Navbar theme={theme} toggleTheme={toggleTheme} />
+        <Hero openImageModal={openImageModal} />
+        {/* Add space before Projects section */}
+        <div style={{ height: 48 }} />
+        <GlowingDivider />
         <Projects />
+        <GlowingDivider />
         <Skills />
+        <GlowingDivider />
         <MyJourney />
+        <GlowingDivider />
         <ProjectWidgets />
+        <GlowingDivider />
         <div className="contact-row">
           <ContactSection />
-          <ContactForm />
+          <div className="contact-form-section glass">
+            <ContactForm />
+          </div>
         </div>
-      </div>
-      <Footer />
-      <ImageModal src={imageModalSrc} alt={imageModalAlt} onClose={closeImageModal} />
+        <Footer />
+        <ImageModal src={imageModalSrc} alt={imageModalAlt} onClose={closeImageModal} />
+      </>}
     </div>
   );
 }
