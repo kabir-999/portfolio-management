@@ -9,6 +9,7 @@ import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelo
 import ShinyText from "./components/ShinyText/ShinyText";
 import SplashScreen from "./components/SplashScreen";
 import Particles from "./components/Particles/Particles";
+import GlitchText from './GlitchText';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -191,16 +192,117 @@ const parseDate = (dateString) => {
 };
 
 function Navbar({ theme, toggleTheme }) {
+  // Smooth scroll handler
+  const handleNavClick = (e, target) => {
+    e.preventDefault();
+    if (target === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (target === 'about') {
+      const hero = document.getElementById('hero');
+      if (hero) {
+        hero.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
   return (
     <nav className="navbar glass">
-      <a href="#hero">Home</a>
-      <a href="#about">About</a>
+      <a href="#home" onClick={e => handleNavClick(e, 'home')}>Home</a>
+      <a href="#about" onClick={e => handleNavClick(e, 'about')}>About</a>
       <a href="#projects">Projects</a>
       <a href="#skills">Skills</a>
       <a href="#journey">My Journey</a>
       <a href="#contact">Contact</a>
       <a href="https://drive.google.com/file/d/1GRPmOQFTL5ZKW5M5z9e_z0FCE3rFJPAa/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Resume</a>
+      <button
+        onClick={toggleTheme}
+        aria-label="Toggle theme"
+        style={{
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          fontSize: 28,
+          color: theme === 'dark' ? '#FFD700' : '#4B6EAF',
+          transition: 'color 0.2s',
+          padding: 0,
+          marginLeft: 12,
+        }}
+      >
+        {theme === 'dark' ? '\ud83c\udf19' : '\u2600\ufe0f'}
+      </button>
     </nav>
+  );
+}
+
+function HomeSection({ theme }) {
+  const isLight = theme === 'light';
+  return (
+    <section id="home" style={{
+      width: '100%',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'relative',
+      overflow: 'hidden',
+      padding: 0,
+      margin: 0,
+    }}>
+      <div
+        className={isLight ? 'home-bg-light container' : 'home-bg-dark container'}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+      <div style={{
+        position: 'relative',
+        zIndex: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        minHeight: '100vh',
+        background: 'transparent',
+        boxShadow: 'none',
+      }}>
+        <div style={{ width: '100%', maxWidth: 1400, height: 220, marginBottom: 32, background: 'transparent', boxShadow: 'none', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <GlitchText
+            speed={1}
+            enableShadows={true}
+            enableOnHover={true}
+            className='custom-class'
+          >
+            KABIR MATHUR
+          </GlitchText>
+        </div>
+        <div style={{
+          fontSize: '2rem',
+          fontWeight: 700,
+          color: isLight ? '#2D2D2D' : '#fff',
+          letterSpacing: '0.18em',
+          margin: '0 0 32px 0',
+          textAlign: 'center',
+          textTransform: 'uppercase',
+          textShadow: isLight ? '0 2px 16px #bfc9ff' : '0 2px 16px #000, 0 0 8px #7f00ff',
+          background: 'transparent',
+        }}>
+          Data Scientist&nbsp;|&nbsp; AI/ML DEVELOPER 
+        </div>
+        <a 
+          href="#contact" 
+          className={`get-in-touch-btn${isLight ? ' light' : ' dark'}`}
+        >
+          Get in Touch
+        </a>
+      </div>
+    </section>
   );
 }
 
@@ -777,7 +879,6 @@ function App() {
 
   const [imageModalSrc, setImageModalSrc] = useState(null);
   const [imageModalAlt, setImageModalAlt] = useState("");
-  console.log('States initialized successfully');
 
   const closeImageModal = () => {
     setImageModalSrc(null);
@@ -821,63 +922,37 @@ function App() {
   const handleSplashFinish = () => setShowSplash(false);
 
   return (
-    <div className="app">
-      {theme === 'light' && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            zIndex: 0,
-            pointerEvents: 'none',
-          }}
-        />
-      )}
-      {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
-      {!showSplash && <>
-        {/* Fixed top-right theme toggle switch */}
-        <div style={{ position: 'fixed', top: 18, right: 24, zIndex: 2000 }}>
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: 28,
-              color: theme === 'dark' ? '#FFD700' : '#4B6EAF',
-              transition: 'color 0.2s',
-              padding: 0,
-            }}
-          >
-            {theme === 'dark' ? '🌙' : '☀️'}
-          </button>
-        </div>
-        <Navbar theme={theme} toggleTheme={toggleTheme} />
-        <Hero theme={theme} />
-        {/* Add space before Projects section */}
-        <div style={{ height: 48 }} />
-        <GlowingDivider />
-        <Projects />
-        <GlowingDivider />
-        <Skills />
-        <GlowingDivider />
-        <MyJourney />
-        <GlowingDivider />
-        <ProjectWidgets />
-        <GlowingDivider />
-        <div className="contact-row">
-          <ContactSection />
-          <div className="contact-form-section glass">
-            <ContactForm />
-          </div>
-        </div>
-        <Footer />
-        <ImageModal src={imageModalSrc} alt={imageModalAlt} onClose={closeImageModal} />
-      </>}
-    </div>
+    <ErrorBoundary>
+      <div className={`app${theme === 'light' ? ' light-theme' : ''}`}> 
+        {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
+        {!showSplash && (
+          <>
+            <Navbar theme={theme} toggleTheme={toggleTheme} />
+            <HomeSection theme={theme} />
+            <Hero theme={theme} />
+            {/* Add space before Projects section */}
+            <div style={{ height: 48 }} />
+            <GlowingDivider />
+            <Projects />
+            <GlowingDivider />
+            <Skills />
+            <GlowingDivider />
+            <MyJourney />
+            <GlowingDivider />
+            <ProjectWidgets />
+            <GlowingDivider />
+            <div className="contact-row">
+              <ContactSection />
+              <div className="contact-form-section glass">
+                <ContactForm />
+              </div>
+            </div>
+            <Footer />
+            <ImageModal src={imageModalSrc} alt={imageModalAlt} onClose={closeImageModal} />
+          </>
+        )}
+      </div>
+    </ErrorBoundary>
   );
 }
 

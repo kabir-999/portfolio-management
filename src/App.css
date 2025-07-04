@@ -2228,3 +2228,227 @@ body.light-theme .timeline-circle,
 body.light-theme .timeline-dot {
   background: #F7E9D7 !important;
 }
+
+/* Dark theme animated rain background */
+.home-bg-dark.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  --c: #09f;
+  background-color: #000;
+  background-image: radial-gradient(4px 100px at 0px 235px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 235px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 117.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 252px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 252px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 126px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 150px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 150px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 75px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 253px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 253px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 126.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 204px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 204px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 102px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 134px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 134px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 67px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 179px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 179px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 89.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 299px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 299px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 149.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 215px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 215px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 107.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 281px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 281px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 140.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 158px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 158px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 79px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 210px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 210px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 105px, var(--c) 100%, #0000 150%);
+  background-size:
+    300px 235px,
+    300px 235px,
+    300px 235px,
+    300px 252px,
+    300px 252px,
+    300px 252px,
+    300px 150px,
+    300px 150px,
+    300px 150px,
+    300px 253px,
+    300px 253px,
+    300px 253px,
+    300px 204px,
+    300px 204px,
+    300px 204px,
+    300px 134px,
+    300px 134px,
+    300px 134px,
+    300px 179px,
+    300px 179px,
+    300px 179px,
+    300px 299px,
+    300px 299px,
+    300px 299px,
+    300px 215px,
+    300px 215px,
+    300px 215px,
+    300px 281px,
+    300px 281px,
+    300px 281px,
+    300px 158px,
+    300px 158px,
+    300px 158px,
+    300px 210px,
+    300px 210px,
+    300px 210px;
+  animation: hi 150s linear infinite;
+}
+
+.home-bg-dark.container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: radial-gradient(
+    ellipse 1.5px 2px at 1.5px 50%,
+    #0000 0,
+    #0000 90%,
+    #000 100%
+  );
+  background-size: 25px 8px;
+}
+
+/* Light theme animated rain background */
+.home-bg-light.container {
+  width: 100%;
+  height: 100%;
+  background: #F7E9D7; /* Beige background */
+  background-image: radial-gradient(4px 100px at 0px 235px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 235px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 117.5px, #BFA980 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 252px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 252px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 126px, #BFA980 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 150px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 150px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 75px, #BFA980 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 253px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 253px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 126.5px, #BFA980 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 204px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 204px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 102px, #BFA980 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 134px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 134px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 67px, #BFA980 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 179px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 179px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 89.5px, #BFA980 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 299px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 299px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 149.5px, #BFA980 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 215px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 215px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 107.5px, #BFA980 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 281px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 281px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 140.5px, #BFA980 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 158px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 158px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 79px, #BFA980 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 210px, #BFA980, #0000),
+    radial-gradient(4px 100px at 300px 210px, #BFA980, #0000),
+    radial-gradient(1.5px 1.5px at 150px 105px, #BFA980 100%, #0000 150%);
+  background-size:
+    300px 235px,
+    300px 235px,
+    300px 235px,
+    300px 252px,
+    300px 252px,
+    300px 252px,
+    300px 150px,
+    300px 150px,
+    300px 150px,
+    300px 253px,
+    300px 253px,
+    300px 253px,
+    300px 204px,
+    300px 204px,
+    300px 204px,
+    300px 134px,
+    300px 134px,
+    300px 134px,
+    300px 179px,
+    300px 179px,
+    300px 179px,
+    300px 299px,
+    300px 299px,
+    300px 299px,
+    300px 215px,
+    300px 215px,
+    300px 215px,
+    300px 281px,
+    300px 281px,
+    300px 281px,
+    300px 158px,
+    300px 158px,
+    300px 158px,
+    300px 210px,
+    300px 210px,
+    300px 210px;
+  animation: hi 150s linear infinite;
+}
+
+/* Get in Touch Button Styles */
+.get-in-touch-btn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 18px 48px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  border-radius: 32px;
+  text-decoration: none;
+  text-align: center;
+  transition: box-shadow 0.2s, background 0.2s, border 0.2s, color 0.2s;
+  position: relative;
+  z-index: 2;
+  outline: none;
+  border-width: 2px;
+  border-style: solid;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.get-in-touch-btn.dark {
+  color: #fff;
+  background: rgba(20, 10, 40, 0.85);
+  border-color: black;
+  box-shadow: 0 0 24px 4px black, 0 0 80px 0 black;
+}
+.get-in-touch-btn.dark:hover, .get-in-touch-btn.dark:focus {
+  background: #12002a;
+  border-color: #7fbcff;
+  box-shadow: 0 0 40px 8px #7fbcffcc, 0 0 80px 0 #7fbcff88;
+  color: #fff;
+}
+
+.get-in-touch-btn.light {
+  color: #2D2D2D;
+  background: #F7E9D7;
+  border-color: #BFA980;
+  box-shadow: 0 0 24px 4px #BFA98055, 0 0 80px 0 #BFA98033;
+}
+.get-in-touch-btn.light:hover, .get-in-touch-btn.light:focus {
+  background: #fff6e9;
+  border-color: #BFA980;
+  box-shadow: 0 0 40px 8px #BFA980cc, 0 0 80px 0 #BFA98088;
+  color: #2D2D2D;
+}
