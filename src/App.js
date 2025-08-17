@@ -212,7 +212,7 @@ function Navbar({ theme, toggleTheme }) {
       <a href="#skills">Skills</a>
       <a href="#journey">My Journey</a>
       <a href="#contact">Contact</a>
-      <a href="https://drive.google.com/file/d/1GRPmOQFTL5ZKW5M5z9e_z0FCE3rFJPAa/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Resume</a>
+      <a href="https://drive.google.com/file/d/12klFBCLBjhaJ9LZtsqr-IsNZq5svt5W4/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a>
       <button
         onClick={toggleTheme}
         aria-label="Toggle theme"
