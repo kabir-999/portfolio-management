@@ -1,4 +1,35 @@
 const nodemailer = require('nodemailer');
+const mongoose = require('mongoose');
+
+let cachedConnection = null;
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://kabir-portfolio-management.vercel.app',
+];
+
+const messageSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: String, required: true },
+  message: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+});
+
+const Message = mongoose.models.Message || mongoose.model('Message', messageSchema);
+
+const connectToDatabase = async () => {
+  if (cachedConnection || mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
+
+  const mongoUri = process.env.MONGODB_URI;
+  if (!mongoUri) {
+    throw new Error('MONGODB_URI is not set');
+  }
+
+  cachedConnection = await mongoose.connect(mongoUri);
+  return cachedConnection;
+};
 
 // Create transporter outside the handler to reuse connection
 const transporter = nodemailer.createTransport({
@@ -10,20 +41,25 @@ const transporter = nodemailer.createTransport({
 });
 
 module.exports = async (req, res) => {
+  const origin = req.headers.origin;
+  const allowOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[1];
+
   // Handle preflight request
   if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', allowOrigin);
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Vary', 'Origin');
     return res.status(200).end();
   }
 
   // Add CORS headers for Vercel deployment
   try {
     res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', allowOrigin);
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
     res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+    res.setHeader('Vary', 'Origin');
   } catch (headerError) {
     console.error('Error setting CORS headers:', headerError);
     // Continue execution even if headers fail
@@ -55,6 +91,9 @@ module.exports = async (req, res) => {
       console.log('Missing required fields');
       return res.status(400).json({ error: 'All fields are required.' });
     }
+
+    await connectToDatabase();
+    await Message.create({ name, email, phone, message });
 
     // Send email notification
     try {

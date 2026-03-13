@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -6,20 +6,36 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 
 const app = express();
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://kabir-portfolio-management.vercel.app',
+];
+
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
+}));
 app.use(express.json());
 
 // MongoDB connection
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Kabir999:Kabir999@portfolio.h9s6ckn.mongodb.net/?retryWrites=true&w=majority&appName=portfolio';
-mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+const mongoUri = process.env.MONGODB_URI;
+if (!mongoUri) {
+  console.error('MONGODB_URI is not set');
+} else {
+  mongoose.connect(mongoUri)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
+}
 
 // Configure Nodemailer
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'mathurkabir336@gmail.com', // Sender email address
+    user: process.env.EMAIL_USER || 'mathurkabir336@gmail.com', // Sender email address
     pass: process.env.EMAIL_PASSWORD || 'your_app_password' // Use app password for Gmail
   }
 });
@@ -89,5 +105,5 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); 

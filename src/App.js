@@ -2,14 +2,15 @@ import React, { useState, useEffect, useRef, Component } from "react";
 import "./App.css";
 import "./styles/dark-theme.css";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
-// import linkedInPic from "./assets/linkedIIN pic.jpeg"; // Removed this import
-
-// import posImg from "./assets/pos.jpg";  // Commented out unused import
-import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";  // Removed FaSun and FaMoon
+import hackathonImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
+import poseImg from "./assets/pos.jpg";
+import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt, FaMoon, FaSun } from "react-icons/fa";
+import { VscHome, VscAccount, VscArchive, VscTools, VscMail, VscFile } from "react-icons/vsc";
 import ShinyText from "./components/ShinyText/ShinyText";
 import SplashScreen from "./components/SplashScreen";
-import Particles from "./components/Particles/Particles";
-import GlitchText from './GlitchText';
+import FloatingLines from "./components/FloatingLines";
+import Carousel from "./components/Carousel";
+import Dock from "./components/Dock";
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -50,12 +51,26 @@ const profile = {
     linkedin: "https://www.linkedin.com/in/kabir-mathur-655429292/",
     github: "https://github.com/kabir-999",
   },
-  about: `Hi, I'm Kabir — I treat code like the beautiful game: fast, smart, and always strategic. From ML plays to backend build-ups, I'm here to dominate the data pitch`,
-  education: {
-    college: "Dwarkadas J. Sanghvi College of Engineering (DJSCE)",
-    gpa: "8.5/10",
-    degree: "B.Tech in Computer Science and Engineering (Data Science)",
-    years: "2023-2027",
+  internship: {
+    company: "Meera AI Tech",
+    role: "AI/ML Intern",
+    status: "Ongoing",
+    projects: [
+      {
+        title: "Spectrasense",
+        points: [
+          "Built AI-powered smart glasses using YOLO and Qwen-2.5 for real-time object detection and scene analysis.",
+          "Integrated FaceNet and PaddleOCR for face recognition, registration, and text reading, enhancing accessibility for visually impaired users.",
+        ],
+      },
+      {
+        title: "NoCode App Developer Engine",
+        points: [
+          "Built a no-code AI platform for end-to-end mobile app development, enabling users to generate full Android and iOS applications from prompts with an in-browser emulator for real-time preview and testing.",
+          "Designed an agentic AI architecture for automated app generation and deployment, producing production-ready APK builds and optionally delivering full source code for advanced users.",
+        ],
+      },
+    ],
   },
   achievements: [
     {
@@ -171,72 +186,74 @@ const profile = {
         "Led 200+ students to 1st place in a 6-department interdepartmental tournament"
       ],
     },
+    {
+      title: "AI/ML Intern, Meera AI Tech",
+      date: "Sep 2025",
+      desc: [
+        "Worked on high-impact AI domains including Computer Vision and Agentic AI through production-focused internship projects."
+      ],
+    },
   ],
 };
 
+const heroCarouselImages = [
+  { src: aboutImg, alt: "Kabir portrait" },
+  { src: hackathonImg, alt: "Kabir at a hackathon" },
+  { src: poseImg, alt: "Kabir with trophies" },
+];
+
 // Helper to parse dates for sorting
 const parseDate = (dateString) => {
-  const parts = dateString.split(' ');
+  const normalized = dateString
+    .replace(/(\d+)(st|nd|rd|th)/gi, "$1")
+    .replace(/,/g, "")
+    .trim();
+
+  const directParse = new Date(normalized);
+  if (!Number.isNaN(directParse.getTime())) {
+    return directParse;
+  }
+
+  const parts = normalized.split(" ");
   if (parts.length === 2) {
     const [monthStr, yearStr] = parts;
-    const month = new Date(Date.parse(monthStr + " 1, 2000")).getMonth();
-    const year = parseInt(yearStr);
+    const month = new Date(Date.parse(`${monthStr} 1, 2000`)).getMonth();
+    const year = parseInt(yearStr, 10);
     return new Date(year, month);
-  } else if (parts.length === 4 && parts[1] === '-') { // Handle "Month Year - Month Year" format
+  }
+
+  if (parts.length === 4 && parts[1] === "-") {
     const [startMonthStr, startYearStr] = [parts[0], parts[2]];
-    const startMonth = new Date(Date.parse(startMonthStr + " 1, 2000")).getMonth();
-    const startYear = parseInt(startYearStr);
+    const startMonth = new Date(Date.parse(`${startMonthStr} 1, 2000`)).getMonth();
+    const startYear = parseInt(startYearStr, 10);
     return new Date(startYear, startMonth);
   }
-  return new Date(); // Fallback for unparseable dates
+
+  return new Date(0);
 };
 
-function Navbar({ theme, toggleTheme }) {
-  // Smooth scroll handler
-  const handleNavClick = (e, target) => {
-    e.preventDefault();
-    if (target === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (target === 'about') {
-      const hero = document.getElementById('hero');
-      if (hero) {
-        hero.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-  return (
-    <nav className="navbar glass">
-      <a href="#home" onClick={e => handleNavClick(e, 'home')}>Home</a>
-      <a href="#about" onClick={e => handleNavClick(e, 'about')}>About</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#journey">My Journey</a>
-      <a href="#contact">Contact</a>
-      <a href="https://drive.google.com/file/d/12klFBCLBjhaJ9LZtsqr-IsNZq5svt5W4/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a>
-      <button
-        onClick={toggleTheme}
-        aria-label="Toggle theme"
-        style={{
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          fontSize: 28,
-          color: theme === 'dark' ? '#FFD700' : '#4B6EAF',
-          transition: 'color 0.2s',
-          padding: 0,
-          marginLeft: 12,
-        }}
-      >
-        {theme === 'dark' ? '\ud83c\udf19' : '\u2600\ufe0f'}
-      </button>
-    </nav>
-  );
-}
+const scrollToSection = (target) => {
+  if (target === "home") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+
+  if (target === "about" || target === "internship") {
+    const hero = document.getElementById("hero");
+    if (hero) hero.scrollIntoView({ behavior: "smooth" });
+    return;
+  }
+
+  const section = document.getElementById(target);
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+};
 
 function HomeSection({ theme }) {
   const isLight = theme === 'light';
   return (
-    <section id="home" style={{
+    <section id="home" className={`home-section ${isLight ? 'home-section-light' : 'home-section-dark'}`} style={{
       width: '100%',
       minHeight: '100vh',
       display: 'flex',
@@ -247,9 +264,9 @@ function HomeSection({ theme }) {
       overflow: 'hidden',
       padding: 0,
       margin: 0,
+      background: isLight ? '#d8e3f4' : '#0a1020',
     }}>
       <div
-        className={isLight ? 'home-bg-light container' : 'home-bg-dark container'}
         style={{
           position: 'absolute',
           top: 0,
@@ -257,14 +274,35 @@ function HomeSection({ theme }) {
           width: '100%',
           height: '100%',
           zIndex: 0,
-          pointerEvents: 'none',
         }}
-      />
-      <div style={{
+      >
+        <FloatingLines
+          enabledWaves={["top", "middle", "bottom"]}
+          lineCount={5}
+          lineDistance={5}
+          bendRadius={5}
+          bendStrength={-0.5}
+          interactive={true}
+          parallax={true}
+          linesGradient={isLight ? ["#f7fbff", "#9ec5fe", "#5d8ff7"] : ["#b8d7ff", "#7fb4ff", "#4d86ff"]}
+          mixBlendMode="screen"
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: isLight
+              ? 'linear-gradient(180deg, rgba(224, 235, 250, 0.3) 0%, rgba(216, 227, 244, 0.66) 52%, rgba(198, 213, 238, 0.92) 100%)'
+              : 'linear-gradient(180deg, rgba(10, 16, 32, 0.22) 0%, rgba(10, 16, 32, 0.58) 54%, rgba(10, 16, 32, 0.9) 100%)',
+            pointerEvents: 'none',
+          }}
+        />
+      </div>
+      <div className="home-content" style={{
         position: 'relative',
         zIndex: 2,
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
@@ -272,163 +310,83 @@ function HomeSection({ theme }) {
         background: 'transparent',
         boxShadow: 'none',
       }}>
-        <div style={{ width: '100%', maxWidth: 1400, height: 220, marginBottom: 32, background: 'transparent', boxShadow: 'none', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <GlitchText
-            speed={1}
-            enableShadows={true}
-            enableOnHover={true}
-            className='custom-class'
+        <div className="home-copy-column">
+          <div className="home-title-wrap" style={{ width: '100%', maxWidth: 1400, marginBottom: 18, background: 'transparent', boxShadow: 'none', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+            <div
+              className="home-title"
+              style={{
+                color: isLight ? '#16345f' : '#f3f8ff',
+                fontSize: 'clamp(2rem, 5.2vw, 5.2rem)',
+                whiteSpace: 'normal',
+                fontWeight: 900,
+                margin: 0,
+                userSelect: 'none',
+                textShadow: isLight ? '0 4px 20px rgba(125, 165, 255, 0.25)' : '0 10px 40px rgba(78, 131, 255, 0.22)',
+              }}
+            >
+              KABIR MATHUR
+            </div>
+          </div>
+          <div className="home-subtitle" style={{
+            fontSize: 'clamp(1rem, 2vw, 1.6rem)',
+            fontWeight: 700,
+            color: isLight ? '#2a4f87' : '#cfe1ff',
+            letterSpacing: '0.14em',
+            margin: '0 0 28px 0',
+            textAlign: 'left',
+            textTransform: 'uppercase',
+            textShadow: isLight ? '0 2px 16px rgba(126, 171, 255, 0.4)' : '0 2px 16px rgba(0, 0, 0, 0.55), 0 0 12px rgba(127, 180, 255, 0.35)',
+            background: 'transparent',
+          }}>
+            <span className="home-subtitle-group">Data Scientist</span>
+            <span className="home-subtitle-divider">&nbsp;|&nbsp;</span>
+            <span className="home-subtitle-group">AI/ML Developer</span>
+          </div>
+          <a
+            href="#contact"
+            className={`get-in-touch-btn${isLight ? ' light' : ' dark'}`}
           >
-            KABIR MATHUR
-          </GlitchText>
+            Get in Touch
+          </a>
         </div>
-        <div style={{
-          fontSize: '2rem',
-          fontWeight: 700,
-          color: isLight ? '#2D2D2D' : '#fff',
-          letterSpacing: '0.18em',
-          margin: '0 0 32px 0',
-          textAlign: 'center',
-          textTransform: 'uppercase',
-          textShadow: isLight ? '0 2px 16px #bfc9ff' : '0 2px 16px #000, 0 0 8px #7f00ff',
-          background: 'transparent',
-        }}>
-          Data Scientist&nbsp;|&nbsp; AI/ML DEVELOPER 
+        <div className="home-carousel-column">
+          <div className="home-carousel-shell">
+            <Carousel
+              images={heroCarouselImages}
+              baseWidth={220}
+              autoplay={false}
+              autoplayDelay={3000}
+              pauseOnHover={false}
+              loop={false}
+              round={false}
+            />
+          </div>
         </div>
-        <a 
-          href="#contact" 
-          className={`get-in-touch-btn${isLight ? ' light' : ' dark'}`}
-        >
-          Get in Touch
-        </a>
       </div>
     </section>
   );
 }
 
-function Hero({ theme }) {
-  const isLight = theme === 'light';
-  const particleColors = ["#00ffff", "#ff00ff", "#00ff00"];
-  // Standard image size for all containers
-  const imgWidth = 260;
-  const imgHeight = 300;
-  const imgStyle = {
-    width: imgWidth,
-    height: imgHeight,
-    objectFit: 'cover',
-    borderRadius: 18,
-    border: isLight ? '3px solid #4B6EAF' : '3px solid #7fbcff',
-    boxShadow: isLight ? '0 4px 32px 0 #E0E4EC' : '0 4px 32px 0 #7fbcff33',
-    background: isLight ? '#FFFFFF' : '#23262f',
-    display: 'block',
-  };
-  const imgContainerStyle = {
-    background: isLight ? '#FFFFFF' : '#23262f',
-    borderRadius: 24,
-    boxShadow: isLight ? '0 8px 40px 0 #E0E4EC' : '0 8px 40px 0 #7fbcff55',
-    padding: 12,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-  // Container style for all three
-  const rowContainerStyle = {
-    zIndex: 1,
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    maxWidth: 1000,
-    width: '100%',
-    background: isLight ? '#FFFFFF' : 'rgba(35,38,47,0.85)',
-    borderRadius: 18,
-    boxShadow: isLight ? '0 4px 24px 0 #E0E4EC' : '0 4px 24px 0 #7fbcff33',
-    padding: '32px 24px',
-    margin: '0 auto',
-  };
+function InternshipSection() {
   return (
-    <section 
-      className={`hero${isLight ? ' light-theme' : ' dark-theme'}`}
-      id="hero" 
-      style={{ 
-        position: 'relative',
-        display: 'flex', 
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        minHeight: '100vh',
-        paddingTop: '60px',
-        paddingBottom: '40px',
-        overflow: 'hidden',
-      }}
-    >
-      <Particles 
-        particleCount={800}
-        particleSpread={15}
-        speed={0.25}
-        particleColors={particleColors}
-        alphaParticles={false}
-        particleBaseSize={150}
-        cameraDistance={15}
-      />
-      {/* First Container: About */}
-      <div style={{ ...rowContainerStyle, marginBottom: 40 }}>
-        {/* Left: About text */}
-        <div style={{ flex: 2, textAlign: 'left', padding: '40px 40px 40px 0', minWidth: 0 }}>
-          <p style={{ fontSize: '1.18rem', color: 'var(--primary-text)' }}>{profile.about}</p>
-          <div className="education" style={{ marginTop: 18 }}>
-            <div>{profile.education.college}</div>
-            <div>{profile.education.degree}</div>
-            <div>GPA: {profile.education.gpa}</div>
-            <div>{profile.education.years}</div>
+    <section id="internship" className="content-section internship-section">
+      <SectionHeader>Internship</SectionHeader>
+      <div className="flashcard-list internship-card-list">
+        {profile.internship.projects.map((project) => (
+          <div className="flashcard glass internship-project-card" key={project.title}>
+            <div className="flashcard-content internship-project-content">
+              <div className="internship-meta">
+                {profile.internship.company} | {profile.internship.role} - {profile.internship.status}
+              </div>
+              <h3>{project.title}</h3>
+              <ul>
+                {project.points.map((point, index) => (
+                  <li key={`${project.title}-${index}`}>{point}</li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-        {/* Right: About image */}
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-          <div style={imgContainerStyle}>
-            <img 
-              src={aboutImg} 
-              alt="About Kabir" 
-              className="about-img" 
-              style={imgStyle}
-            />
-          </div>
-        </div>
-      </div>
-      {/* Second Container: Hackathon/LeetCode/Projects */}
-      <div style={{ ...rowContainerStyle, marginBottom: 40 }}>
-        {/* Left: New image */}
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: 32 }}>
-          <div style={imgContainerStyle}>
-            <img 
-              src={require('./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg')} 
-              alt="Kabir Hackathon" 
-              style={imgStyle}
-            />
-          </div>
-        </div>
-        {/* Right: Content */}
-        <div style={{ flex: 2, color: 'var(--primary-text)', fontSize: '1.18rem', fontWeight: 500, lineHeight: 1.6, textAlign: 'left' }}>
-          Hackathons are my World cup, LeetCode is my daily training ground, and building projects? That's my matchday magic. I don't just code — I play to create, compete, and leave a mark on the scoreboard.
-        </div>
-      </div>
-      {/* Third Container: One Piece/Calculus/Full-stack */}
-      <div style={rowContainerStyle}>
-        {/* Left: Content */}
-        <div style={{ flex: 2, color: 'var(--primary-text)', fontSize: '1.18rem', fontWeight: 500, lineHeight: 1.6, textAlign: 'left', paddingRight: 40 }}>
-          When I'm not coding like a Galáctico in a hackathon final, I'm rewatching Luffy chase the One Piece or solving calculus for fun (yeah, weird flex). Whether it's building full-stack projects or last-minute LeetCode goals, I bring the same energy Madrid brings to Champions League nights — calculated, creative, and clutch.
-        </div>
-        {/* Right: New image */}
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <div style={imgContainerStyle}>
-            <img 
-              src={require('./assets/pos.jpg')} 
-              alt="Kabir One Piece" 
-              style={imgStyle}
-            />
-          </div>
-        </div>
+        ))}
       </div>
     </section>
   );
@@ -504,14 +462,14 @@ function GlowingDivider() {
 
 function Projects() {
   return (
-    <div id="projects">
+    <section id="projects" className="content-section projects-section">
       <SectionHeader>Projects</SectionHeader>
       <div className="flashcard-list">
         {profile.projects.map((p, i) => (
           <Flashcard project={p} key={i} />
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -550,7 +508,7 @@ function Skills() {
   ];
 
   return (
-    <div id="skills">
+    <section id="skills" className="content-section skills-section">
       <SectionHeader>Skills</SectionHeader>
       <div className="skill-card-list">
         {skillCards.map((card, i) => (
@@ -565,7 +523,7 @@ function Skills() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -682,7 +640,7 @@ function MyJourney() {
   }, []);
   
   return (
-    <div id="journey" ref={timelineRef}>
+    <section id="journey" className="content-section journey-section" ref={timelineRef}>
       <SectionHeader>My Journey</SectionHeader>
       <div className="timeline-container">
         <div className="timeline-line" />
@@ -705,7 +663,7 @@ function MyJourney() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -723,20 +681,21 @@ function ContactForm() {
     setLoading(true);
     setStatus('');
     try {
-      // Use relative path for Vercel serverless function
-      const apiUrl = 'https://kabir-portfolio-management.vercel.app/api';
-      console.log('Submitting to:', `${apiUrl}/contact`);
-      const res = await fetch(`${apiUrl}/contact`, {
+      const isLocalhost = window.location.hostname === 'localhost';
+      const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || (isLocalhost ? 'http://localhost:5001' : '');
+      const endpoint = `${apiBaseUrl}/api/contact`;
+      console.log('Submitting to:', endpoint);
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      if (res.ok) {
+      const data = await res.json();
+      if (res.ok && data.success) {
         setStatus('Message sent successfully!');
         setForm({ name: '', email: '', phone: '', message: '' });
       } else {
-        const errorData = await res.json();
-        setStatus(`Failed to send message: ${errorData.error || 'Please try again.'}`);
+        setStatus(`Failed to send message: ${data.error || data.details || 'Please try again.'}`);
       }
     } catch (err) {
       setStatus('Failed to send message. Please try again.');
@@ -764,7 +723,7 @@ function ContactSection() {
     <section className="contact-section glass" id="contact">
       <h2>Get In Touch</h2>
       <div className="contact-box" style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-        <img src="/assets/linkedIIN_pic.jpeg" alt="LinkedIn Profile" style={{ width: 60, height: 60, borderRadius: '50%', border: '2px solid #7fbcff', objectFit: 'cover', boxShadow: '0 2px 8px #7fbcff55' }} />
+        <img src="/assets/linkedIIN_pic.jpeg" alt="LinkedIn Profile" className="contact-avatar" style={{ width: 60, height: 60, borderRadius: '50%', border: '2px solid #7fbcff', objectFit: 'cover', boxShadow: '0 2px 8px #7fbcff55' }} />
         <div>
           <div className="contact-title">Contact Information</div>
           <div className="contact-desc">Feel free to reach out through any of these channels.</div>
@@ -783,7 +742,7 @@ function ContactSection() {
 
 function Footer() {
   return (
-    <footer className="footer">
+    <footer className="footer site-footer">
       © 2025 Kabir Mathur. All rights reserved.
     </footer>
   );
@@ -879,6 +838,28 @@ function App() {
 
   const [imageModalSrc, setImageModalSrc] = useState(null);
   const [imageModalAlt, setImageModalAlt] = useState("");
+  const dockItems = [
+    { icon: <VscHome size={18} />, label: "Home", onClick: () => scrollToSection("home") },
+    { icon: <VscAccount size={18} />, label: "Internship", onClick: () => scrollToSection("internship") },
+    { icon: <VscArchive size={18} />, label: "Projects", onClick: () => scrollToSection("projects") },
+    { icon: <VscTools size={18} />, label: "Skills", onClick: () => scrollToSection("skills") },
+    { icon: <VscMail size={18} />, label: "Contact", onClick: () => scrollToSection("contact") },
+    {
+      icon: <VscFile size={18} />,
+      label: "Resume",
+      onClick: () =>
+        window.open(
+          "https://drive.google.com/file/d/12klFBCLBjhaJ9LZtsqr-IsNZq5svt5W4/view?usp=sharing",
+          "_blank",
+          "noopener,noreferrer"
+        ),
+    },
+    {
+      icon: theme === "dark" ? <FaMoon size={16} /> : <FaSun size={16} />,
+      label: theme === "dark" ? "Dark" : "Light",
+      onClick: toggleTheme,
+    },
+  ];
 
   const closeImageModal = () => {
     setImageModalSrc(null);
@@ -923,13 +904,12 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className={`app${theme === 'light' ? ' light-theme' : ''}`}> 
+      <div className={`app portfolio-app${theme === 'light' ? ' light-theme' : ''}`}> 
         {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
         {!showSplash && (
           <>
-            <Navbar theme={theme} toggleTheme={toggleTheme} />
             <HomeSection theme={theme} />
-            <Hero theme={theme} />
+            <InternshipSection />
             {/* Add space before Projects section */}
             <div style={{ height: 48 }} />
             <GlowingDivider />
@@ -939,7 +919,9 @@ function App() {
             <GlowingDivider />
             <MyJourney />
             <GlowingDivider />
-            <ProjectWidgets />
+            <section className="content-section metrics-section">
+              <ProjectWidgets />
+            </section>
             <GlowingDivider />
             <div className="contact-row">
               <ContactSection />
@@ -948,6 +930,12 @@ function App() {
               </div>
             </div>
             <Footer />
+            <Dock
+              items={dockItems}
+              panelHeight={62}
+              baseItemSize={46}
+              magnification={58}
+            />
             <ImageModal src={imageModalSrc} alt={imageModalAlt} onClose={closeImageModal} />
           </>
         )}
