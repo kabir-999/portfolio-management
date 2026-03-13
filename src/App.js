@@ -849,7 +849,7 @@ function App() {
       label: "Resume",
       onClick: () =>
         window.open(
-          "https://drive.google.com/file/d/12klFBCLBjhaJ9LZtsqr-IsNZq5svt5W4/view?usp=sharing",
+          "https://drive.google.com/drive/folders/14cEDirSzuccBb3aqeREsi755o3f9GY3H",
           "_blank",
           "noopener,noreferrer"
         ),
