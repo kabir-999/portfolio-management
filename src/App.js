@@ -238,12 +238,6 @@ const scrollToSection = (target) => {
     return;
   }
 
-  if (target === "about") {
-    const hero = document.getElementById("hero");
-    if (hero) hero.scrollIntoView({ behavior: "smooth" });
-    return;
-  }
-
   const section = document.getElementById(target);
   if (section) {
     section.scrollIntoView({ behavior: "smooth" });
