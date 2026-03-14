@@ -278,19 +278,19 @@ function HomeSection({ theme }) {
           bendStrength={-0.5}
           interactive={true}
           parallax={true}
-          linesGradient={isLight ? ["#f7fbff", "#9ec5fe", "#5d8ff7"] : ["#b8d7ff", "#7fb4ff", "#4d86ff"]}
-          mixBlendMode="screen"
+          linesGradient={isLight ? ["#6a90c4", "#4a7cc9", "#3a5ea8"] : ["#b8d7ff", "#7fb4ff", "#4d86ff"]}
+          mixBlendMode={isLight ? "normal" : "screen"}
         />
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: isLight
-              ? 'linear-gradient(180deg, rgba(224, 235, 250, 0.3) 0%, rgba(216, 227, 244, 0.66) 52%, rgba(198, 213, 238, 0.92) 100%)'
-              : 'linear-gradient(180deg, rgba(10, 16, 32, 0.22) 0%, rgba(10, 16, 32, 0.58) 54%, rgba(10, 16, 32, 0.9) 100%)',
-            pointerEvents: 'none',
-          }}
-        />
+        {!isLight && (
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(180deg, rgba(10, 16, 32, 0.22) 0%, rgba(10, 16, 32, 0.58) 54%, rgba(10, 16, 32, 0.9) 100%)',
+              pointerEvents: 'none',
+            }}
+          />
+        )}
       </div>
       <div className="home-content" style={{
         position: 'relative',
@@ -348,10 +348,10 @@ function HomeSection({ theme }) {
             <Carousel
               images={heroCarouselImages}
               baseWidth={220}
-              autoplay={false}
+              autoplay={true}
               autoplayDelay={3000}
-              pauseOnHover={false}
-              loop={false}
+              pauseOnHover={true}
+              loop={true}
               round={false}
             />
           </div>
