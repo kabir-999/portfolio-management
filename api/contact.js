@@ -31,14 +31,19 @@ const connectToDatabase = async () => {
   return cachedConnection;
 };
 
-// Create transporter outside the handler to reuse connection
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER || 'mathurkabir336@gmail.com',
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
+const createTransporter = () => {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+    return null;
+  }
+
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+};
 
 module.exports = async (req, res) => {
   const origin = req.headers.origin;
@@ -76,6 +81,8 @@ module.exports = async (req, res) => {
 
   try {
     // Log environment variables (without exposing sensitive values)
+    const transporter = createTransporter();
+
     console.log('Environment check:', {
       EMAIL_USER: process.env.EMAIL_USER ? 'Set' : 'Not set',
       EMAIL_PASSWORD: process.env.EMAIL_PASSWORD ? 'Set' : 'Not set',
@@ -95,17 +102,25 @@ module.exports = async (req, res) => {
     await connectToDatabase();
     await Message.create({ name, email, phone, message });
 
-    // Send email notification
+    if (!transporter) {
+      console.warn('Email notification skipped: email credentials are not configured');
+      return res.status(200).json({
+        success: true,
+        warning: 'Message saved, but email notifications are not configured.',
+      });
+    }
+
     try {
       console.log('Attempting to send email notification');
       console.log('Using email credentials:', {
-        from: process.env.EMAIL_USER || 'mathurkabir336@gmail.com',
+        from: process.env.EMAIL_USER,
         to: 'mathurkabir336@gmail.com'
       });
-      
+
       const mailOptions = {
-        from: process.env.EMAIL_USER || 'mathurkabir336@gmail.com',
-        to: 'mathurkabir336@gmail.com', // Your personal email to receive notifications
+        from: process.env.EMAIL_USER,
+        to: 'mathurkabir336@gmail.com',
+        replyTo: email,
         subject: `New Portfolio Message from ${name}`,
         html: `
           <h2>You've received a new message from your portfolio contact form</h2>
@@ -116,29 +131,20 @@ module.exports = async (req, res) => {
           <p>${message}</p>
           <p><em>This is an automated notification from your portfolio website.</em></p>
         `,
-        text: `New message from ${name} (${email}, ${phone}): ${message}` // Plain text fallback
+        text: `New message from ${name} (${email}, ${phone}): ${message}`
       };
 
-      // Verify transporter before sending
-      if (!transporter) {
-        throw new Error('Email transporter not initialized properly');
-      }
-
-      // Send the email
       const info = await transporter.sendMail(mailOptions);
       console.log('Email notification sent successfully:', info.messageId);
-      
-      return res.status(200).json({ success: true });
     } catch (emailError) {
       console.error('Error sending email notification:', emailError);
-      // Return a 200 status with error details to prevent client-side error
-      // This helps in debugging while not breaking the user experience
-      return res.status(200).json({ 
-        success: false,
-        error: 'Failed to send email', 
-        details: emailError.message
+      return res.status(200).json({
+        success: true,
+        warning: 'Message saved, but email notification failed.',
       });
     }
+
+    return res.status(200).json({ success: true });
   } catch (err) {
     console.error('Error in contact API:', err);
     return res.status(500).json({ 

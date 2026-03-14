@@ -29,7 +29,7 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{color: 'white', padding: '20px', textAlign: 'center'}}>
+        <div style={{ color: 'white', padding: '20px', textAlign: 'center' }}>
           <h2>Something went wrong</h2>
           <p>Please refresh the page or try again later.</p>
           <pre>{this.state.error?.toString()}</pre>
@@ -238,7 +238,7 @@ const scrollToSection = (target) => {
     return;
   }
 
-  if (target === "about" || target === "internship") {
+  if (target === "about") {
     const hero = document.getElementById("hero");
     if (hero) hero.scrollIntoView({ behavior: "smooth" });
     return;
@@ -482,7 +482,7 @@ function Skills() {
     },
     {
       icon: <FaLaptopCode size={32} color="#7fbcff" />, title: "Web Development", items: [
-        "HTML", "CSS","React","Node.js","JavaScript", "Flask", "Django", "web3.js"
+        "HTML", "CSS", "React", "Node.js", "JavaScript", "Flask", "Django", "web3.js"
       ]
     },
     {
@@ -492,12 +492,12 @@ function Skills() {
     },
     {
       icon: <FaTools size={32} color="#7fbcff" />, title: "Tools & Platforms", items: [
-        "SQL", "Git/GitHub", "Firebase", "Cloudinary", "ThingsBoard", "API Integration","MONGODB", "Metamask", "Ganache","Vercel"
+        "SQL", "Git/GitHub", "Firebase", "Cloudinary", "ThingsBoard", "API Integration", "MONGODB", "Metamask", "Ganache", "Vercel"
       ]
     },
     {
       icon: <FaCogs size={32} color="#7fbcff" />, title: "Other Skills", items: [
-        "EDA", "Data Preprocessing", "Render Deployment", "BeautifulSoup","Selenium", "Blockchain"
+        "EDA", "Data Preprocessing", "Render Deployment", "BeautifulSoup", "Selenium", "Blockchain"
       ]
     },
     {
@@ -534,7 +534,7 @@ function MyJourney() {
   ].sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
   const timelineRef = useRef(null);
-  
+
   useEffect(() => {
     const timelineLine = document.querySelector('.timeline-line');
     const timelineSection = document.getElementById('journey');
@@ -638,7 +638,7 @@ function MyJourney() {
       }
     };
   }, []);
-  
+
   return (
     <section id="journey" className="content-section journey-section" ref={timelineRef}>
       <SectionHeader>My Journey</SectionHeader>
@@ -692,7 +692,7 @@ function ContactForm() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setStatus('Message sent successfully!');
+        setStatus(data.warning || 'Message sent successfully!');
         setForm({ name: '', email: '', phone: '', message: '' });
       } else {
         setStatus(`Failed to send message: ${data.error || data.details || 'Please try again.'}`);
@@ -733,7 +733,7 @@ function ContactSection() {
             <div className="contact-item"><FaLinkedin className="contact-icon" /> <span><a href="https://www.linkedin.com/in/kabir-mathur-655429292/" target="_blank" rel="noopener noreferrer">linkedin.com/in/KabirMathur</a></span></div>
             <div className="contact-item"><FaPhone className="contact-icon" /> <span>+91 992026289</span></div>
             <div className="contact-item"><FaMapMarkerAlt className="contact-icon" /> <span>Mumbai, India</span></div>
-           </div>
+          </div>
         </div>
       </div>
     </section>
@@ -904,7 +904,7 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className={`app portfolio-app${theme === 'light' ? ' light-theme' : ''}`}> 
+      <div className={`app portfolio-app${theme === 'light' ? ' light-theme' : ''}`}>
         {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
         {!showSplash && (
           <>
