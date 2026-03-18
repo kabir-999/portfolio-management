@@ -163,6 +163,26 @@ const profile = {
       ],
       img: null,
     },
+    {
+      title: "AI For Analysing Satellite Imagery To Monitor Deforestation",
+      link: "https://github.com/kabir-999/ipd",
+      desc: [
+        "Developed an AI-based deforestation monitoring system using satellite imagery to detect forest cover changes.",
+        "Implemented NDVI-based analysis and ML models to identify and track deforestation patterns over time.",
+        "Stack: Python, Google Earth Engine, TensorFlow/PyTorch, OpenCV, Satellite Data (Sentinel/Landsat)",
+      ],
+      img: null,
+    },
+    {
+      title: "FocusFlow - AI Productivity & Burnout Management",
+      link: "https://github.com/Aagnya-Mistry/FocusFlow",
+      desc: [
+        "Built a full-stack mobile and web app with Groq LLM-powered task structuring using text, voice, and OCR input.",
+        "Added burnout risk monitoring by analyzing workload, delays, and sleep patterns.",
+        "Stack: Flutter, FastAPI, Firebase, Firestore, Groq LLM, Dart",
+      ],
+      img: null,
+    },
   ],
   skills: [
     "C++", "DSA in C", "Java", "Python", "Solidity",
