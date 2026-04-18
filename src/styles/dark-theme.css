@@ -85,16 +85,16 @@ body.dark-theme,
 
 /* Cards */
 .dark-theme .flashcard,
-.dark-theme .skill-card,
-.dark-theme .project-widget {
+.dark-theme .education-card,
+.dark-theme .skill-card {
   background: var(--card-bg);
   border: 1.5px solid var(--card-border);
   box-shadow: 0 4px 15px 0 #7fbcff15, 0 2px 5px 0 #0002;
 }
 
 .dark-theme .flashcard:hover,
-.dark-theme .skill-card:hover,
-.dark-theme .project-widget:hover {
+.dark-theme .education-card:hover,
+.dark-theme .skill-card:hover {
   border-color: var(--accent-color);
   box-shadow: 0 8px 30px 0 #7fbcff33, 0 3px 10px 0 #0004;
 }

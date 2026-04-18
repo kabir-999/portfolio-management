@@ -4,7 +4,7 @@ import "./styles/dark-theme.css";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
 import hackathonImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
 import poseImg from "./assets/pos.jpg";
-import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt, FaMoon, FaSun } from "react-icons/fa";
+import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt, FaMoon, FaSun, FaGraduationCap } from "react-icons/fa";
 import { VscHome, VscAccount, VscArchive, VscTools, VscMail, VscFile } from "react-icons/vsc";
 import ShinyText from "./components/ShinyText/ShinyText";
 import SplashScreen from "./components/SplashScreen";
@@ -72,6 +72,23 @@ const profile = {
       },
     ],
   },
+  education: [
+    {
+      institution: "SVKM's Dwarkadas J. Sanghvi College of Engineering (DJSCE), Mumbai",
+      period: "2023-2027",
+      details: [
+        "B.Tech in Computer Science and Engineering (Data Science)",
+        "GPA: 8.51/10",
+      ],
+    },
+    {
+      institution: "Poddar Brio International, Badlapur",
+      period: "2023-2027",
+      details: [
+        "Class XII Percentage: 76%",
+      ],
+    },
+  ],
   achievements: [
     {
       title: "AWS Machine Learning Certification",
@@ -406,6 +423,31 @@ function InternshipSection() {
   );
 }
 
+function EducationSection() {
+  return (
+    <section id="education" className="content-section education-section">
+      <SectionHeader>Education</SectionHeader>
+      <div className="education-list">
+        {profile.education.map((item) => (
+          <article className="education-card glass" key={item.institution}>
+            <div className="education-card-top">
+              <h3 className="education-school">{item.institution}</h3>
+              <div className="education-period">{item.period}</div>
+            </div>
+            <div className="education-details">
+              {item.details.map((detail) => (
+                <div className="education-detail" key={detail}>
+                  {detail}
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Flashcard({ project }) {
   // Details: all but last desc, Stack: last desc
   const details = project.desc.slice(0, -1);
@@ -446,24 +488,6 @@ function Flashcard({ project }) {
 
 function SectionHeader({ children }) {
   return <h2 className="section-header">{children}</h2>;
-}
-
-function ProjectWidgets() {
-  const widgets = [
-    { value: "8.5", label: "CGPA" },
-    { value: "5+", label: "Hackathons Attended" },
-    { value: "2+", label: "Years Experience" },
-  ];
-  return (
-    <div className="project-widgets-row end-widgets">
-      {widgets.map((w, i) => (
-        <div className="project-widget glass" key={i}>
-          <div className="widget-value">{w.value}</div>
-          <div className="widget-label">{w.label}</div>
-        </div>
-      ))}
-    </div>
-  );
 }
 
 function GlowingDivider() {
@@ -854,6 +878,7 @@ function App() {
   const [imageModalAlt, setImageModalAlt] = useState("");
   const dockItems = [
     { icon: <VscHome size={18} />, label: "Home", onClick: () => scrollToSection("home") },
+    { icon: <FaGraduationCap size={18} />, label: "Education", onClick: () => scrollToSection("education") },
     { icon: <VscAccount size={18} />, label: "Internship", onClick: () => scrollToSection("internship") },
     { icon: <VscArchive size={18} />, label: "Projects", onClick: () => scrollToSection("projects") },
     { icon: <VscTools size={18} />, label: "Skills", onClick: () => scrollToSection("skills") },
@@ -923,6 +948,8 @@ function App() {
         {!showSplash && (
           <>
             <HomeSection theme={theme} />
+            <EducationSection />
+            <GlowingDivider />
             <InternshipSection />
             {/* Add space before Projects section */}
             <div style={{ height: 48 }} />
@@ -932,10 +959,6 @@ function App() {
             <Skills />
             <GlowingDivider />
             <MyJourney />
-            <GlowingDivider />
-            <section className="content-section metrics-section">
-              <ProjectWidgets />
-            </section>
             <GlowingDivider />
             <div className="contact-row">
               <ContactSection />

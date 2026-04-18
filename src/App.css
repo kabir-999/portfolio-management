@@ -1505,103 +1505,6 @@ body,
   }
 }
 
-/* Project Widgets Row - 3 small boxes style */
-.project-widgets-row {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 36px;
-  margin: 50px 0 40px 0;
-  max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.project-widget {
-  background: var(--section-container-background);
-
-  border-radius: 16px;
-  box-shadow: 0 4px 15px 0 #7fbcff15, 0 2px 5px 0 #0002;
-  border: 1.5px solid #111a2e;
-  min-width: 160px;
-  max-width: 250px;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 20px;
-  text-align: left;
-  transition: box-shadow 0.2s, border 0.2s, transform 0.2s;
-}
-
-.project-widget:hover {
-  box-shadow: 0 8px 30px 0 #7fbcff33, 0 3px 10px 0 #0004;
-  border: 1.5px solid #7fbcff88;
-  transform: translateY(-5px) scale(1.02);
-}
-
-.widget-value {
-  font-size: 2.1rem;
-  font-weight: 700;
-  color: black;
-  margin-bottom: 8px;
-}
-
-.widget-label {
-  font-size: 1.05rem;
-  color: black;
-  font-weight: 600;
-  font-family: 'Roboto', sans-serif;
-}
-
-@media (max-width: 900px) {
-  .project-widgets-row {
-    flex-wrap: wrap;
-    gap: 25px;
-    margin: 35px auto;
-    padding: 0 20px;
-    max-width: 90%;
-    justify-content: center;
-  }
-
-  .project-widget {
-    flex: 1 1 calc(50% - 25px);
-    max-width: calc(50% - 25px);
-    padding: 25px 15px;
-    align-items: center;
-    text-align: left;
-  }
-}
-
-@media (max-width: 600px) {
-  .project-widgets-row {
-    flex-direction: column;
-    gap: 20px;
-    margin: 25px auto;
-    padding: 0 15px;
-    max-width: 95%;
-    justify-content: center;
-  }
-
-  .project-widget {
-    color: blue;
-    flex: 1 1 100%;
-    max-width: 100%;
-    padding: 20px 10px;
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .widget-value {
-    font-size: 1.9rem;
-  }
-
-  .widget-label {
-    font-size: 1rem;
-  }
-}
-
 /* Image Modal Styles */
 .image-modal-overlay {
   position: fixed;
@@ -1955,7 +1858,9 @@ body.light-theme .hero .rowContainerStyle {
 
 body.light-theme .flashcard,
 body.light-theme .skill-card,
-body.light-theme .project-widget {
+body.light-theme .timeline-content,
+body.light-theme .contact-section,
+body.light-theme .contact-form-section {
   background: var(--card-background) !important;
   border: 1.5px solid var(--border-color-primary);
   box-shadow: 0 4px 15px 0 var(--shadow-color-light), 0 2px 5px 0 var(--shadow-color-dark);
@@ -2905,9 +2810,9 @@ body.light-theme .main-nav {
 
 .hero-story-card,
 .flashcard,
+.education-card,
 .skill-card,
 .timeline-content,
-.project-widget,
 .contact-section,
 .contact-form-section {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 35%), var(--portfolio-surface) !important;
@@ -2918,9 +2823,9 @@ body.light-theme .main-nav {
 
 body.light-theme .hero-story-card,
 body.light-theme .flashcard,
+body.light-theme .education-card,
 body.light-theme .skill-card,
 body.light-theme .timeline-content,
-body.light-theme .project-widget,
 body.light-theme .contact-section,
 body.light-theme .contact-form-section {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.3)), var(--portfolio-surface-strong) !important;
@@ -2945,6 +2850,68 @@ body.light-theme .contact-form-section {
 
 .internship-section {
   width: min(1180px, calc(100% - 32px));
+}
+
+.education-section {
+  margin-top: 28px;
+  margin-bottom: 36px;
+}
+
+.education-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.education-card {
+  border-radius: 28px !important;
+  padding: 30px 32px !important;
+}
+
+.education-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.education-school {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: var(--portfolio-heading);
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  line-height: 1.3;
+  font-weight: 800;
+}
+
+.education-period {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(var(--accent-color-rgb), 0.16);
+  border: 1px solid rgba(var(--accent-color-rgb), 0.28);
+  color: var(--portfolio-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.education-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.education-detail {
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--portfolio-text);
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .internship-card-list {
@@ -3047,8 +3014,8 @@ body.light-theme .contact-form-section {
 }
 
 .flashcard:hover,
-.skill-card:hover,
-.project-widget:hover {
+.education-card:hover,
+.skill-card:hover {
   transform: translateY(-8px);
   border-color: var(--portfolio-border-strong) !important;
 }
@@ -3188,25 +3155,6 @@ body.light-theme .timeline-date {
 
 .timeline-dot {
   background: linear-gradient(135deg, #d6ebff, var(--portfolio-accent)) !important;
-}
-
-.metrics-section .project-widgets-row {
-  margin: 0 auto !important;
-}
-
-.project-widget {
-  border-radius: 24px !important;
-  min-width: 0;
-  padding: 30px 24px !important;
-}
-
-.widget-value,
-.widget-label {
-  color: var(--portfolio-heading) !important;
-}
-
-.widget-label {
-  color: var(--portfolio-muted) !important;
 }
 
 .contact-row {
@@ -3361,6 +3309,21 @@ body.light-theme .contact-form textarea {
     grid-template-columns: 1fr;
   }
 
+  .education-list {
+    grid-template-columns: 1fr;
+  }
+
+  .education-card {
+    padding: 24px 22px !important;
+  }
+
+  .education-card-top {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
   .internship-card-list {
     grid-template-columns: 1fr;
   }
@@ -3411,6 +3374,7 @@ body.light-theme .contact-form textarea {
   }
 
   .section-header,
+  #education>h2,
   #projects>h2,
   #skills>h2,
   #journey>h2 {
@@ -3418,10 +3382,15 @@ body.light-theme .contact-form textarea {
   }
 
   .flashcard-content,
+  .education-card,
   .skill-card,
   .contact-section,
   .contact-form-section {
     padding-left: 20px !important;
     padding-right: 20px !important;
+  }
+
+  .education-detail {
+    width: 100%;
   }
 }
