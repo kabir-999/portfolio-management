@@ -1,0 +1,81 @@
+.chroma-grid {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+  grid-auto-rows: auto;
+  justify-content: center;
+  gap: 2.5rem; /* Increased padding/gap between containers */
+  max-width: var(--grid-max-width, 1200px);
+  margin: 0 auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
+
+  --x: 50%;
+  --y: 50%;
+  --r: 260px;
+}
+
+@media (max-width: 900px) {
+  .chroma-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 1rem;
+  }
+}
+
+.chroma-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100% !important; /* Force card to fill column width and not overlap */
+  height: auto;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid #284b63;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  background: var(--card-gradient);
+  box-sizing: border-box !important;
+
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --spotlight-color: rgba(60, 110, 113, 0.08);
+}
+
+@media (max-width: 900px) {
+  .chroma-card {
+    width: 100% !important;
+  }
+}
+
+.chroma-card:hover {
+  background: #284b63;
+  border-color: #3c6e71;
+  box-shadow:
+    0 0 20px -4px rgba(60, 110, 113, 0.35),
+    0 20px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.chroma-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+}
+
+.chroma-card:hover::before {
+  opacity: 1;
+}
+
+/* Disabled overlay and fade desaturation elements to avoid ugly container overlap */
+.chroma-overlay {
+  display: none;
+}
+
+.chroma-fade {
+  display: none;
+}

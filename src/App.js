@@ -4,13 +4,15 @@ import "./styles/dark-theme.css";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
 import hackathonImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
 import poseImg from "./assets/pos.jpg";
-import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt, FaMoon, FaSun, FaGraduationCap } from "react-icons/fa";
+import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import { VscHome, VscAccount, VscArchive, VscTools, VscMail, VscFile } from "react-icons/vsc";
 import ShinyText from "./components/ShinyText/ShinyText";
 import SplashScreen from "./components/SplashScreen";
-import FloatingLines from "./components/FloatingLines";
 import Carousel from "./components/Carousel";
 import Dock from "./components/Dock";
+import Plasma from "./components/Plasma";
+import GhostCursor from "./components/GhostCursor";
+import ChromaGrid, { ChromaCard } from "./components/ChromaGrid";
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -121,21 +123,11 @@ const profile = {
   ],
   projects: [
     {
-      title: "AI Law Summarizer",
-      link: "https://github.com/kabir-999/ai_law_summarizer",
-      desc: [
-        "Collected legal documents and built a summarization model for law titles using NLP.",
-        "Developed a UI to input case titles and display AI-generated summaries.",
-        "Stack: BeautifulSoup, Pandas, HuggingFace Transformers, FuzzyWuzzy, HTML/CSS, Flask",
-      ],
-      img: null,
-    },
-    {
       title: "AI-driven Crop Disease Detection (SIH Project)",
       link: "https://github.com/Aagnya-Mistry/SIH_Shetkari",
       desc: [
-        "Integrated an ML model into the 'Shetkari' app for real-time disease prediction.",
-        "Used Firebase and Cloudinary to handle backend services and secure image uploads.",
+        "Developed crop disease detection and recommendation models using image classification, environmental data, OpenCV, and WeatherAPI, achieving 94% accuracy.",
+        "Integrated the ML pipeline into the “Shetkari” app using Flutter, with real-time API communication and backend services powered by Firebase and Cloudinary.",
         "Stack: OpenCV, Flutter, Firebase, Cloudinary",
       ],
       img: null,
@@ -144,39 +136,29 @@ const profile = {
       title: "Artifact Identifier",
       link: "https://github.com/kabir-999/authenticity-check",
       desc: [
-        "Developed a model to identify and authenticate historical artifacts using image data.",
-        "Extracted metadata like origin, damage, and recreated the original with AR tools.",
+        "Built an end-to-end AI pipeline to classify historical artifacts, validate authenticity using CNNs, and extract metadata such as era, origin, material, and condition from images.",
+        "Developed a damage detection and AR reconstruction system using OpenCV, Blender, and AR.js for crack detection, 3D restoration, and in-browser augmented reality visualization.",
         "Stack: TensorFlow, Numpy, Pandas, Flask, Blender, HTML/CSS",
       ],
       img: null,
     },
     {
-      title: "Fraud Detection in Small Businesses",
-      link: "https://innovathon-beaches.vercel.app/",
+      title: "Real Time AQI Analysis",
+      link: "https://github.com/kabir-999/Real-Time-AQI",
       desc: [
-        "Built a complete fraud analysis tool to assist SMEs with invoice and transaction verification.",
-        "Integrated spam detection and admin tools for managing records and fraud alerts.",
-        "Stack: React, Node.js, Flask, OpenCV, Selenium, Render, Scikit-learn, Vercel",
+        "Built a real-time AQI monitoring pipeline using Apache Kafka and Apache Spark for multi-source sensor ingestion and regional air quality analysis.",
+        "Automated ETL workflows with Apache Airflow, containerised services using Docker, and designed a PostgreSQL warehouse for spatial-temporal analytics, dashboards, and public health alerts.",
+        "Stack: Python, Apache Kafka, Spark, PostgreSQL, Docker, Airflow",
       ],
       img: null,
     },
     {
-      title: "Blockchain Voting System",
-      link: null,
+      title: "SafeGuard AI (March 2026)",
+      link: "https://github.com/kabir-999/SafeOps",
       desc: [
-        "Designed a decentralized voting platform ensuring transparency and tamper-proof records using blockchain.",
-        "Enforced one-vote-per-user policy via smart contracts and wallet-based voter verification.",
-        "Stack: Solidity, Ethereum, Web3.js, React, MetaMask, Ganache",
-      ],
-      img: null,
-    },
-    {
-      title: "Real Estate Price predictor",
-      link: "https://github.com/kabir-999/real-estate-price-predictor",
-      desc: [
-        "Developed a web application that predicts real estate property prices based on user inputs such as location, square footage, and number of bedrooms.",
-        "Integrated a machine learning model with a responsive UI to provide accurate, real-time price estimations for users.",
-        "Stack: Scikit-learn, Beautiful Soup, HTML/CSS, Flask, Pandas, Numpy, Render",
+        "Built a real-time PPE compliance platform using YOLOv11 trained on 30,000+ images, achieving 81% precision and 0.724 mAP across industrial CCTV feeds with a privacy-first architecture.",
+        "Engineered an emergency alert workflow using n8n, Supabase Realtime, and Flutter, while developing an interactive Three.js factory simulation for zone-wise PPE violation tracking.",
+        "Stack: YOLOv11, n8n, Flutter, Supabase, Three.js, Firebase",
       ],
       img: null,
     },
@@ -281,12 +263,11 @@ const scrollToSection = (target) => {
   }
 };
 
-function HomeSection({ theme }) {
-  const isLight = theme === 'light';
+function HomeSection() {
   return (
-    <section id="home" className={`home-section ${isLight ? 'home-section-light' : 'home-section-dark'}`} style={{
+    <section id="home" className="home-section home-section-dark" style={{
       width: '100%',
-      minHeight: '100vh',
+      minHeight: 'auto',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -295,40 +276,9 @@ function HomeSection({ theme }) {
       overflow: 'hidden',
       padding: 0,
       margin: 0,
-      background: isLight ? '#d8e3f4' : '#0a1020',
+      background: 'transparent',
     }}>
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 0,
-        }}
-      >
-        <FloatingLines
-          enabledWaves={["top", "middle", "bottom"]}
-          lineCount={5}
-          lineDistance={5}
-          bendRadius={5}
-          bendStrength={-0.5}
-          interactive={true}
-          parallax={true}
-          linesGradient={isLight ? ["#6a90c4", "#4a7cc9", "#3a5ea8"] : ["#b8d7ff", "#7fb4ff", "#4d86ff"]}
-          mixBlendMode={isLight ? "normal" : "screen"}
-        />
-        {!isLight && (
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(180deg, rgba(10, 16, 32, 0.22) 0%, rgba(10, 16, 32, 0.58) 54%, rgba(10, 16, 32, 0.9) 100%)',
-              pointerEvents: 'none',
-            }}
-          />
-        )}
-      </div>
+
       <div className="home-content" style={{
         position: 'relative',
         zIndex: 2,
@@ -337,7 +287,7 @@ function HomeSection({ theme }) {
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        minHeight: '100vh',
+        minHeight: 'auto',
         background: 'transparent',
         boxShadow: 'none',
       }}>
@@ -346,13 +296,13 @@ function HomeSection({ theme }) {
             <div
               className="home-title"
               style={{
-                color: isLight ? '#16345f' : '#f3f8ff',
+                color: '#ffffff',
                 fontSize: 'clamp(2rem, 5.2vw, 5.2rem)',
                 whiteSpace: 'normal',
                 fontWeight: 900,
                 margin: 0,
                 userSelect: 'none',
-                textShadow: isLight ? '0 4px 20px rgba(125, 165, 255, 0.25)' : '0 10px 40px rgba(78, 131, 255, 0.22)',
+                textShadow: '0 10px 40px rgba(60, 110, 113, 0.22)',
               }}
             >
               KABIR MATHUR
@@ -361,22 +311,58 @@ function HomeSection({ theme }) {
           <div className="home-subtitle" style={{
             fontSize: 'clamp(1rem, 2vw, 1.6rem)',
             fontWeight: 700,
-            color: isLight ? '#2a4f87' : '#cfe1ff',
+            color: '#d9d9d9',
             letterSpacing: '0.14em',
             margin: '0 0 28px 0',
             textAlign: 'left',
             textTransform: 'uppercase',
-            textShadow: isLight ? '0 2px 16px rgba(126, 171, 255, 0.4)' : '0 2px 16px rgba(0, 0, 0, 0.55), 0 0 12px rgba(127, 180, 255, 0.35)',
+            textShadow: '0 2px 16px rgba(0, 0, 0, 0.55), 0 0 12px rgba(60, 110, 113, 0.35)',
             background: 'transparent',
           }}>
             <span className="home-subtitle-group">Data Scientist</span>
             <span className="home-subtitle-divider">&nbsp;|&nbsp;</span>
             <span className="home-subtitle-group">AI/ML Developer</span>
           </div>
-          <a
-            href="#contact"
-            className={`get-in-touch-btn${isLight ? ' light' : ' dark'}`}
-          >
+          <div className="home-education-info" style={{
+            margin: '0 0 32px 0',
+            textAlign: 'left',
+          }}>
+            <div style={{
+              fontSize: 'clamp(0.9rem, 1.6vw, 1.15rem)',
+              fontWeight: 600,
+              color: '#3c6e71',
+              letterSpacing: '0.08em',
+              marginBottom: '6px',
+              textTransform: 'uppercase'
+            }}>
+              Education
+            </div>
+            <div className="home-education-inst" style={{
+              fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
+              fontWeight: 600,
+              color: '#ffffff',
+              lineHeight: '1.4',
+              marginBottom: '4px'
+            }}>
+              SVKM's Dwarkadas J. Sanghvi College of Engineering (DJSCE), Mumbai
+            </div>
+            <div className="home-education-details" style={{
+              fontSize: 'clamp(0.9rem, 1.6vw, 1.1rem)',
+              color: '#d9d9d9',
+              lineHeight: '1.5'
+            }}>
+              B.Tech in Computer Science and Engineering (Data Science) &bull; 2023-2027
+            </div>
+            <div className="home-education-gpa" style={{
+              fontSize: 'clamp(0.9rem, 1.6vw, 1.1rem)',
+              color: '#3c6e71',
+              fontWeight: 600,
+              marginTop: '2px'
+            }}>
+              GPA: 8.51/10
+            </div>
+          </div>
+          <a href="#contact" className="get-in-touch-btn dark">
             Get in Touch
           </a>
         </div>
@@ -399,62 +385,65 @@ function HomeSection({ theme }) {
 }
 
 function InternshipSection() {
+  const cards = [
+    {
+      gradient: "#2e2e2e",
+      hoverGradient: "#284b63",
+      border: "#284b63",
+      titleColor: "#d9d9d9"
+    },
+    {
+      gradient: "#2e2e2e",
+      hoverGradient: "#284b63",
+      border: "#284b63",
+      titleColor: "#d9d9d9"
+    }
+  ];
+
   return (
     <section id="internship" className="content-section internship-section">
       <SectionHeader>Internship</SectionHeader>
-      <div className="flashcard-list internship-card-list">
-        {profile.internship.projects.map((project) => (
-          <div className="flashcard glass internship-project-card" key={project.title}>
+      <ChromaGrid columns={2} radius={350} style={{ '--grid-max-width': '1140px' }}>
+        {profile.internship.projects.map((project, index) => (
+          <ChromaCard
+            className="flashcard internship-project-card"
+            key={project.title}
+            borderColor={cards[index % cards.length].border}
+            gradient={cards[index % cards.length].gradient}
+            gradientHover={cards[index % cards.length].hoverGradient}
+          >
             <div className="flashcard-content internship-project-content">
               <div className="internship-meta">
                 {profile.internship.company} | {profile.internship.role} - {profile.internship.status}
               </div>
               <h3>{project.title}</h3>
               <ul>
-                {project.points.map((point, index) => (
-                  <li key={`${project.title}-${index}`}>{point}</li>
+                {project.points.map((point, idx) => (
+                  <li key={`${project.title}-${idx}`}>{point}</li>
                 ))}
               </ul>
             </div>
-          </div>
+          </ChromaCard>
         ))}
-      </div>
+      </ChromaGrid>
     </section>
   );
 }
 
-function EducationSection() {
-  return (
-    <section id="education" className="content-section education-section">
-      <SectionHeader>Education</SectionHeader>
-      <div className="education-list">
-        {profile.education.map((item) => (
-          <article className="education-card glass" key={item.institution}>
-            <div className="education-card-top">
-              <h3 className="education-school">{item.institution}</h3>
-              <div className="education-period">{item.period}</div>
-            </div>
-            <div className="education-details">
-              {item.details.map((detail) => (
-                <div className="education-detail" key={detail}>
-                  {detail}
-                </div>
-              ))}
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
 
-function Flashcard({ project }) {
+function Flashcard({ project, gradient, gradientHover, borderColor, titleColor }) {
   // Details: all but last desc, Stack: last desc
   const details = project.desc.slice(0, -1);
   let tech = project.desc[project.desc.length - 1];
   let techLine = tech.startsWith('Stack:') ? tech.replace('Stack:', '').trim() : tech;
   return (
-    <div className="flashcard glass">
+    <ChromaCard
+      className="flashcard"
+      gradient={gradient}
+      gradientHover={gradientHover}
+      borderColor={borderColor}
+      style={{}}
+    >
       <div className="project-card-container">
         {project.img && (
           <img src={project.img} alt={project.title} className="flashcard-img" />
@@ -482,7 +471,7 @@ function Flashcard({ project }) {
           </div>
         </div>
       </div>
-    </div>
+    </ChromaCard>
   );
 }
 
@@ -492,21 +481,39 @@ function SectionHeader({ children }) {
 
 function GlowingDivider() {
   return (
-    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '48px 0' }}>
+    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '24px 0' }}>
       <div className="glowing-divider" />
     </div>
   );
 }
 
 function Projects() {
+  const projectCards = [
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" }
+  ];
+
   return (
     <section id="projects" className="content-section projects-section">
       <SectionHeader>Projects</SectionHeader>
-      <div className="flashcard-list">
+      <ChromaGrid columns={2} radius={350} style={{ '--grid-max-width': '1140px' }}>
         {profile.projects.map((p, i) => (
-          <Flashcard project={p} key={i} />
+          <Flashcard
+            project={p}
+            key={i}
+            gradient={projectCards[i % projectCards.length].gradient}
+            gradientHover={projectCards[i % projectCards.length].hoverGradient}
+            borderColor={projectCards[i % projectCards.length].border}
+            titleColor={projectCards[i % projectCards.length].titleColor}
+          />
         ))}
-      </div>
+      </ChromaGrid>
     </section>
   );
 }
@@ -514,43 +521,59 @@ function Projects() {
 function Skills() {
   const skillCards = [
     {
-      icon: <FaCode size={32} color="#7fbcff" />, title: "Languages", items: [
+      icon: <FaCode size={32} color="#3c6e71" />, title: "Languages", items: [
         "C++", "DSA in C", "Java", "Python", "Solidity"
       ]
     },
     {
-      icon: <FaLaptopCode size={32} color="#7fbcff" />, title: "Web Development", items: [
+      icon: <FaLaptopCode size={32} color="#3c6e71" />, title: "Web Development", items: [
         "HTML", "CSS", "React", "Node.js", "JavaScript", "Flask", "Django", "web3.js"
       ]
     },
     {
-      icon: <FaBrain size={32} color="#7fbcff" />, title: "Machine Learning & AI", items: [
+      icon: <FaBrain size={32} color="#3c6e71" />, title: "Machine Learning & AI", items: [
         "Pandas", "Numpy", "MatplotLib", "Seaborn", "Scikit-learn", "TensorFlow", "PyTorch", "Model Development", "Computer Vision", "NLP", "Deep Learning"
       ]
     },
     {
-      icon: <FaTools size={32} color="#7fbcff" />, title: "Tools & Platforms", items: [
+      icon: <FaTools size={32} color="#3c6e71" />, title: "Tools & Platforms", items: [
         "SQL", "Git/GitHub", "Firebase", "Cloudinary", "ThingsBoard", "API Integration", "MONGODB", "Metamask", "Ganache", "Vercel"
       ]
     },
     {
-      icon: <FaCogs size={32} color="#7fbcff" />, title: "Other Skills", items: [
+      icon: <FaCogs size={32} color="#3c6e71" />, title: "Other Skills", items: [
         "EDA", "Data Preprocessing", "Render Deployment", "BeautifulSoup", "Selenium", "Blockchain"
       ]
     },
     {
-      icon: <FaUserFriends size={32} color="#7fbcff" />, title: "Soft Skills", items: [
+      icon: <FaUserFriends size={32} color="#3c6e71" />, title: "Soft Skills", items: [
         "Logical Thinking", "Teamwork", "Communication", "Leadership", "Time Management"
       ]
     },
   ];
 
+  const cards = [
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" },
+    { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63", titleColor: "#d9d9d9" }
+  ];
+
   return (
     <section id="skills" className="content-section skills-section">
       <SectionHeader>Skills</SectionHeader>
-      <div className="skill-card-list">
+      <ChromaGrid columns={3} radius={260} style={{ '--grid-max-width': '1140px' }}>
         {skillCards.map((card, i) => (
-          <div className="skill-card glass" key={i}>
+          <ChromaCard
+            className="skill-card"
+            key={i}
+            gradient={cards[i % cards.length].gradient}
+            gradientHover={cards[i % cards.length].hoverGradient}
+            borderColor={cards[i % cards.length].border}
+            style={{}}
+          >
             <div className="skill-icon">
               {card.icon}
             </div>
@@ -558,9 +581,9 @@ function Skills() {
             <ul>
               {card.items.map((item, j) => <li key={j}>{item}</li>)}
             </ul>
-          </div>
+          </ChromaCard>
         ))}
-      </div>
+      </ChromaGrid>
     </section>
   );
 }
@@ -570,6 +593,21 @@ function MyJourney() {
     ...profile.achievements.map(item => ({ ...item, type: 'achievement' })),
     ...profile.positions.map(item => ({ ...item, type: 'position' })),
   ].sort((a, b) => parseDate(a.date) - parseDate(b.date));
+
+  const cards = [
+    {
+      gradient: "#2e2e2e",
+      hoverGradient: "#284b63",
+      border: "#284b63",
+      titleColor: "#d9d9d9"
+    },
+    {
+      gradient: "#2e2e2e",
+      hoverGradient: "#284b63",
+      border: "#284b63",
+      titleColor: "#d9d9d9"
+    }
+  ];
 
   const timelineRef = useRef(null);
 
@@ -680,11 +718,17 @@ function MyJourney() {
   return (
     <section id="journey" className="content-section journey-section" ref={timelineRef}>
       <SectionHeader>My Journey</SectionHeader>
-      <div className="timeline-container">
+      <ChromaGrid columns={1} className="timeline-container" style={{ display: 'block' }}>
         <div className="timeline-line" />
         {combinedJourney.map((item, i) => (
           <div className={`timeline-item ${i % 2 === 0 ? 'left' : 'right'}`} key={i}>
-            <div className="timeline-content glass">
+            <ChromaCard
+              className="timeline-content"
+              borderColor={cards[i % cards.length].border}
+              gradient={cards[i % cards.length].gradient}
+              gradientHover={cards[i % cards.length].hoverGradient}
+              style={{ cursor: 'default' }}
+            >
               <div className="timeline-title">{item.title}</div>
               {item.desc && item.desc.length > 0 && (
                 <div className="timeline-desc">
@@ -693,14 +737,14 @@ function MyJourney() {
                   ))}
                 </div>
               )}
-            </div>
+            </ChromaCard>
             <div className="timeline-circle">
               <div className="timeline-dot" />
             </div>
             <div className="timeline-date">{item.date}</div>
           </div>
         ))}
-      </div>
+      </ChromaGrid>
     </section>
   );
 }
@@ -756,25 +800,33 @@ function ContactForm() {
   );
 }
 
-function ContactSection() {
+function ContactSection({ gradient, gradientHover, borderColor }) {
   return (
-    <section className="contact-section glass" id="contact">
-      <h2>Get In Touch</h2>
-      <div className="contact-box" style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-        <img src="/assets/linkedIIN_pic.jpeg" alt="LinkedIn Profile" className="contact-avatar" style={{ width: 60, height: 60, borderRadius: '50%', border: '2px solid #7fbcff', objectFit: 'cover', boxShadow: '0 2px 8px #7fbcff55' }} />
-        <div>
-          <div className="contact-title">Contact Information</div>
-          <div className="contact-desc">Feel free to reach out through any of these channels.</div>
-          <div className="contact-list">
-            <div className="contact-item"><FaEnvelope className="contact-icon" /> <span><a href="mailto:mathurkabir336@gmail.com">mathurkabir336@gmail.com</a></span></div>
-            <div className="contact-item"><FaGithub className="contact-icon" /> <span><a href="https://github.com/kabir-999" target="_blank" rel="noopener noreferrer">github.com/kabir-999</a></span></div>
-            <div className="contact-item"><FaLinkedin className="contact-icon" /> <span><a href="https://www.linkedin.com/in/kabir-mathur-655429292/" target="_blank" rel="noopener noreferrer">linkedin.com/in/KabirMathur</a></span></div>
-            <div className="contact-item"><FaPhone className="contact-icon" /> <span>+91 992026289</span></div>
-            <div className="contact-item"><FaMapMarkerAlt className="contact-icon" /> <span>Mumbai, India</span></div>
+    <ChromaCard
+      className="contact-section"
+      borderColor={borderColor}
+      gradient={gradient}
+      gradientHover={gradientHover}
+      style={{ cursor: 'default' }}
+    >
+      <div id="contact" style={{ width: '100%' }}>
+        <h2>Get In Touch</h2>
+        <div className="contact-box" style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+          <img src="/assets/linkedIIN_pic.jpeg" alt="LinkedIn Profile" className="contact-avatar" style={{ width: 60, height: 60, borderRadius: '50%', border: '2px solid #3c6e71', objectFit: 'cover', boxShadow: '0 2px 8px rgba(60,110,113,0.3)' }} />
+          <div>
+            <div className="contact-title">Contact Information</div>
+            <div className="contact-desc">Feel free to reach out through any of these channels.</div>
+            <div className="contact-list">
+              <div className="contact-item"><FaEnvelope className="contact-icon" /> <span><a href="mailto:mathurkabir336@gmail.com">mathurkabir336@gmail.com</a></span></div>
+              <div className="contact-item"><FaGithub className="contact-icon" /> <span><a href="https://github.com/kabir-999" target="_blank" rel="noopener noreferrer">github.com/kabir-999</a></span></div>
+              <div className="contact-item"><FaLinkedin className="contact-icon" /> <span><a href="https://www.linkedin.com/in/kabir-mathur-655429292/" target="_blank" rel="noopener noreferrer">linkedin.com/in/KabirMathur</a></span></div>
+              <div className="contact-item"><FaPhone className="contact-icon" /> <span>+91 992026289</span></div>
+              <div className="contact-item"><FaMapMarkerAlt className="contact-icon" /> <span>Mumbai, India</span></div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </ChromaCard>
   );
 }
 
@@ -851,40 +903,23 @@ function ImageModal({ src, alt, onClose }) {
 }
 
 function App() {
-  const [theme, setTheme] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme : 'dark'; // Default to dark if nothing is saved
-  });
-
-  // Splash screen state
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    if (theme === 'light') {
-      document.body.classList.add('light-theme');
-      document.body.classList.remove('dark-theme');
-    } else {
-      document.body.classList.remove('light-theme');
-      document.body.classList.add('dark-theme');
-    }
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
+    document.body.classList.add('dark-theme');
+    document.body.classList.remove('light-theme');
+  }, []);
 
   const [imageModalSrc, setImageModalSrc] = useState(null);
   const [imageModalAlt, setImageModalAlt] = useState("");
   const dockItems = [
-    { icon: <VscHome size={18} />, label: "Home", onClick: () => scrollToSection("home") },
-    { icon: <FaGraduationCap size={18} />, label: "Education", onClick: () => scrollToSection("education") },
-    { icon: <VscAccount size={18} />, label: "Internship", onClick: () => scrollToSection("internship") },
-    { icon: <VscArchive size={18} />, label: "Projects", onClick: () => scrollToSection("projects") },
-    { icon: <VscTools size={18} />, label: "Skills", onClick: () => scrollToSection("skills") },
-    { icon: <VscMail size={18} />, label: "Contact", onClick: () => scrollToSection("contact") },
+    { icon: <VscHome size={22} />, label: "Home", onClick: () => scrollToSection("home") },
+    { icon: <VscAccount size={22} />, label: "Internship", onClick: () => scrollToSection("internship") },
+    { icon: <VscArchive size={22} />, label: "Projects", onClick: () => scrollToSection("projects") },
+    { icon: <VscTools size={22} />, label: "Skills", onClick: () => scrollToSection("skills") },
+    { icon: <VscMail size={22} />, label: "Contact", onClick: () => scrollToSection("contact") },
     {
-      icon: <VscFile size={18} />,
+      icon: <VscFile size={22} />,
       label: "Resume",
       onClick: () =>
         window.open(
@@ -892,11 +927,6 @@ function App() {
           "_blank",
           "noopener,noreferrer"
         ),
-    },
-    {
-      icon: theme === "dark" ? <FaMoon size={16} /> : <FaSun size={16} />,
-      label: theme === "dark" ? "Dark" : "Light",
-      onClick: toggleTheme,
     },
   ];
 
@@ -938,17 +968,41 @@ function App() {
     };
   }, [imageModalSrc]);
 
-  // Hide splash after it finishes
   const handleSplashFinish = () => setShowSplash(false);
 
   return (
     <ErrorBoundary>
-      <div className={`app portfolio-app${theme === 'light' ? ' light-theme' : ''}`}>
+      <div className="app portfolio-app">
+        {/* Site-wide fixed background */}
+        <div style={{ position: 'fixed', inset: 0, width: '100vw', height: '100vh', zIndex: 0, pointerEvents: 'none' }}>
+          <Plasma 
+            color="#3c6e71"
+            speed={1}
+            direction="forward"
+            scale={1}
+            opacity={1}
+            mouseInteractive={false}
+          />
+        </div>
+        {/* Site-wide ghost cursor overlay */}
+        <GhostCursor
+          color="#3c6e71"
+          brightness={0.5}
+          edgeIntensity={0}
+          trailLength={24}
+          inertia={0.6}
+          grainIntensity={0.02}
+          bloomStrength={0.05}
+          bloomRadius={0.5}
+          bloomThreshold={0.4}
+          fadeDelayMs={1200}
+          fadeDurationMs={2000}
+          radius={0.5}
+        />
         {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
         {!showSplash && (
           <>
-            <HomeSection theme={theme} />
-            <EducationSection />
+            <HomeSection />
             <GlowingDivider />
             <InternshipSection />
             {/* Add space before Projects section */}
@@ -960,18 +1014,28 @@ function App() {
             <GlowingDivider />
             <MyJourney />
             <GlowingDivider />
-            <div className="contact-row">
-              <ContactSection />
-              <div className="contact-form-section glass">
+            <ChromaGrid columns={2} radius={350} style={{ '--grid-max-width': '1140px' }} className="contact-row">
+              <ContactSection
+                borderColor="#284b63"
+                gradient="#2e2e2e"
+                gradientHover="#284b63"
+              />
+              <ChromaCard
+                className="contact-form-section"
+                borderColor="#284b63"
+                gradient="#2e2e2e"
+                gradientHover="#284b63"
+                style={{ cursor: 'default' }}
+              >
                 <ContactForm />
-              </div>
-            </div>
+              </ChromaCard>
+            </ChromaGrid>
             <Footer />
             <Dock
               items={dockItems}
-              panelHeight={62}
-              baseItemSize={46}
-              magnification={58}
+              panelHeight={76}
+              baseItemSize={56}
+              magnification={72}
             />
             <ImageModal src={imageModalSrc} alt={imageModalAlt} onClose={closeImageModal} />
           </>

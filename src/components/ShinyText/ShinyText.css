@@ -4,7 +4,7 @@
   overflow: hidden;
   background: linear-gradient(90deg, 
     transparent 0%, 
-    rgba(255, 255, 255, 0.9) 50%, 
+    rgba(60, 110, 113, 0.9) 50%, 
     transparent 100%);
   background-size: 200% 100%;
   background-clip: text;
@@ -29,7 +29,7 @@
 .dark-theme .shiny-text {
   background: linear-gradient(90deg, 
     transparent 0%, 
-    rgba(127, 188, 255, 0.9) 50%, 
+    rgba(60, 110, 113, 0.9) 50%, 
     transparent 100%);
   background-size: 200% 100%;
   background-clip: text;
@@ -40,7 +40,7 @@
 .light-theme .shiny-text {
   background: linear-gradient(90deg, 
     transparent 0%, 
-    rgba(0, 0, 0, 0.9) 50%, 
+    rgba(53, 53, 53, 0.9) 50%, 
     transparent 100%);
   background-size: 200% 100%;
   background-clip: text;

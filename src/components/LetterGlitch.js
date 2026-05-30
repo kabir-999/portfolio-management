@@ -7,6 +7,7 @@ const LetterGlitch = ({
   centerVignette = false,
   outerVignette = true,
   smooth = true,
+  style = {}
 }) => {
   const canvasRef = useRef(null);
   const animationRef = useRef(null);
@@ -206,8 +207,9 @@ const LetterGlitch = ({
     position: 'relative',
     width: '100%',
     height: '100%',
-    backgroundColor: '#000000',
+    backgroundColor: 'transparent',
     overflow: 'hidden',
+    ...style
   };
 
   const canvasStyle = {
