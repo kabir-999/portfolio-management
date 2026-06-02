@@ -1,20 +1,106 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Kabir Mathur's interactive 3D portfolio built as a guided game-like world."
-    />
+    <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <title>Kabir's World</title>
-    <script type="module" crossorigin src="/assets/index-Ba6_MHby.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/three-stack-CRsSRu52.js">
-    <link rel="modulepreload" crossorigin href="/assets/motion-CYEvXi2T.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-DeW5LOMs.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a1a" />
+    <meta name="description" content="Kabir Mathur — Aspiring Data Scientist & AI Developer. Portfolio showcasing AI/ML projects, internship work at Meera AI Tech, and expertise in computer vision, NLP, and deep learning." />
+    <meta name="keywords" content="Kabir Mathur, AI Developer, Data Scientist, Machine Learning, Portfolio, Computer Vision, NLP, Deep Learning, 3D Portfolio, Three.js" />
+    <meta name="author" content="Kabir Mathur" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="Kabir Mathur — AI/ML 3D Portfolio" />
+    <meta property="og:description" content="Aspiring Data Scientist & AI Developer. Explore my 3D portfolio and projects in computer vision, NLP, and deep learning." />
+    <meta property="og:type" content="website" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>Kabir Mathur — 3D AI/ML Portfolio</title>
+    <script type="module" crossorigin src="/assets/main-DhvFqZiO.js"></script>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- Accessibility Skip Link -->
+    <a href="#hero" class="skip-link">Skip to main content</a>
+
+    <!-- Renderers Containers -->
+    <div id="webgl-container"></div>
+    <div id="css3d-container"></div>
+
+    <!-- 2D UI Overlay Navigation -->
+    <header class="nav-header">
+      <nav class="nav-bar" aria-label="Main Navigation">
+        <a href="#hero" class="nav-logo">KM</a>
+        <ul class="nav-links">
+          <li><a href="#hero" class="nav-link active">Home</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#skills" class="nav-link">Skills</a></li>
+          <li><a href="#experience" class="nav-link">Experience</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Source HTML Content for CSS3D Objects (Hydrated by cards.js) -->
+    <main id="portfolio-content">
+      <!-- HERO -->
+      <section id="hero" class="portfolio-section">
+        <div class="hero-card glass-panel">
+          <div class="badge">AI Developer & Data Scientist</div>
+          <h1>Kabir Mathur</h1>
+          <p class="tagline">Building the Future of Intelligent Systems</p>
+          <p class="intro-text">
+            Specializing in Computer Vision, Natural Language Processing, and Agentic AI. 
+            Currently developing next-generation NoCode AI app builders and smart glasses at Meera AI Tech.
+          </p>
+          <div class="cta-group">
+            <a href="#projects" class="btn btn-primary">View Projects</a>
+            <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="portfolio-section">
+        <h2 class="section-title sr-only">Projects</h2>
+        <div class="project-cards-container">
+          <!-- Populated dynamically via cards.js for CSS3D rendering -->
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section id="skills" class="portfolio-section">
+        <h2 class="section-title sr-only">Skills</h2>
+        <div class="skills-container">
+          <!-- Populated dynamically via cards.js for CSS3D rendering -->
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section id="experience" class="portfolio-section">
+        <h2 class="section-title sr-only">Experience</h2>
+        <div class="experience-container">
+          <!-- Populated dynamically via cards.js for CSS3D rendering -->
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="portfolio-section">
+        <h2 class="section-title sr-only">Contact Me</h2>
+        <div class="contact-container">
+          <!-- Populated dynamically via cards.js for CSS3D rendering -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+      <span>Scroll to explore</span>
+      <div class="mouse-icon">
+        <div class="wheel"></div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
   </body>
-  </html>
+</html>

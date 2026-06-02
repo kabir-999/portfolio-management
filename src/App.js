@@ -182,6 +182,26 @@ const profile = {
       ],
       img: null,
     },
+    {
+      title: "Blockchain Voting System",
+      link: null,
+      desc: [
+        "Designed a decentralized voting platform ensuring transparency and tamper-proof records using blockchain.",
+        "Enforced one-vote-per-user policy via smart contracts and wallet-based voter verification.",
+        "Stack: Solidity, Ethereum, Web3.js, React, MetaMask, Ganache",
+      ],
+      img: null,
+    },
+    {
+      title: "Real Estate Price predictor",
+      link: "https://github.com/kabir-999/real-estate-price-predictor",
+      desc: [
+        "Developed a web application that predicts real estate property prices based on user inputs such as location, square footage, and number of bedrooms.",
+        "Integrated a machine learning model with a responsive UI to provide accurate, real-time price estimations for users.",
+        "Stack: Scikit-learn, Beautiful Soup, HTML/CSS, Flask, Pandas, Numpy, Render",
+      ],
+      img: null,
+    },
   ],
   skills: [
     "C++", "DSA in C", "Java", "Python", "Solidity",
