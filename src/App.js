@@ -80,7 +80,7 @@ const profile = {
       period: "2023-2027",
       details: [
         "B.Tech in Computer Science and Engineering (Data Science)",
-        "GPA: 8.51/10",
+        "GPA: 8.648/10",
       ],
     },
     {
@@ -379,7 +379,7 @@ function HomeSection() {
               fontWeight: 600,
               marginTop: '2px'
             }}>
-              GPA: 8.51/10
+              GPA: 8.648/10
             </div>
           </div>
           <a href="#contact" className="get-in-touch-btn dark">
