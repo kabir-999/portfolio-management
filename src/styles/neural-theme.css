@@ -1,0 +1,293 @@
+/* ============================================================
+   NEURAL COSMOS THEME
+   Deep-space neural network palette layered over the base
+   styles. Imported last so it wins the cascade.
+   ============================================================ */
+
+:root {
+  --page-background: #04070f;
+  --primary-text: #eef4ff;
+  --secondary-text: #aebcd6;
+  --accent-color: #4fd1ff;
+  --accent-hover: #8b7bff;
+  --card-bg: rgba(10, 18, 38, 0.55);
+  --card-border: rgba(79, 209, 255, 0.18);
+  --glass-border: rgba(79, 209, 255, 0.18);
+  --shadow-color: rgba(0, 0, 0, 0.45);
+  --input-bg: rgba(8, 14, 30, 0.6);
+  --input-border: rgba(79, 209, 255, 0.22);
+  --timeline-line: #4fd1ff;
+}
+
+html,
+body,
+body.dark-theme,
+.dark-theme .app {
+  background: #04070f !important;
+  color: var(--primary-text);
+}
+
+.app.portfolio-app {
+  position: relative;
+  z-index: 1;
+}
+
+/* Content sits above the fixed 3D canvas */
+.home-section,
+.content-section,
+.contact-row,
+.site-footer {
+  position: relative;
+  z-index: 2;
+}
+
+/* ---------- Glass cards ---------- */
+.chroma-card {
+  background: linear-gradient(150deg, rgba(13, 22, 46, 0.66), rgba(7, 12, 28, 0.72)) !important;
+  border: 1px solid rgba(79, 209, 255, 0.16) !important;
+  border-radius: 20px;
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  --spotlight-color: rgba(79, 209, 255, 0.1);
+}
+
+.chroma-card:hover {
+  background: linear-gradient(150deg, rgba(17, 30, 62, 0.72), rgba(10, 17, 38, 0.78)) !important;
+  border-color: rgba(79, 209, 255, 0.45) !important;
+  box-shadow:
+    0 0 32px -6px rgba(79, 209, 255, 0.35),
+    0 24px 60px -12px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.dark-theme .flashcard,
+.dark-theme .education-card,
+.dark-theme .skill-card,
+.dark-theme .timeline-content,
+.dark-theme .contact-section,
+.dark-theme .contact-form-section {
+  background: transparent !important;
+  border: none;
+  box-shadow: none;
+}
+
+/* 3D tilt wrapper keeps grid sizing intact */
+.tilt-wrap {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.tilt-wrap > .chroma-card {
+  height: 100%;
+}
+
+/* ---------- Section headers ---------- */
+.section-header,
+.dark-theme .timeline-section .section-header {
+  background: linear-gradient(92deg, #eef4ff 0%, #7ce7ff 55%, #8b7bff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #eef4ff;
+  letter-spacing: 0.06em;
+  text-shadow: none;
+  filter: drop-shadow(0 0 22px rgba(79, 209, 255, 0.28));
+}
+
+/* ---------- Hero ---------- */
+.home-title {
+  background: linear-gradient(95deg, #ffffff 0%, #bfeaff 60%, #8b7bff 115%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 8px 34px rgba(79, 209, 255, 0.25));
+}
+
+.home-subtitle {
+  color: #aebcd6 !important;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55), 0 0 14px rgba(79, 209, 255, 0.3) !important;
+}
+
+.get-in-touch-btn,
+.get-in-touch-btn.dark {
+  background: linear-gradient(120deg, rgba(79, 209, 255, 0.16), rgba(139, 123, 255, 0.16));
+  border: 1px solid rgba(79, 209, 255, 0.45);
+  color: #7ce7ff;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 24px -6px rgba(79, 209, 255, 0.4);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease,
+    background 0.3s ease, color 0.3s ease;
+}
+
+.get-in-touch-btn:hover,
+.get-in-touch-btn.dark:hover {
+  background: linear-gradient(120deg, rgba(79, 209, 255, 0.3), rgba(139, 123, 255, 0.3));
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 0 36px -4px rgba(79, 209, 255, 0.55);
+}
+
+/* ---------- Dividers ---------- */
+.glowing-divider {
+  height: 1px !important;
+  max-width: 640px;
+  background: linear-gradient(90deg, transparent, rgba(79, 209, 255, 0.55), rgba(139, 123, 255, 0.55), transparent) !important;
+  box-shadow: 0 0 18px rgba(79, 209, 255, 0.35) !important;
+}
+
+/* ---------- Buttons & links ---------- */
+.project-link-button {
+  background: linear-gradient(120deg, rgba(79, 209, 255, 0.18), rgba(139, 123, 255, 0.18));
+  border: 1px solid rgba(79, 209, 255, 0.4);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+
+.project-link-button:hover {
+  background: linear-gradient(120deg, rgba(79, 209, 255, 0.32), rgba(139, 123, 255, 0.32));
+  box-shadow: 0 0 22px -4px rgba(79, 209, 255, 0.5);
+}
+
+.dark-theme a,
+.dark-theme a:hover,
+.dark-theme .flashcard-content a {
+  color: #7ce7ff;
+}
+
+.dark-theme .contact-item a:hover {
+  color: #8b7bff;
+}
+
+/* ---------- Skills ---------- */
+.skill-icon svg {
+  color: #4fd1ff !important;
+  fill: #4fd1ff !important;
+  filter: drop-shadow(0 0 12px rgba(79, 209, 255, 0.5));
+}
+
+/* ---------- Timeline ---------- */
+.dark-theme .timeline-line,
+.timeline-line {
+  background: linear-gradient(180deg, #4fd1ff, #8b7bff) !important;
+  box-shadow: 0 0 18px rgba(79, 209, 255, 0.45) !important;
+}
+
+.timeline-circle {
+  background-color: rgba(7, 12, 28, 0.9);
+  border: 2px solid #4fd1ff;
+  box-shadow: 0 0 14px rgba(79, 209, 255, 0.5);
+}
+
+.timeline-dot {
+  background-color: #7ce7ff;
+}
+
+.timeline-circle.active .timeline-dot,
+.timeline-circle:hover .timeline-dot {
+  box-shadow: 0 0 15px rgba(79, 209, 255, 0.9);
+}
+
+.timeline-date {
+  background: rgba(10, 18, 38, 0.7);
+  border: 1px solid rgba(79, 209, 255, 0.2);
+  border-radius: 999px;
+  color: #aebcd6;
+  backdrop-filter: blur(8px);
+}
+
+/* ---------- Contact form ---------- */
+.dark-theme .contact-form input,
+.dark-theme .contact-form textarea {
+  background: rgba(8, 14, 30, 0.6);
+  border: 1px solid rgba(79, 209, 255, 0.22);
+  border-radius: 12px;
+  color: #eef4ff;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dark-theme .contact-form input:focus,
+.dark-theme .contact-form textarea:focus {
+  border-color: rgba(79, 209, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(79, 209, 255, 0.15);
+  outline: none;
+}
+
+.dark-theme .contact-form button {
+  background: linear-gradient(120deg, #2196c9, #6c5ce7);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 8px 26px -8px rgba(79, 209, 255, 0.55);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+
+.dark-theme .contact-form button:hover:not(:disabled) {
+  background: linear-gradient(120deg, #2ba8de, #7d6cff);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -8px rgba(79, 209, 255, 0.7);
+}
+
+/* ---------- Dock ---------- */
+.dock-panel {
+  background: rgba(8, 14, 30, 0.6);
+  border: 1px solid rgba(79, 209, 255, 0.22);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55), 0 0 24px -8px rgba(79, 209, 255, 0.25);
+}
+
+.dock-item {
+  background: rgba(13, 22, 46, 0.7);
+  border: 1px solid rgba(79, 209, 255, 0.14);
+  color: #aebcd6;
+}
+
+.dock-item:hover,
+.dock-item.active {
+  background: rgba(79, 209, 255, 0.16);
+  border-color: rgba(79, 209, 255, 0.6);
+  box-shadow: 0 10px 24px rgba(79, 209, 255, 0.25);
+  color: #7ce7ff;
+}
+
+.dock-label {
+  background: rgba(8, 14, 30, 0.92);
+  border: 1px solid rgba(79, 209, 255, 0.25);
+  color: #eef4ff;
+}
+
+/* ---------- Scrollbar & selection ---------- */
+::selection {
+  background: rgba(79, 209, 255, 0.35);
+  color: #ffffff;
+}
+
+.dark-theme::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 9px;
+  background: #060a16;
+}
+
+.dark-theme::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(79, 209, 255, 0.4), rgba(139, 123, 255, 0.4));
+  border-radius: 8px;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  color: #6c7a96;
+}
+
+/* ---------- Motion accessibility ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .chroma-card,
+  .get-in-touch-btn,
+  .project-link-button {
+    transition: none;
+  }
+}

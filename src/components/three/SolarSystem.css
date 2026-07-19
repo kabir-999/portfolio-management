@@ -1,0 +1,714 @@
+/* ============================================================
+   SOLAR SYSTEM PORTFOLIO — layout & HUD
+   ============================================================ */
+
+html,
+body {
+  overflow: hidden !important;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+.solar-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(1200px 800px at 72% 12%, rgba(79, 209, 255, 0.06), transparent 60%),
+    radial-gradient(1000px 700px at 18% 85%, rgba(139, 123, 255, 0.06), transparent 60%),
+    radial-gradient(ellipse at center, #0b1226 0%, #070c1c 55%, #04070f 100%);
+  touch-action: none;
+}
+
+.solar-bg canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+.solar-bg canvas:active {
+  cursor: grabbing;
+}
+
+.solar-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(3, 5, 12, 0.55) 0%, transparent 15%),
+    radial-gradient(ellipse at center, transparent 58%, rgba(2, 4, 10, 0.5) 100%);
+}
+
+/* ---------- planet labels (drei Html) ---------- */
+.planet-label {
+  position: relative;
+  font-family: 'Outfit', 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(238, 244, 255, 0.85);
+  text-shadow: 0 0 14px rgba(79, 209, 255, 0.6), 0 2px 10px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.25s ease, text-shadow 0.25s ease, letter-spacing 0.3s ease;
+}
+
+/* thin leader line anchoring the label to its planet */
+.planet-label::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 4px);
+  width: 1px;
+  height: 18px;
+  background: linear-gradient(180deg, rgba(238, 244, 255, 0.55), transparent);
+  transition: opacity 0.25s ease;
+}
+
+.planet-label-hot {
+  color: #ffffff;
+  letter-spacing: 0.36em;
+  text-shadow: 0 0 22px rgba(124, 231, 255, 1), 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.sun-label {
+  color: rgba(255, 226, 176, 0.9);
+  text-shadow: 0 0 16px rgba(255, 184, 107, 0.7), 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* ---------- HUD ---------- */
+.solar-hud {
+  position: fixed;
+  top: 34px;
+  left: 42px;
+  z-index: 5;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.solar-hud-dim {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.solar-hud-name {
+  font-family: 'Outfit', 'Poppins', sans-serif;
+  font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  background: linear-gradient(95deg, #ffffff 0%, #bfeaff 60%, #8b7bff 115%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 6px 26px rgba(79, 209, 255, 0.3));
+}
+
+.solar-hud-tag {
+  margin-top: 6px;
+  font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #aebcd6;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.solar-hud-resume {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(79, 209, 255, 0.4);
+  background: rgba(79, 209, 255, 0.1);
+  color: #7ce7ff !important;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  pointer-events: auto;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.solar-hud-resume:hover {
+  background: rgba(79, 209, 255, 0.22);
+  box-shadow: 0 0 22px -6px rgba(79, 209, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.solar-hint {
+  position: fixed;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  pointer-events: none;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(174, 188, 214, 0.75);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+  animation: hintPulse 3.2s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+.solar-copyright {
+  position: fixed;
+  bottom: 18px;
+  right: 24px;
+  z-index: 5;
+  pointer-events: none;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: rgba(108, 122, 150, 0.8);
+}
+
+/* ---------- planet page: flat 2D page tinted in the planet's colour ---------- */
+.overlay-panel {
+  --accent: #4fd1ff;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(1200px 700px at 82% -14%, color-mix(in oklab, var(--accent) 30%, transparent) 0%, transparent 62%),
+    radial-gradient(900px 600px at -8% 40%, color-mix(in oklab, var(--accent) 12%, transparent) 0%, transparent 58%),
+    linear-gradient(168deg,
+      color-mix(in oklab, var(--accent) 26%, rgba(10, 14, 28, 0.78)) 0%,
+      color-mix(in oklab, var(--accent) 11%, rgba(7, 10, 20, 0.82)) 52%,
+      rgba(5, 7, 14, 0.86) 100%);
+  backdrop-filter: blur(14px) saturate(135%);
+  -webkit-backdrop-filter: blur(14px) saturate(135%);
+  animation: surfaceFade 0.7s ease 0.25s both;
+}
+
+@keyframes surfaceFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* the planet itself as flat ground rising from the bottom of the page */
+.overlay-page-arc {
+  position: absolute;
+  bottom: -58vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 170vw;
+  height: 90vh;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+    color-mix(in oklab, var(--accent) 62%, #0a0e1c) 0%,
+    color-mix(in oklab, var(--accent) 48%, #0a0e1c) 55%,
+    color-mix(in oklab, var(--accent) 34%, #0a0e1c) 68%,
+    transparent 72%);
+  box-shadow: 0 -30px 120px -20px color-mix(in oklab, var(--accent) 55%, transparent);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* faint stars sprinkled on the page */
+.overlay-page-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1px 1px at 34% 64%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 56% 12%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 86% 70%, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(1px 1px at 22% 84%, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(1px 1px at 92% 16%, rgba(255, 255, 255, 0.45), transparent);
+}
+
+.overlay-close {
+  position: fixed;
+  top: 26px;
+  right: 30px;
+  z-index: 60;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(79, 209, 255, 0.3);
+  background: rgba(8, 14, 30, 0.55);
+  color: #aebcd6;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.overlay-close:hover {
+  color: #ffffff;
+  border-color: rgba(79, 209, 255, 0.7);
+  transform: rotate(90deg);
+  box-shadow: 0 0 18px -4px rgba(79, 209, 255, 0.6);
+}
+
+.overlay-back {
+  position: fixed;
+  top: 32px;
+  left: 42px;
+  z-index: 60;
+  background: none;
+  border: none;
+  padding: 6px 0;
+  color: rgba(174, 188, 214, 0.85);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.overlay-back:hover {
+  color: #7ce7ff;
+  transform: translateX(-4px);
+}
+
+.overlay-panel-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 9vh 20px 22vh;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--accent) 45%, transparent) transparent;
+  animation: surfaceRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+@keyframes surfaceRise {
+  from {
+    opacity: 0;
+    transform: translateY(46px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.overlay-panel-body::-webkit-scrollbar {
+  width: 7px;
+}
+
+.overlay-panel-body::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--accent) 45%, transparent);
+  border-radius: 8px;
+}
+
+/* accent-themed elements on the planet page */
+.overlay-panel .section-header,
+.overlay-panel .dark-theme .timeline-section .section-header {
+  background: linear-gradient(92deg, #ffffff 0%, color-mix(in oklab, var(--accent) 80%, white) 55%, var(--accent) 110%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 24px color-mix(in oklab, var(--accent) 45%, transparent));
+}
+
+.overlay-panel .project-link-button {
+  background: color-mix(in oklab, var(--accent) 24%, transparent);
+  border: 1px solid color-mix(in oklab, var(--accent) 55%, transparent);
+}
+
+.overlay-panel .project-link-button:hover {
+  background: color-mix(in oklab, var(--accent) 40%, transparent);
+  box-shadow: 0 0 22px -4px color-mix(in oklab, var(--accent) 70%, transparent);
+}
+
+.overlay-panel a,
+.overlay-panel .dark-theme a,
+.overlay-panel .flashcard-content a,
+.overlay-panel .contact-item a,
+.overlay-panel .contact-item svg {
+  color: color-mix(in oklab, var(--accent) 70%, white) !important;
+}
+
+.overlay-panel .contact-item a:hover {
+  color: #ffffff !important;
+}
+
+.overlay-panel .skill-icon svg {
+  color: var(--accent) !important;
+  fill: var(--accent) !important;
+  filter: drop-shadow(0 0 12px color-mix(in oklab, var(--accent) 60%, transparent));
+}
+
+.overlay-panel .timeline-line {
+  background: var(--accent) !important;
+  box-shadow: 0 0 18px color-mix(in oklab, var(--accent) 55%, transparent) !important;
+}
+
+.overlay-panel .timeline-circle {
+  border-color: var(--accent);
+  background-color: color-mix(in oklab, var(--accent) 20%, #070a14);
+  box-shadow: 0 0 14px color-mix(in oklab, var(--accent) 60%, transparent);
+}
+
+.overlay-panel .timeline-dot {
+  background-color: var(--accent);
+}
+
+.overlay-panel .timeline-date {
+  background: color-mix(in oklab, var(--accent) 16%, #070a14);
+  border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+}
+
+.overlay-panel .contact-form input,
+.overlay-panel .contact-form textarea {
+  background: color-mix(in oklab, var(--accent) 8%, rgba(5, 8, 16, 0.55)) !important;
+  border: 1px solid color-mix(in oklab, var(--accent) 32%, transparent) !important;
+}
+
+.overlay-panel .contact-form input:focus,
+.overlay-panel .contact-form textarea:focus {
+  border-color: color-mix(in oklab, var(--accent) 65%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 20%, transparent) !important;
+}
+
+.overlay-panel .contact-form button {
+  background: color-mix(in oklab, var(--accent) 45%, #101830) !important;
+  box-shadow: 0 8px 26px -8px color-mix(in oklab, var(--accent) 60%, transparent) !important;
+}
+
+.overlay-panel .get-in-touch-btn,
+.overlay-panel .get-in-touch-btn.dark {
+  background: color-mix(in oklab, var(--accent) 22%, transparent);
+  border: 1px solid color-mix(in oklab, var(--accent) 55%, transparent);
+  color: #ffffff;
+  box-shadow: 0 0 24px -6px color-mix(in oklab, var(--accent) 55%, transparent);
+}
+
+.overlay-close {
+  border-color: color-mix(in oklab, var(--accent) 40%, transparent);
+}
+
+.overlay-close:hover {
+  border-color: color-mix(in oklab, var(--accent) 80%, transparent);
+  box-shadow: 0 0 18px -4px color-mix(in oklab, var(--accent) 70%, transparent);
+}
+
+.overlay-back:hover {
+  color: color-mix(in oklab, var(--accent) 70%, white);
+}
+
+/* content column: centered, wide enough for side-by-side craters */
+.overlay-panel .content-section,
+.overlay-panel .home-section,
+.overlay-panel .contact-row {
+  width: min(1180px, 94vw);
+  margin: 0 auto;
+  padding: 0;
+}
+
+.overlay-panel .chroma-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(430px, 100%), 1fr)) !important;
+  gap: 1.7rem;
+  padding: 0;
+  max-width: none;
+}
+
+.overlay-panel .skills-section .chroma-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(330px, 100%), 1fr)) !important;
+}
+
+.overlay-panel .tilt-wrap .glare-wrapper {
+  display: none;
+}
+
+/* cards as craters sunken into the planet's surface */
+.overlay-panel .chroma-card {
+  background:
+    radial-gradient(140% 130% at 50% -12%,
+      color-mix(in oklab, var(--accent) 13%, rgba(10, 14, 28, 0.42)) 0%,
+      color-mix(in oklab, var(--accent) 6%, rgba(7, 10, 20, 0.5)) 55%,
+      color-mix(in oklab, var(--accent) 11%, rgba(12, 16, 30, 0.44)) 100%) !important;
+  border: 1px solid color-mix(in oklab, var(--accent) 26%, transparent) !important;
+  border-radius: 30px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 12px 28px -14px rgba(0, 0, 0, 0.6),
+    inset 0 -8px 20px -12px color-mix(in oklab, var(--accent) 32%, transparent),
+    0 16px 36px -20px rgba(0, 0, 0, 0.55) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  padding: 28px 30px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.overlay-panel .chroma-card:hover {
+  border-color: color-mix(in oklab, var(--accent) 55%, transparent) !important;
+  box-shadow:
+    inset 0 12px 28px -14px rgba(0, 0, 0, 0.55),
+    inset 0 -8px 20px -12px color-mix(in oklab, var(--accent) 40%, transparent),
+    0 0 30px -8px color-mix(in oklab, var(--accent) 45%, transparent),
+    0 18px 40px -20px rgba(0, 0, 0, 0.6) !important;
+}
+
+.overlay-panel .chroma-card::before {
+  display: none;
+}
+
+/* 1px gradient border: light at top-left fading out toward bottom-right */
+.overlay-panel .chroma-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.32) 0%,
+    color-mix(in oklab, var(--accent) 35%, transparent) 35%,
+    transparent 65%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* balance the internship page: third card spans the full row */
+.overlay-panel .internship-section .tilt-wrap:nth-child(3) {
+  grid-column: 1 / -1;
+}
+
+/* timeline keeps its open, line-drawn look */
+.overlay-panel .timeline-item .timeline-content,
+.overlay-panel .timeline-item.active .timeline-content {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* accent-tinted meta lines inside craters */
+.overlay-panel .internship-meta,
+.overlay-panel .tech-stack strong,
+.overlay-panel .skill-title {
+  color: color-mix(in oklab, var(--accent) 75%, white) !important;
+}
+
+.overlay-panel .section-header {
+  margin-top: 0;
+  text-align: center;
+}
+
+.overlay-panel .home-content {
+  flex-direction: column !important;
+  gap: 26px;
+  padding: 0;
+}
+
+.overlay-panel .home-copy-column {
+  width: 100%;
+}
+
+@media (min-width: 1000px) {
+  .overlay-panel .home-content {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 56px;
+  }
+
+  .overlay-panel .home-copy-column {
+    flex: 1;
+  }
+}
+
+.overlay-panel .home-title {
+  font-size: clamp(1.9rem, 3.6vw, 3.2rem) !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+/* intro bio + highlight chips */
+.overlay-panel .home-intro {
+  margin: 0 0 24px;
+  max-width: 62ch;
+  font-size: 1.04rem;
+  line-height: 1.8;
+  color: rgba(226, 234, 250, 0.88);
+}
+
+.overlay-panel .home-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 30px;
+}
+
+.overlay-panel .home-highlight-chip {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--accent) 45%, transparent);
+  background: color-mix(in oklab, var(--accent) 14%, transparent);
+  color: color-mix(in oklab, var(--accent) 80%, white) !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  box-shadow: 0 0 18px -8px color-mix(in oklab, var(--accent) 60%, transparent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.overlay-panel .home-highlight-chip:hover {
+  transform: translateY(-3px);
+  background: color-mix(in oklab, var(--accent) 26%, transparent);
+  box-shadow: 0 0 24px -6px color-mix(in oklab, var(--accent) 75%, transparent);
+}
+
+/* bigger hero photos */
+.overlay-panel .rb-carousel {
+  --carousel-base-width: min(440px, 84vw) !important;
+}
+
+.overlay-panel .rb-carousel-viewport {
+  min-height: min(520px, 58vh) !important;
+}
+
+.overlay-panel .rb-carousel-stage {
+  height: min(520px, 58vh) !important;
+}
+
+/* ---------- entrance & ambient animations ---------- */
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.overlay-panel .home-copy-column > * {
+  animation: riseIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.overlay-panel .home-copy-column > *:nth-child(1) { animation-delay: 0.3s; }
+.overlay-panel .home-copy-column > *:nth-child(2) { animation-delay: 0.4s; }
+.overlay-panel .home-copy-column > *:nth-child(3) { animation-delay: 0.5s; }
+.overlay-panel .home-copy-column > *:nth-child(4) { animation-delay: 0.6s; }
+.overlay-panel .home-copy-column > *:nth-child(5) { animation-delay: 0.7s; }
+.overlay-panel .home-copy-column > *:nth-child(6) { animation-delay: 0.8s; }
+
+.overlay-panel .home-carousel-column {
+  animation: riseIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both;
+}
+
+.overlay-panel .home-carousel-shell {
+  animation: floatBob 6s ease-in-out 1.6s infinite;
+}
+
+/* crater cards rise in one after another on every page */
+.overlay-panel .chroma-grid .tilt-wrap,
+.overlay-panel .chroma-grid > .chroma-card {
+  animation: riseIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.overlay-panel .chroma-grid .tilt-wrap:nth-child(1),
+.overlay-panel .chroma-grid > .chroma-card:nth-child(1) { animation-delay: 0.3s; }
+.overlay-panel .chroma-grid .tilt-wrap:nth-child(2),
+.overlay-panel .chroma-grid > .chroma-card:nth-child(2) { animation-delay: 0.42s; }
+.overlay-panel .chroma-grid .tilt-wrap:nth-child(3),
+.overlay-panel .chroma-grid > .chroma-card:nth-child(3) { animation-delay: 0.54s; }
+.overlay-panel .chroma-grid .tilt-wrap:nth-child(4),
+.overlay-panel .chroma-grid > .chroma-card:nth-child(4) { animation-delay: 0.66s; }
+.overlay-panel .chroma-grid .tilt-wrap:nth-child(5),
+.overlay-panel .chroma-grid > .chroma-card:nth-child(5) { animation-delay: 0.78s; }
+.overlay-panel .chroma-grid .tilt-wrap:nth-child(6),
+.overlay-panel .chroma-grid > .chroma-card:nth-child(6) { animation-delay: 0.9s; }
+.overlay-panel .chroma-grid .tilt-wrap:nth-child(n+7),
+.overlay-panel .chroma-grid > .chroma-card:nth-child(n+7) { animation-delay: 1s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay-panel .home-copy-column > *,
+  .overlay-panel .home-carousel-column,
+  .overlay-panel .home-carousel-shell,
+  .overlay-panel .chroma-grid .tilt-wrap,
+  .overlay-panel .chroma-grid > .chroma-card {
+    animation: none;
+  }
+}
+
+.overlay-panel .home-education-info > div:first-child,
+.overlay-panel .home-education-gpa {
+  color: color-mix(in oklab, var(--accent) 78%, white) !important;
+}
+
+.overlay-panel .home-section {
+  min-height: unset !important;
+}
+
+/* timeline dates: pinned beside the line, clear of the glowing dot */
+.overlay-panel .timeline-date {
+  position: absolute;
+  top: 10px;
+}
+
+.overlay-panel .timeline-item.left .timeline-date {
+  left: calc(50% + 46px);
+  right: auto;
+  margin: 0;
+  text-align: left;
+}
+
+.overlay-panel .timeline-item.right .timeline-date {
+  right: calc(50% + 46px);
+  left: auto;
+  margin: 0;
+  text-align: right;
+}
+
+/* ---------- mobile ---------- */
+@media (max-width: 768px) {
+  .solar-hud {
+    top: 20px;
+    left: 20px;
+  }
+
+  .solar-hint {
+    bottom: 104px;
+    font-size: 0.62rem;
+  }
+
+  .overlay-back {
+    top: 22px;
+    left: 20px;
+  }
+
+  .overlay-close {
+    top: 16px;
+    right: 16px;
+  }
+
+  .overlay-panel-body {
+    padding: 11vh 12px 30vh;
+  }
+}

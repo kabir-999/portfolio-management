@@ -1,18 +1,38 @@
 import React, { useState, useEffect, useRef, Component } from "react";
 import "./App.css";
 import "./styles/dark-theme.css";
+import "./styles/neural-theme.css";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
 import hackathonImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
 import poseImg from "./assets/pos.jpg";
 import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
-import { VscHome, VscAccount, VscArchive, VscTools, VscMail, VscFile } from "react-icons/vsc";
 import ShinyText from "./components/ShinyText/ShinyText";
 import SplashScreen from "./components/SplashScreen";
 import Carousel from "./components/Carousel";
-import Dock from "./components/Dock";
-import Plasma from "./components/Plasma";
-import GhostCursor from "./components/GhostCursor";
+import Tilt from "react-parallax-tilt";
+import SolarSystem from "./components/three/SolarSystem";
 import ChromaGrid, { ChromaCard } from "./components/ChromaGrid";
+
+function TiltCard({ children }) {
+  return (
+    <Tilt
+      className="tilt-wrap"
+      tiltMaxAngleX={6}
+      tiltMaxAngleY={6}
+      scale={1.02}
+      transitionSpeed={1400}
+      perspective={1100}
+      glareEnable={true}
+      glareMaxOpacity={0.08}
+      glareColor="#7ce7ff"
+      glarePosition="all"
+      glareBorderRadius="20px"
+      tiltEnable={typeof window === "undefined" || window.innerWidth > 900}
+    >
+      {children}
+    </Tilt>
+  );
+}
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -46,6 +66,14 @@ class ErrorBoundary extends Component {
 const profile = {
   name: "Kabir Mathur",
   tagline: "Aspiring Data Scientist & AI Developer",
+  about:
+    "I'm Kabir — a data scientist and AI/ML developer from Mumbai who loves turning ambitious ideas into working products. From smart glasses that help the visually impaired see the world, to no-code engines that generate entire mobile apps, I build AI systems that ship. When I'm not training models, you'll find me at hackathons, leading my department's tech teams, or exploring the newest corners of agentic AI.",
+  highlights: [
+    "SIH Grand Finalist",
+    "AWS ML Certified",
+    "10+ AI Projects",
+    "2x AI/ML Intern",
+  ],
   contact: {
     phone: "+91 992026289",
     location: "Mumbai, India",
@@ -53,27 +81,43 @@ const profile = {
     linkedin: "https://www.linkedin.com/in/kabir-mathur-655429292/",
     github: "https://github.com/kabir-999",
   },
-  internship: {
-    company: "Meera AI Tech",
-    role: "AI/ML Intern",
-    status: "Ongoing",
-    projects: [
-      {
-        title: "Spectrasense",
-        points: [
-          "Built AI-powered smart glasses using YOLO and Qwen-2.5 for real-time object detection and scene analysis.",
-          "Integrated FaceNet and PaddleOCR for face recognition, registration, and text reading, enhancing accessibility for visually impaired users.",
-        ],
-      },
-      {
-        title: "NoCode App Developer Engine",
-        points: [
-          "Built a no-code AI platform for end-to-end mobile app development, enabling users to generate full Android and iOS applications from prompts with an in-browser emulator for real-time preview and testing.",
-          "Designed an agentic AI architecture for automated app generation and deployment, producing production-ready APK builds and optionally delivering full source code for advanced users.",
-        ],
-      },
-    ],
-  },
+  internships: [
+    {
+      company: "Meera AI Tech",
+      role: "AI/ML Intern",
+      period: "Ongoing",
+      projects: [
+        {
+          title: "Spectrasense",
+          points: [
+            "Built AI-powered smart glasses using YOLO and Qwen-2.5 for real-time object detection and scene analysis.",
+            "Integrated FaceNet and PaddleOCR for face recognition, registration, and text reading, enhancing accessibility for visually impaired users.",
+          ],
+        },
+        {
+          title: "NoCode App Developer Engine",
+          points: [
+            "Built a no-code AI platform for end-to-end mobile app development, enabling users to generate full Android and iOS applications from prompts with an in-browser emulator for real-time preview and testing.",
+            "Designed an agentic AI architecture for automated app generation and deployment, producing production-ready APK builds and optionally delivering full source code for advanced users.",
+          ],
+        },
+      ],
+    },
+    {
+      company: "K2S2 Digistrat Solutions",
+      role: "AI/ML Intern",
+      period: "Jun 2025 – Sep 2025",
+      projects: [
+        {
+          title: "Face Recognition & Anti-Spoofing",
+          points: [
+            "Trained a Vision Transformer on 60,000+ images to classify genuine faces and spoofing attacks, achieving 88% detection accuracy.",
+            "Developed a real-time camera-based face recognition and anti-spoofing application for live authentication.",
+          ],
+        },
+      ],
+    },
+  ],
   education: [
     {
       institution: "SVKM's Dwarkadas J. Sanghvi College of Engineering (DJSCE), Mumbai",
@@ -226,6 +270,13 @@ const profile = {
       ],
     },
     {
+      title: "AI/ML Intern, K2S2 Digistrat Solutions",
+      date: "Jun 2025",
+      desc: [
+        "Trained a Vision Transformer on 60,000+ images for face anti-spoofing with 88% detection accuracy, and built a real-time camera-based face recognition app for live authentication."
+      ],
+    },
+    {
       title: "AI/ML Intern, Meera AI Tech",
       date: "Sep 2025",
       desc: [
@@ -271,19 +322,7 @@ const parseDate = (dateString) => {
   return new Date(0);
 };
 
-const scrollToSection = (target) => {
-  if (target === "home") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
-
-  const section = document.getElementById(target);
-  if (section) {
-    section.scrollIntoView({ behavior: "smooth" });
-  }
-};
-
-function HomeSection() {
+function HomeSection({ onNavigate }) {
   return (
     <section id="home" className="home-section home-section-dark" style={{
       width: '100%',
@@ -322,7 +361,7 @@ function HomeSection() {
                 fontWeight: 900,
                 margin: 0,
                 userSelect: 'none',
-                textShadow: '0 10px 40px rgba(60, 110, 113, 0.22)',
+                textShadow: '0 10px 40px rgba(79, 209, 255, 0.22)',
               }}
             >
               KABIR MATHUR
@@ -343,6 +382,14 @@ function HomeSection() {
             <span className="home-subtitle-divider">&nbsp;|&nbsp;</span>
             <span className="home-subtitle-group">AI/ML Developer</span>
           </div>
+          <p className="home-intro">{profile.about}</p>
+          <div className="home-highlights">
+            {profile.highlights.map((item) => (
+              <span className="home-highlight-chip" key={item}>
+                {item}
+              </span>
+            ))}
+          </div>
           <div className="home-education-info" style={{
             margin: '0 0 32px 0',
             textAlign: 'left',
@@ -350,7 +397,7 @@ function HomeSection() {
             <div style={{
               fontSize: 'clamp(0.9rem, 1.6vw, 1.15rem)',
               fontWeight: 600,
-              color: '#3c6e71',
+              color: '#7ce7ff',
               letterSpacing: '0.08em',
               marginBottom: '6px',
               textTransform: 'uppercase'
@@ -375,16 +422,20 @@ function HomeSection() {
             </div>
             <div className="home-education-gpa" style={{
               fontSize: 'clamp(0.9rem, 1.6vw, 1.1rem)',
-              color: '#3c6e71',
+              color: '#7ce7ff',
               fontWeight: 600,
               marginTop: '2px'
             }}>
               GPA: 8.648/10
             </div>
           </div>
-          <a href="#contact" className="get-in-touch-btn dark">
+          <button
+            type="button"
+            className="get-in-touch-btn dark"
+            onClick={() => onNavigate && onNavigate("contact")}
+          >
             Get in Touch
-          </a>
+          </button>
         </div>
         <div className="home-carousel-column">
           <div className="home-carousel-shell">
@@ -405,45 +456,41 @@ function HomeSection() {
 }
 
 function InternshipSection() {
-  const cards = [
-    {
-      gradient: "#2e2e2e",
-      hoverGradient: "#284b63",
-      border: "#284b63",
-      titleColor: "#d9d9d9"
-    },
-    {
-      gradient: "#2e2e2e",
-      hoverGradient: "#284b63",
-      border: "#284b63",
-      titleColor: "#d9d9d9"
-    }
-  ];
+  const card = { gradient: "#2e2e2e", hoverGradient: "#284b63", border: "#284b63" };
+  const entries = profile.internships.flatMap((intern) =>
+    intern.projects.map((project) => ({
+      ...project,
+      company: intern.company,
+      role: intern.role,
+      period: intern.period,
+    }))
+  );
 
   return (
     <section id="internship" className="content-section internship-section">
       <SectionHeader>Internship</SectionHeader>
       <ChromaGrid columns={2} radius={350} style={{ '--grid-max-width': '1140px' }}>
-        {profile.internship.projects.map((project, index) => (
-          <ChromaCard
-            className="flashcard internship-project-card"
-            key={project.title}
-            borderColor={cards[index % cards.length].border}
-            gradient={cards[index % cards.length].gradient}
-            gradientHover={cards[index % cards.length].hoverGradient}
-          >
-            <div className="flashcard-content internship-project-content">
-              <div className="internship-meta">
-                {profile.internship.company} | {profile.internship.role} - {profile.internship.status}
+        {entries.map((project) => (
+          <TiltCard key={project.title}>
+            <ChromaCard
+              className="flashcard internship-project-card"
+              borderColor={card.border}
+              gradient={card.gradient}
+              gradientHover={card.hoverGradient}
+            >
+              <div className="flashcard-content internship-project-content">
+                <div className="internship-meta">
+                  {project.company} | {project.role} - {project.period}
+                </div>
+                <h3>{project.title}</h3>
+                <ul>
+                  {project.points.map((point, idx) => (
+                    <li key={`${project.title}-${idx}`}>{point}</li>
+                  ))}
+                </ul>
               </div>
-              <h3>{project.title}</h3>
-              <ul>
-                {project.points.map((point, idx) => (
-                  <li key={`${project.title}-${idx}`}>{point}</li>
-                ))}
-              </ul>
-            </div>
-          </ChromaCard>
+            </ChromaCard>
+          </TiltCard>
         ))}
       </ChromaGrid>
     </section>
@@ -457,6 +504,7 @@ function Flashcard({ project, gradient, gradientHover, borderColor, titleColor }
   let tech = project.desc[project.desc.length - 1];
   let techLine = tech.startsWith('Stack:') ? tech.replace('Stack:', '').trim() : tech;
   return (
+    <TiltCard>
     <ChromaCard
       className="flashcard"
       gradient={gradient}
@@ -492,19 +540,12 @@ function Flashcard({ project, gradient, gradientHover, borderColor, titleColor }
         </div>
       </div>
     </ChromaCard>
+    </TiltCard>
   );
 }
 
 function SectionHeader({ children }) {
   return <h2 className="section-header">{children}</h2>;
-}
-
-function GlowingDivider() {
-  return (
-    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '24px 0' }}>
-      <div className="glowing-divider" />
-    </div>
-  );
 }
 
 function Projects() {
@@ -541,32 +582,32 @@ function Projects() {
 function Skills() {
   const skillCards = [
     {
-      icon: <FaCode size={32} color="#3c6e71" />, title: "Languages", items: [
+      icon: <FaCode size={32} color="#4fd1ff" />, title: "Languages", items: [
         "C++", "DSA in C", "Java", "Python", "Solidity"
       ]
     },
     {
-      icon: <FaLaptopCode size={32} color="#3c6e71" />, title: "Web Development", items: [
+      icon: <FaLaptopCode size={32} color="#4fd1ff" />, title: "Web Development", items: [
         "HTML", "CSS", "React", "Node.js", "JavaScript", "Flask", "Django", "web3.js"
       ]
     },
     {
-      icon: <FaBrain size={32} color="#3c6e71" />, title: "Machine Learning & AI", items: [
+      icon: <FaBrain size={32} color="#4fd1ff" />, title: "Machine Learning & AI", items: [
         "Pandas", "Numpy", "MatplotLib", "Seaborn", "Scikit-learn", "TensorFlow", "PyTorch", "Model Development", "Computer Vision", "NLP", "Deep Learning"
       ]
     },
     {
-      icon: <FaTools size={32} color="#3c6e71" />, title: "Tools & Platforms", items: [
+      icon: <FaTools size={32} color="#4fd1ff" />, title: "Tools & Platforms", items: [
         "SQL", "Git/GitHub", "Firebase", "Cloudinary", "ThingsBoard", "API Integration", "MONGODB", "Metamask", "Ganache", "Vercel"
       ]
     },
     {
-      icon: <FaCogs size={32} color="#3c6e71" />, title: "Other Skills", items: [
+      icon: <FaCogs size={32} color="#4fd1ff" />, title: "Other Skills", items: [
         "EDA", "Data Preprocessing", "Render Deployment", "BeautifulSoup", "Selenium", "Blockchain"
       ]
     },
     {
-      icon: <FaUserFriends size={32} color="#3c6e71" />, title: "Soft Skills", items: [
+      icon: <FaUserFriends size={32} color="#4fd1ff" />, title: "Soft Skills", items: [
         "Logical Thinking", "Teamwork", "Communication", "Leadership", "Time Management"
       ]
     },
@@ -586,22 +627,23 @@ function Skills() {
       <SectionHeader>Skills</SectionHeader>
       <ChromaGrid columns={3} radius={260} style={{ '--grid-max-width': '1140px' }}>
         {skillCards.map((card, i) => (
-          <ChromaCard
-            className="skill-card"
-            key={i}
-            gradient={cards[i % cards.length].gradient}
-            gradientHover={cards[i % cards.length].hoverGradient}
-            borderColor={cards[i % cards.length].border}
-            style={{}}
-          >
-            <div className="skill-icon">
-              {card.icon}
-            </div>
-            <div className="skill-title">{card.title}</div>
-            <ul>
-              {card.items.map((item, j) => <li key={j}>{item}</li>)}
-            </ul>
-          </ChromaCard>
+          <TiltCard key={i}>
+            <ChromaCard
+              className="skill-card"
+              gradient={cards[i % cards.length].gradient}
+              gradientHover={cards[i % cards.length].hoverGradient}
+              borderColor={cards[i % cards.length].border}
+              style={{}}
+            >
+              <div className="skill-icon">
+                {card.icon}
+              </div>
+              <div className="skill-title">{card.title}</div>
+              <ul>
+                {card.items.map((item, j) => <li key={j}>{item}</li>)}
+              </ul>
+            </ChromaCard>
+          </TiltCard>
         ))}
       </ChromaGrid>
     </section>
@@ -638,78 +680,33 @@ function MyJourney() {
     if (!timelineLine || !timelineSection || !timelineItems.length) return;
 
     const totalHeight = timelineSection.offsetHeight;
-    const everFullyRevealedRef = { current: false };
 
+    // Reveal each item once it enters the viewport (works for both
+    // window scrolling and the planet-page panel scroller), and grow
+    // the line down to the last revealed item. Items stay revealed.
     const updateTimelineLine = () => {
       const rect = timelineSection.getBoundingClientRect();
-      const sectionTop = rect.top;
-      const sectionBottom = rect.bottom;
       const windowHeight = window.innerHeight;
+      let lineHeight = 0;
 
-      // If the section is not visible at all, don't draw the line and reset the flag
-      if (sectionBottom <= 0 || sectionTop >= windowHeight) {
-        timelineLine.style.height = '0px';
-        everFullyRevealedRef.current = false;
-        return;
-      }
-
-      // If the timeline was ever fully revealed, keep it at full height and do nothing else
-      if (everFullyRevealedRef.current) {
-        timelineLine.style.height = `${totalHeight}px`;
-        // All timeline items should be active
-        timelineItems.forEach((item) => {
-          if (!item) return;
-          try {
-            item.classList.add('active');
-            const circle = item.querySelector('.timeline-circle');
-            if (circle) circle.classList.add('active');
-          } catch (err) {
-            console.error('Error updating timeline item:', err);
-          }
-        });
-        return;
-      }
-
-      // Calculate the scroll progress through the section
-      const scrollProgress = Math.min(1, Math.max(0, (windowHeight - sectionTop) / (windowHeight + totalHeight)));
-      const lineHeight = scrollProgress * totalHeight;
-
-      // If fully scrolled, set the flag and freeze the timeline
-      if (scrollProgress >= 1) {
-        timelineLine.style.height = `${totalHeight}px`;
-        everFullyRevealedRef.current = true;
-        // All timeline items should be active
-        timelineItems.forEach((item) => {
-          if (!item) return;
-          try {
-            item.classList.add('active');
-            const circle = item.querySelector('.timeline-circle');
-            if (circle) circle.classList.add('active');
-          } catch (err) {
-            console.error('Error updating timeline item:', err);
-          }
-        });
-        return;
-      }
-
-      // Normal animation before fully revealed
-      timelineLine.style.height = `${lineHeight}px`;
-      timelineItems.forEach((item, index) => {
+      timelineItems.forEach((item) => {
         if (!item) return;
         try {
-          const itemTop = item.getBoundingClientRect().top - rect.top;
-          const circle = item.querySelector('.timeline-circle');
-          if (itemTop <= parseFloat(timelineLine.style.height) + 100) {
+          const itemRect = item.getBoundingClientRect();
+          const revealed =
+            item.classList.contains('active') || itemRect.top < windowHeight * 0.88;
+          if (revealed) {
             item.classList.add('active');
+            const circle = item.querySelector('.timeline-circle');
             if (circle) circle.classList.add('active');
-          } else {
-            item.classList.remove('active');
-            if (circle) circle.classList.remove('active');
+            lineHeight = Math.max(lineHeight, itemRect.top - rect.top + 60);
           }
         } catch (err) {
           console.error('Error updating timeline item:', err);
         }
       });
+
+      timelineLine.style.height = `${Math.min(lineHeight, totalHeight)}px`;
     };
 
     const safeUpdateTimeline = (...args) => {
@@ -720,7 +717,9 @@ function MyJourney() {
       }
     };
 
+    const panelBody = document.querySelector('.overlay-panel-body');
     window.addEventListener('scroll', safeUpdateTimeline);
+    if (panelBody) panelBody.addEventListener('scroll', safeUpdateTimeline);
     try {
       updateTimelineLine();
     } catch (err) {
@@ -729,6 +728,7 @@ function MyJourney() {
     return () => {
       try {
         window.removeEventListener('scroll', safeUpdateTimeline);
+        if (panelBody) panelBody.removeEventListener('scroll', safeUpdateTimeline);
       } catch (err) {
         console.error('Error removing event listener:', err);
       }
@@ -832,7 +832,7 @@ function ContactSection({ gradient, gradientHover, borderColor }) {
       <div id="contact" style={{ width: '100%' }}>
         <h2>Get In Touch</h2>
         <div className="contact-box" style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-          <img src="/assets/linkedIIN_pic.jpeg" alt="LinkedIn Profile" className="contact-avatar" style={{ width: 60, height: 60, borderRadius: '50%', border: '2px solid #3c6e71', objectFit: 'cover', boxShadow: '0 2px 8px rgba(60,110,113,0.3)' }} />
+          <img src="/assets/linkedIIN_pic.jpeg" alt="LinkedIn Profile" className="contact-avatar" style={{ width: 60, height: 60, borderRadius: '50%', border: '2px solid #4fd1ff', objectFit: 'cover', boxShadow: '0 2px 12px rgba(79,209,255,0.35)' }} />
           <div>
             <div className="contact-title">Contact Information</div>
             <div className="contact-desc">Feel free to reach out through any of these channels.</div>
@@ -850,11 +850,24 @@ function ContactSection({ gradient, gradientHover, borderColor }) {
   );
 }
 
-function Footer() {
+function ContactPanel() {
   return (
-    <footer className="footer site-footer">
-      © 2025 Kabir Mathur. All rights reserved.
-    </footer>
+    <ChromaGrid columns={2} radius={350} className="contact-row">
+      <ContactSection
+        borderColor="#284b63"
+        gradient="#2e2e2e"
+        gradientHover="#284b63"
+      />
+      <ChromaCard
+        className="contact-form-section"
+        borderColor="#284b63"
+        gradient="#2e2e2e"
+        gradientHover="#284b63"
+        style={{ cursor: 'default' }}
+      >
+        <ContactForm />
+      </ChromaCard>
+    </ChromaGrid>
   );
 }
 
@@ -909,155 +922,91 @@ const ErrorDisplay = ({ error }) => (
 );
 */
 
-function ImageModal({ src, alt, onClose }) {
-  if (!src) return null;
-
-  return (
-    <div className="image-modal-overlay" onClick={onClose}>
-      <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
-        <img src={src} alt={alt} className="image-modal-img" />
-        <button className="image-modal-close-btn" onClick={onClose}>&times;</button>
-      </div>
-    </div>
-  );
-}
+const SECTION_ACCENTS = {
+  home: '#ffc98a',
+  internship: '#38bdf8',
+  projects: '#8b7bff',
+  skills: '#2dd4bf',
+  journey: '#7aa2ff',
+  contact: '#d78bfa',
+};
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [active, setActive] = useState(null);
 
   useEffect(() => {
     document.body.classList.add('dark-theme');
     document.body.classList.remove('light-theme');
   }, []);
 
-  const [imageModalSrc, setImageModalSrc] = useState(null);
-  const [imageModalAlt, setImageModalAlt] = useState("");
-  const dockItems = [
-    { icon: <VscHome size={22} />, label: "Home", onClick: () => scrollToSection("home") },
-    { icon: <VscAccount size={22} />, label: "Internship", onClick: () => scrollToSection("internship") },
-    { icon: <VscArchive size={22} />, label: "Projects", onClick: () => scrollToSection("projects") },
-    { icon: <VscTools size={22} />, label: "Skills", onClick: () => scrollToSection("skills") },
-    { icon: <VscMail size={22} />, label: "Contact", onClick: () => scrollToSection("contact") },
-    {
-      icon: <VscFile size={22} />,
-      label: "Resume",
-      onClick: () =>
-        window.open(
-          "https://drive.google.com/drive/folders/14cEDirSzuccBb3aqeREsi755o3f9GY3H",
-          "_blank",
-          "noopener,noreferrer"
-        ),
-    },
-  ];
-
-  const closeImageModal = () => {
-    setImageModalSrc(null);
-    setImageModalAlt("");
-  };
-
   useEffect(() => {
-    // Safe event handler with error handling
     const handleEscape = (event) => {
-      try {
-        if (event && event.key === 'Escape') {
-          closeImageModal();
-        }
-      } catch (err) {
-        console.error('Error in escape key handler:', err);
-      }
+      if (event.key === 'Escape') setActive(null);
     };
-
-    // Safely add/remove event listeners
-    try {
-      if (imageModalSrc) {
-        document.addEventListener('keydown', handleEscape);
-      } else {
-        document.removeEventListener('keydown', handleEscape);
-      }
-    } catch (err) {
-      console.error('Error managing keydown event listener:', err);
-    }
-
-    // Safe cleanup function
-    return () => {
-      try {
-        document.removeEventListener('keydown', handleEscape);
-      } catch (err) {
-        console.error('Error removing keydown event listener:', err);
-      }
-    };
-  }, [imageModalSrc]);
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, []);
 
   const handleSplashFinish = () => setShowSplash(false);
 
   return (
     <ErrorBoundary>
-      <div className="app portfolio-app">
-        {/* Site-wide fixed background */}
-        <div style={{ position: 'fixed', inset: 0, width: '100vw', height: '100vh', zIndex: 0, pointerEvents: 'none' }}>
-          <Plasma 
-            color="#3c6e71"
-            speed={1}
-            direction="forward"
-            scale={1}
-            opacity={1}
-            mouseInteractive={false}
-          />
-        </div>
-        {/* Site-wide ghost cursor overlay */}
-        <GhostCursor
-          color="#3c6e71"
-          brightness={0.5}
-          edgeIntensity={0}
-          trailLength={24}
-          inertia={0.6}
-          grainIntensity={0.02}
-          bloomStrength={0.05}
-          bloomRadius={0.5}
-          bloomThreshold={0.4}
-          fadeDelayMs={1200}
-          fadeDurationMs={2000}
-          radius={0.5}
-        />
+      <div className="app portfolio-app solar-app">
+        <SolarSystem active={showSplash ? null : active} onSelect={setActive} />
         {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
         {!showSplash && (
           <>
-            <HomeSection />
-            <GlowingDivider />
-            <InternshipSection />
-            {/* Add space before Projects section */}
-            <div style={{ height: 48 }} />
-            <GlowingDivider />
-            <Projects />
-            <GlowingDivider />
-            <Skills />
-            <GlowingDivider />
-            <MyJourney />
-            <GlowingDivider />
-            <ChromaGrid columns={2} radius={350} style={{ '--grid-max-width': '1140px' }} className="contact-row">
-              <ContactSection
-                borderColor="#284b63"
-                gradient="#2e2e2e"
-                gradientHover="#284b63"
-              />
-              <ChromaCard
-                className="contact-form-section"
-                borderColor="#284b63"
-                gradient="#2e2e2e"
-                gradientHover="#284b63"
-                style={{ cursor: 'default' }}
+            <div className={`solar-hud ${active ? 'solar-hud-dim' : ''}`}>
+              <div className="solar-hud-name">KABIR MATHUR</div>
+              <div className="solar-hud-tag">Data Scientist · AI/ML Developer</div>
+              <a
+                className="solar-hud-resume"
+                href="https://drive.google.com/drive/folders/14cEDirSzuccBb3aqeREsi755o3f9GY3H"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <ContactForm />
-              </ChromaCard>
-            </ChromaGrid>
-            <Footer />
-            <Dock
-              items={dockItems}
-              panelHeight={76}
-              baseItemSize={56}
-              magnification={72}
-            />
-            <ImageModal src={imageModalSrc} alt={imageModalAlt} onClose={closeImageModal} />
+                Resume ↗
+              </a>
+            </div>
+            {!active && (
+              <div className="solar-hint">Drag to orbit · Click a planet to explore</div>
+            )}
+            <div className="solar-copyright">© 2025 Kabir Mathur</div>
+            {active && (
+              <>
+                <div
+                  className="overlay-panel"
+                  role="dialog"
+                  aria-modal="true"
+                  style={{ '--accent': SECTION_ACCENTS[active] || '#4fd1ff' }}
+                >
+                  <div className="overlay-page-stars" />
+                  <div className="overlay-page-arc" />
+                  <button
+                    className="overlay-back"
+                    onClick={() => setActive(null)}
+                  >
+                    ← Back to orbit
+                  </button>
+                  <button
+                    className="overlay-close"
+                    onClick={() => setActive(null)}
+                    aria-label="Close"
+                  >
+                    &times;
+                  </button>
+                  <div className="overlay-panel-body">
+                    {active === 'home' && <HomeSection onNavigate={setActive} />}
+                    {active === 'internship' && <InternshipSection />}
+                    {active === 'projects' && <Projects />}
+                    {active === 'skills' && <Skills />}
+                    {active === 'journey' && <MyJourney />}
+                    {active === 'contact' && <ContactPanel />}
+                  </div>
+                </div>
+              </>
+            )}
           </>
         )}
       </div>
