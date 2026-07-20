@@ -5,7 +5,7 @@ import "./styles/cosmic-theme.css";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
 import hackathonImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
 import poseImg from "./assets/pos.jpg";
-import { FaLaptopCode, FaBrain, FaTools, FaCogs, FaDatabase, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { FaLaptopCode, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import ShinyText from "./components/ShinyText/ShinyText";
 import SplashScreen from "./components/SplashScreen";
 import Carousel from "./components/Carousel";
@@ -438,13 +438,23 @@ function HomeSection({ onNavigate }) {
               GPA: 8.648/10
             </div>
           </div>
-          <button
-            type="button"
-            className="get-in-touch-btn dark"
-            onClick={() => onNavigate && onNavigate("contact")}
-          >
-            Get in Touch
-          </button>
+          <div className="home-cta-row">
+            <button
+              type="button"
+              className="get-in-touch-btn dark"
+              onClick={() => onNavigate && onNavigate("contact")}
+            >
+              Get in Touch
+            </button>
+            <a
+              className="home-resume-btn"
+              href="https://drive.google.com/drive/folders/14cEDirSzuccBb3aqeREsi755o3f9GY3H"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Resume ↗
+            </a>
+          </div>
         </div>
         <div className="home-carousel-column">
           <div className="home-carousel-shell">
@@ -572,7 +582,7 @@ function Projects() {
   return (
     <section id="projects" className="content-section projects-section">
       <SectionHeader>Projects</SectionHeader>
-      <ChromaGrid columns={2} radius={350} style={{ '--grid-max-width': '1140px' }}>
+      <ChromaGrid columns={3} radius={350} style={{ '--grid-max-width': '1140px' }}>
         {profile.projects.map((p, i) => (
           <Flashcard
             project={p}
@@ -591,7 +601,12 @@ function Projects() {
 function Skills() {
   const skillCards = [
     {
-      icon: <FaBrain size={32} color="#4fd1ff" />, title: "AI&ML", items: [
+      title: "Languages", items: [
+        "Python", "Java", "SQL"
+      ]
+    },
+    {
+      title: "AI&ML", items: [
         "Machine Learning (Supervised ML, Model Evaluation)",
         "Deep Learning (TensorFlow, PyTorch)",
         "Natural Language Processing (spaCy, Hugging Face Transformers)",
@@ -601,7 +616,7 @@ function Skills() {
       ]
     },
     {
-      icon: <FaLaptopCode size={32} color="#4fd1ff" />, title: "Web & Backend Engineering", items: [
+      title: "Web & Backend Engineering", items: [
         "HTML, CSS, JavaScript",
         "Node.js, Spring Boot",
         "Flask, FastAPI",
@@ -610,17 +625,17 @@ function Skills() {
       ]
     },
     {
-      icon: <FaDatabase size={32} color="#4fd1ff" />, title: "Data Engineering", items: [
+      title: "Data Engineering", items: [
         "Kafka", "Airflow", "Docker", "Spark", "Postgres"
       ]
     },
     {
-      icon: <FaCogs size={32} color="#4fd1ff" />, title: "Other Skills", items: [
+      title: "Other Skills", items: [
         "Django", "BeautifulSoup", "Blockchain"
       ]
     },
     {
-      icon: <FaTools size={32} color="#4fd1ff" />, title: "Tools & Platforms", items: [
+      title: "Tools & Platforms", items: [
         "Git/GitHub", "Firebase", "Cloudinary", "Metamask", "Ganache", "Vercel", "Pinecone"
       ]
     },
@@ -638,8 +653,7 @@ function Skills() {
   return (
     <section id="skills" className="content-section skills-section">
       <SectionHeader>Skills</SectionHeader>
-      <div className="skills-languages-line">Languages - Python, Java, SQL</div>
-      <ChromaGrid columns={2} radius={280} style={{ '--grid-max-width': '1140px' }}>
+      <ChromaGrid columns={3} radius={280} style={{ '--grid-max-width': '1140px' }}>
         {skillCards.map((card, i) => (
           <TiltCard key={i}>
             <ChromaCard
@@ -649,9 +663,6 @@ function Skills() {
               borderColor={cards[i % cards.length].border}
               style={{}}
             >
-              <div className="skill-icon">
-                {card.icon}
-              </div>
               <div className="skill-title">{card.title}</div>
               <ul>
                 {card.items.map((item, j) => <li key={j}>{item}</li>)}
@@ -731,9 +742,21 @@ function MyJourney() {
       }
     };
 
+    // rAF-throttle so the line's growth reads as one continuous glide
+    // instead of stepping in sync with every raw scroll event
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        safeUpdateTimeline();
+        ticking = false;
+      });
+    };
+
     const panelBody = document.querySelector('.overlay-panel-body');
-    window.addEventListener('scroll', safeUpdateTimeline);
-    if (panelBody) panelBody.addEventListener('scroll', safeUpdateTimeline);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    if (panelBody) panelBody.addEventListener('scroll', onScroll, { passive: true });
     try {
       updateTimelineLine();
     } catch (err) {
@@ -741,8 +764,8 @@ function MyJourney() {
     }
     return () => {
       try {
-        window.removeEventListener('scroll', safeUpdateTimeline);
-        if (panelBody) panelBody.removeEventListener('scroll', safeUpdateTimeline);
+        window.removeEventListener('scroll', onScroll);
+        if (panelBody) panelBody.removeEventListener('scroll', onScroll);
       } catch (err) {
         console.error('Error removing event listener:', err);
       }
@@ -949,7 +972,7 @@ function App() {
             {active && (
               <>
                 <div
-                  className="overlay-panel"
+                  className={`overlay-panel overlay-panel-${active}`}
                   role="dialog"
                   aria-modal="true"
                   style={{ '--accent': SECTION_ACCENTS[active] || '#4fd1ff' }}
