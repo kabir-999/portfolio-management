@@ -71,8 +71,6 @@ const profile = {
     "I'm Kabir — a data scientist and AI/ML developer from Mumbai who loves turning ambitious ideas into working products. From smart glasses that help the visually impaired see the world, to no-code engines that generate entire mobile apps, I build AI systems that ship. When I'm not training models, you'll find me at hackathons, leading my department's tech teams, or exploring the newest corners of agentic AI.",
   highlights: [
     "SIH Grand Finalist",
-    "AWS ML Certified",
-    "10+ AI Projects",
     "2x AI/ML Intern",
   ],
   contact: {
