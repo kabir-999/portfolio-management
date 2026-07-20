@@ -501,6 +501,11 @@ body {
   padding: 42px 48px;
 }
 
+/* balance an odd trailing card: let it span the full row */
+.overlay-panel .skills-section .chroma-grid .tilt-wrap:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 900px) {
   .overlay-panel .skills-section .chroma-grid {
     grid-template-columns: 1fr !important;
@@ -616,6 +621,10 @@ body {
   }
 }
 
+.overlay-panel .home-section.content-section {
+  width: min(1440px, 96vw);
+}
+
 .overlay-panel .home-content {
   flex-direction: column !important;
   gap: 26px;
@@ -624,6 +633,7 @@ body {
 
 .overlay-panel .home-copy-column {
   width: 100%;
+  max-width: none;
 }
 
 @media (min-width: 1000px) {
@@ -634,6 +644,11 @@ body {
   }
 
   .overlay-panel .home-copy-column {
+    flex: 1.15;
+    max-width: 720px;
+  }
+
+  .overlay-panel .home-carousel-column {
     flex: 1;
   }
 }
@@ -647,7 +662,7 @@ body {
 /* intro bio + highlight chips */
 .overlay-panel .home-intro {
   margin: 0 0 24px;
-  max-width: 62ch;
+  max-width: 74ch;
   font-size: 1.04rem;
   line-height: 1.8;
   color: rgba(226, 234, 250, 0.88);
@@ -681,16 +696,26 @@ body {
 }
 
 /* bigger hero photos */
+.overlay-panel .home-carousel-shell {
+  width: min(560px, 42vw) !important;
+}
+
 .overlay-panel .rb-carousel {
-  --carousel-base-width: min(440px, 84vw) !important;
+  width: min(560px, 88vw) !important;
 }
 
 .overlay-panel .rb-carousel-viewport {
-  min-height: min(520px, 58vh) !important;
+  min-height: min(620px, 62vh) !important;
 }
 
 .overlay-panel .rb-carousel-stage {
-  height: min(520px, 58vh) !important;
+  height: min(620px, 62vh) !important;
+}
+
+@media (max-width: 999px) {
+  .overlay-panel .home-carousel-shell {
+    width: min(440px, 84vw) !important;
+  }
 }
 
 /* ---------- entrance & ambient animations ---------- */

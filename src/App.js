@@ -5,7 +5,7 @@ import "./styles/cosmic-theme.css";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
 import hackathonImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
 import poseImg from "./assets/pos.jpg";
-import { FaLaptopCode, FaBrain, FaTools, FaCogs, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { FaLaptopCode, FaBrain, FaTools, FaCogs, FaDatabase, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import ShinyText from "./components/ShinyText/ShinyText";
 import SplashScreen from "./components/SplashScreen";
 import Carousel from "./components/Carousel";
@@ -257,10 +257,11 @@ const profile = {
   ],
   skills: [
     "Python, Java, SQL",
+    "Machine Learning, Deep Learning (TensorFlow, PyTorch), NLP (spaCy, Hugging Face Transformers), Computer Vision, Explainable AI (SHAP, Fairlearn), Generative AI: LangChain, Google AI SDK, RAG, Agentic AI Systems",
+    "HTML, CSS, JavaScript, Node.js, Spring Boot, Flask, FastAPI, REST API Development, MongoDB",
     "Kafka, Airflow, Docker, Spark, Postgres",
-    "Pandas, Numpy, MatplotLib,Seaborn, Scikit-learn , TensorFlow, PyTorch, Model Development, Computer Vision, NLP, Deep Learning, RAG, LangChain, EDA",
-    "Git/GitHub, Firebase, Cloudinary, MONGODB, Metamask, Ganache, Vercel, Pinecone",
-    "Flask, Django, Spring Boot, BeautifulSoup, Blockchain",
+    "Git/GitHub, Firebase, Cloudinary, Metamask, Ganache, Vercel, Pinecone",
+    "Django, BeautifulSoup, Blockchain",
   ],
   positions: [
     {
@@ -590,23 +591,37 @@ function Projects() {
 function Skills() {
   const skillCards = [
     {
-      icon: <FaLaptopCode size={32} color="#4fd1ff" />, title: "Data Engineering", items: [
+      icon: <FaBrain size={32} color="#4fd1ff" />, title: "AI&ML", items: [
+        "Machine Learning (Supervised ML, Model Evaluation)",
+        "Deep Learning (TensorFlow, PyTorch)",
+        "Natural Language Processing (spaCy, Hugging Face Transformers)",
+        "Computer Vision (Image Classification)",
+        "Explainable AI (SHAP, Fairlearn)",
+        "Generative AI: LangChain, Google AI SDK, RAG, Agentic AI Systems",
+      ]
+    },
+    {
+      icon: <FaLaptopCode size={32} color="#4fd1ff" />, title: "Web & Backend Engineering", items: [
+        "HTML, CSS, JavaScript",
+        "Node.js, Spring Boot",
+        "Flask, FastAPI",
+        "REST API Development",
+        "MongoDB",
+      ]
+    },
+    {
+      icon: <FaDatabase size={32} color="#4fd1ff" />, title: "Data Engineering", items: [
         "Kafka", "Airflow", "Docker", "Spark", "Postgres"
       ]
     },
     {
-      icon: <FaBrain size={32} color="#4fd1ff" />, title: "AI&ML", items: [
-        "Pandas", "Numpy", "MatplotLib", "Seaborn", "Scikit-learn", "TensorFlow", "PyTorch", "Model Development", "Computer Vision", "NLP", "Deep Learning", "RAG", "LangChain", "EDA"
+      icon: <FaCogs size={32} color="#4fd1ff" />, title: "Other Skills", items: [
+        "Django", "BeautifulSoup", "Blockchain"
       ]
     },
     {
       icon: <FaTools size={32} color="#4fd1ff" />, title: "Tools & Platforms", items: [
-        "Git/GitHub", "Firebase", "Cloudinary", "MONGODB", "Metamask", "Ganache", "Vercel", "Pinecone"
-      ]
-    },
-    {
-      icon: <FaCogs size={32} color="#4fd1ff" />, title: "Other Skills", items: [
-        "Flask", "Django", "Spring Boot", "BeautifulSoup", "Blockchain"
+        "Git/GitHub", "Firebase", "Cloudinary", "Metamask", "Ganache", "Vercel", "Pinecone"
       ]
     },
   ];
