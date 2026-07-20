@@ -79,6 +79,23 @@ body {
   text-shadow: 0 0 16px rgba(255, 184, 107, 0.7), 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
+/* fade the whole UI layer in gently once the splash hands off,
+   so the reveal reads as one continuous motion, not a hard cut */
+.solar-ui-enter {
+  animation: uiFadeIn 1.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes uiFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solar-ui-enter {
+    animation: none;
+  }
+}
+
 /* ---------- HUD ---------- */
 .solar-hud {
   position: fixed;
@@ -217,20 +234,67 @@ body {
   z-index: 0;
 }
 
-/* faint stars sprinkled on the page */
-.overlay-page-stars {
+/* animated deep-space layer: drifting stars, dust, asteroids, a distant
+   ringed planet and the occasional shooting star (see SpaceBackdrop.js) */
+.overlay-space-canvas {
   position: absolute;
   inset: 0;
-  pointer-events: none;
   z-index: 0;
-  background-image:
-    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255, 255, 255, 0.55), transparent),
-    radial-gradient(1px 1px at 34% 64%, rgba(255, 255, 255, 0.4), transparent),
-    radial-gradient(1.5px 1.5px at 56% 12%, rgba(255, 255, 255, 0.5), transparent),
-    radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, 0.4), transparent),
-    radial-gradient(1.5px 1.5px at 86% 70%, rgba(255, 255, 255, 0.45), transparent),
-    radial-gradient(1px 1px at 22% 84%, rgba(255, 255, 255, 0.35), transparent),
-    radial-gradient(1px 1px at 92% 16%, rgba(255, 255, 255, 0.45), transparent);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* mission-telemetry readout pinned under the top chrome */
+.overlay-telemetry {
+  position: fixed;
+  top: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 55;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 18px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+  background: rgba(6, 10, 20, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: 'Outfit', 'Poppins', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: surfaceFade 0.7s ease 0.35s both;
+}
+
+.overlay-telemetry-code {
+  color: color-mix(in oklab, var(--accent) 78%, white);
+}
+
+.overlay-telemetry-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: hintPulse 2.4s ease-in-out infinite;
+}
+
+.overlay-telemetry-orbit {
+  color: rgba(174, 188, 214, 0.85);
+}
+
+@media (max-width: 768px) {
+  .overlay-telemetry {
+    top: 18px;
+    padding: 6px 14px;
+    font-size: 0.56rem;
+    gap: 7px;
+  }
 }
 
 .overlay-close {
@@ -428,7 +492,23 @@ body {
 }
 
 .overlay-panel .skills-section .chroma-grid {
-  grid-template-columns: repeat(auto-fill, minmax(min(330px, 100%), 1fr)) !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 2.4rem;
+  max-width: 1140px;
+}
+
+.overlay-panel .skills-section .chroma-card {
+  padding: 42px 48px;
+}
+
+@media (max-width: 900px) {
+  .overlay-panel .skills-section .chroma-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .overlay-panel .skills-section .chroma-card {
+    padding: 30px 28px;
+  }
 }
 
 .overlay-panel .tilt-wrap .glare-wrapper {
@@ -511,6 +591,29 @@ body {
 .overlay-panel .section-header {
   margin-top: 0;
   text-align: center;
+}
+
+.skills-languages-line {
+  width: min(1140px, 100%);
+  box-sizing: border-box;
+  margin: 4px auto 34px;
+  padding: 26px 40px;
+  border-radius: 24px;
+  border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+  background: color-mix(in oklab, var(--accent) 10%, rgba(8, 12, 24, 0.4));
+  text-align: center;
+  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: color-mix(in oklab, var(--accent) 85%, white);
+  text-shadow: 0 0 22px color-mix(in oklab, var(--accent) 40%, transparent);
+}
+
+@media (max-width: 900px) {
+  .skills-languages-line {
+    padding: 20px 24px;
+    font-size: clamp(1.1rem, 5vw, 1.5rem);
+  }
 }
 
 .overlay-panel .home-content {

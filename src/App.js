@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef, Component } from "react";
 import "./App.css";
 import "./styles/dark-theme.css";
-import "./styles/neural-theme.css";
+import "./styles/cosmic-theme.css";
 import aboutImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.02 PM.jpeg";
 import hackathonImg from "./assets/WhatsApp Image 2025-05-31 at 1.40.29 PM.jpeg";
 import poseImg from "./assets/pos.jpg";
-import { FaCode, FaLaptopCode, FaBrain, FaTools, FaCogs, FaUserFriends, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { FaLaptopCode, FaBrain, FaTools, FaCogs, FaEnvelope, FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import ShinyText from "./components/ShinyText/ShinyText";
 import SplashScreen from "./components/SplashScreen";
 import Carousel from "./components/Carousel";
 import Tilt from "react-parallax-tilt";
 import SolarSystem from "./components/three/SolarSystem";
+import SpaceBackdrop from "./components/SpaceBackdrop";
 import ChromaGrid, { ChromaCard } from "./components/ChromaGrid";
 
 function TiltCard({ children }) {
@@ -85,7 +86,7 @@ const profile = {
     {
       company: "Meera AI Tech",
       role: "AI/ML Intern",
-      period: "Ongoing",
+      period: "Sept 2025 – March 2026",
       projects: [
         {
           title: "Spectrasense",
@@ -162,6 +163,13 @@ const profile = {
       date: "1st July, 2025",
       desc: [
         "Cracked 4 out of 5 problems in the final showdown — made it to the ultimate round"
+      ],
+    },
+    {
+      title: "Amazon ML Summer School",
+      date: "July 2026",
+      desc: [
+        "Selected for Amazon's ML Summer School program, an intensive curriculum on applied machine learning taught by Amazon scientists"
       ],
     },
   ],
@@ -248,11 +256,11 @@ const profile = {
     },
   ],
   skills: [
-    "C++", "DSA in C", "Java", "Python", "Solidity",
-    "HTML, CSS, Flask, Django, web3.js",
-    "Pandas, Numpy, MatplotLib,Seaborn, Scikit-learn , TensorFlow, PyTorch, Model Development, Computer Vision, NLP, Deep Learning",
-    "SQL, Git/GitHub, Firebase, Cloudinary, ThingsBoard, API Integration, Metamask, Ganache",
-    "EDA, Data Preprocessing, Render Deployment, BeautifulSoup, Blockchain",
+    "Python, Java, SQL",
+    "Kafka, Airflow, Docker, Spark, Postgres",
+    "Pandas, Numpy, MatplotLib,Seaborn, Scikit-learn , TensorFlow, PyTorch, Model Development, Computer Vision, NLP, Deep Learning, RAG, LangChain, EDA",
+    "Git/GitHub, Firebase, Cloudinary, MONGODB, Metamask, Ganache, Vercel, Pinecone",
+    "Flask, Django, Spring Boot, BeautifulSoup, Blockchain",
   ],
   positions: [
     {
@@ -582,33 +590,23 @@ function Projects() {
 function Skills() {
   const skillCards = [
     {
-      icon: <FaCode size={32} color="#4fd1ff" />, title: "Languages", items: [
-        "C++", "DSA in C", "Java", "Python", "Solidity"
+      icon: <FaLaptopCode size={32} color="#4fd1ff" />, title: "Data Engineering", items: [
+        "Kafka", "Airflow", "Docker", "Spark", "Postgres"
       ]
     },
     {
-      icon: <FaLaptopCode size={32} color="#4fd1ff" />, title: "Web Development", items: [
-        "HTML", "CSS", "React", "Node.js", "JavaScript", "Flask", "Django", "web3.js"
-      ]
-    },
-    {
-      icon: <FaBrain size={32} color="#4fd1ff" />, title: "Machine Learning & AI", items: [
-        "Pandas", "Numpy", "MatplotLib", "Seaborn", "Scikit-learn", "TensorFlow", "PyTorch", "Model Development", "Computer Vision", "NLP", "Deep Learning"
+      icon: <FaBrain size={32} color="#4fd1ff" />, title: "AI&ML", items: [
+        "Pandas", "Numpy", "MatplotLib", "Seaborn", "Scikit-learn", "TensorFlow", "PyTorch", "Model Development", "Computer Vision", "NLP", "Deep Learning", "RAG", "LangChain", "EDA"
       ]
     },
     {
       icon: <FaTools size={32} color="#4fd1ff" />, title: "Tools & Platforms", items: [
-        "SQL", "Git/GitHub", "Firebase", "Cloudinary", "ThingsBoard", "API Integration", "MONGODB", "Metamask", "Ganache", "Vercel"
+        "Git/GitHub", "Firebase", "Cloudinary", "MONGODB", "Metamask", "Ganache", "Vercel", "Pinecone"
       ]
     },
     {
       icon: <FaCogs size={32} color="#4fd1ff" />, title: "Other Skills", items: [
-        "EDA", "Data Preprocessing", "Render Deployment", "BeautifulSoup", "Selenium", "Blockchain"
-      ]
-    },
-    {
-      icon: <FaUserFriends size={32} color="#4fd1ff" />, title: "Soft Skills", items: [
-        "Logical Thinking", "Teamwork", "Communication", "Leadership", "Time Management"
+        "Flask", "Django", "Spring Boot", "BeautifulSoup", "Blockchain"
       ]
     },
   ];
@@ -625,7 +623,8 @@ function Skills() {
   return (
     <section id="skills" className="content-section skills-section">
       <SectionHeader>Skills</SectionHeader>
-      <ChromaGrid columns={3} radius={260} style={{ '--grid-max-width': '1140px' }}>
+      <div className="skills-languages-line">Languages - Python, Java, SQL</div>
+      <ChromaGrid columns={2} radius={280} style={{ '--grid-max-width': '1140px' }}>
         {skillCards.map((card, i) => (
           <TiltCard key={i}>
             <ChromaCard
@@ -871,57 +870,6 @@ function ContactPanel() {
   );
 }
 
-// Simple fallback component to display errors (currently unused)
-// Commented out to fix ESLint error
-/*
-const ErrorDisplay = ({ error }) => (
-  <div style={{
-    color: 'white',
-    textAlign: 'center',
-    padding: '50px',
-    backgroundColor: '#1a1a2e',
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  }}>
-    <h2 style={{ color: '#ff6b6b', marginBottom: '20px' }}>⚠️ Oops! Something went wrong.</h2>
-    <div style={{
-      backgroundColor: '#0f3460',
-      padding: '20px',
-      borderRadius: '8px',
-      maxWidth: '800px',
-      textAlign: 'left',
-      margin: '20px 0',
-      fontFamily: 'monospace',
-      overflowX: 'auto'
-    }}>
-      <p><strong>Error:</strong> {error.message}</p>
-      <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
-        {error.stack || 'No stack trace available'}
-      </pre>
-    </div>
-    <button
-      onClick={() => window.location.reload()}
-      style={{
-        padding: '10px 20px',
-        backgroundColor: '#7fbcff',
-        color: '#181a20',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        fontSize: '1rem',
-        marginTop: '20px',
-        transition: 'background-color 0.3s, transform 0.2s'
-      }}
-    >
-      Reload Page
-    </button>
-  </div>
-);
-*/
-
 const SECTION_ACCENTS = {
   home: '#ffc98a',
   internship: '#38bdf8',
@@ -929,6 +877,16 @@ const SECTION_ACCENTS = {
   skills: '#2dd4bf',
   journey: '#7aa2ff',
   contact: '#d78bfa',
+};
+
+/* fake mission telemetry shown at the top of each planet page */
+const PLANET_META = {
+  home: { code: 'SOL-00 · HOME STAR', orbit: 'SYSTEM CORE' },
+  internship: { code: 'PLNT-01 · INTERNSHIP', orbit: 'ORBIT 8.2 AU' },
+  projects: { code: 'PLNT-02 · PROJECTS', orbit: 'ORBIT 12.6 AU' },
+  skills: { code: 'PLNT-03 · SKILLS', orbit: 'ORBIT 16.8 AU' },
+  journey: { code: 'PLNT-04 · JOURNEY', orbit: 'ORBIT 20.6 AU' },
+  contact: { code: 'PLNT-05 · CONTACT', orbit: 'ORBIT 24.2 AU' },
 };
 
 function App() {
@@ -956,7 +914,7 @@ function App() {
         <SolarSystem active={showSplash ? null : active} onSelect={setActive} />
         {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
         {!showSplash && (
-          <>
+          <div className="solar-ui-enter">
             <div className={`solar-hud ${active ? 'solar-hud-dim' : ''}`}>
               <div className="solar-hud-name">KABIR MATHUR</div>
               <div className="solar-hud-tag">Data Scientist · AI/ML Developer</div>
@@ -981,8 +939,13 @@ function App() {
                   aria-modal="true"
                   style={{ '--accent': SECTION_ACCENTS[active] || '#4fd1ff' }}
                 >
-                  <div className="overlay-page-stars" />
+                  <SpaceBackdrop accent={SECTION_ACCENTS[active] || '#4fd1ff'} />
                   <div className="overlay-page-arc" />
+                  <div className="overlay-telemetry">
+                    <span className="overlay-telemetry-code">{(PLANET_META[active] || {}).code}</span>
+                    <span className="overlay-telemetry-dot" />
+                    <span className="overlay-telemetry-orbit">{(PLANET_META[active] || {}).orbit}</span>
+                  </div>
                   <button
                     className="overlay-back"
                     onClick={() => setActive(null)}
@@ -1007,17 +970,11 @@ function App() {
                 </div>
               </>
             )}
-          </>
+          </div>
         )}
       </div>
     </ErrorBoundary>
   );
 }
 
-const AppWithErrorBoundary = () => (
-  <ErrorBoundary>
-    <App />
-  </ErrorBoundary>
-);
-
-export default AppWithErrorBoundary;
+export default App;

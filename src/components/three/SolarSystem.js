@@ -46,6 +46,149 @@ function getGlowTexture() {
   return _glowTex;
 }
 
+/* ---------- procedural planet surfaces (craters, no downloads) ---------- */
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function hashSeed(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+const cssColor = (c, a = 1) =>
+  `rgba(${Math.min(255, (c.r * 255) | 0)},${Math.min(255, (c.g * 255) | 0)},${Math.min(255, (c.b * 255) | 0)},${a})`;
+
+/* Equirect color map + grayscale bump map: mottled terrain and
+   impact craters (dark floor, sun-lit rim). Cached per planet. */
+const _planetTexCache = {};
+function getPlanetTextures(id, colorHex) {
+  if (_planetTexCache[id]) return _planetTexCache[id];
+  const W = 1024;
+  const H = 512;
+  const rand = mulberry32(hashSeed(id));
+  const base = new THREE.Color(colorHex);
+  const dark = base.clone().multiplyScalar(0.4);
+  const light = base.clone().lerp(new THREE.Color('#ffffff'), 0.35);
+
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const g = c.getContext('2d');
+  const bc = document.createElement('canvas');
+  bc.width = W; bc.height = H;
+  const bg = bc.getContext('2d');
+
+  g.fillStyle = cssColor(base.clone().multiplyScalar(0.72));
+  g.fillRect(0, 0, W, H);
+  bg.fillStyle = '#808080';
+  bg.fillRect(0, 0, W, H);
+
+  // mottled terrain patches
+  for (let i = 0; i < 260; i++) {
+    const x = rand() * W;
+    const y = rand() * H;
+    const r = 8 + rand() * 70;
+    const lighter = rand() > 0.5;
+    const col = lighter ? light : dark;
+    const grd = g.createRadialGradient(x, y, 0, x, y, r);
+    grd.addColorStop(0, cssColor(col, 0.11));
+    grd.addColorStop(1, cssColor(col, 0));
+    g.fillStyle = grd;
+    g.fillRect(x - r, y - r, r * 2, r * 2);
+    const v = lighter ? 255 : 0;
+    const bgrd = bg.createRadialGradient(x, y, 0, x, y, r);
+    bgrd.addColorStop(0, `rgba(${v},${v},${v},0.06)`);
+    bgrd.addColorStop(1, `rgba(${v},${v},${v},0)`);
+    bg.fillStyle = bgrd;
+    bg.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+
+  // impact craters
+  for (let i = 0; i < 90; i++) {
+    const x = rand() * W;
+    const y = H * 0.08 + rand() * H * 0.84;
+    const r = 4 + rand() * rand() * 26;
+    // shadowed floor
+    let grd = g.createRadialGradient(x, y, 0, x, y, r);
+    grd.addColorStop(0, 'rgba(0,0,12,0.42)');
+    grd.addColorStop(0.7, 'rgba(0,0,12,0.24)');
+    grd.addColorStop(0.95, 'rgba(0,0,12,0.05)');
+    grd.addColorStop(1, 'rgba(0,0,12,0)');
+    g.fillStyle = grd;
+    g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
+    // lit rim on the upper-left, shadow rim opposite
+    g.lineWidth = Math.max(1, r * 0.16);
+    g.strokeStyle = cssColor(light, 0.45);
+    g.beginPath(); g.arc(x, y, r * 0.92, Math.PI * 0.8, Math.PI * 1.9); g.stroke();
+    g.strokeStyle = 'rgba(0,0,12,0.3)';
+    g.beginPath(); g.arc(x, y, r * 0.95, -Math.PI * 0.1, Math.PI * 0.75); g.stroke();
+    // bump: depression with a raised rim
+    const bgrd = bg.createRadialGradient(x, y, 0, x, y, r);
+    bgrd.addColorStop(0, 'rgba(0,0,0,0.55)');
+    bgrd.addColorStop(0.72, 'rgba(0,0,0,0.28)');
+    bgrd.addColorStop(0.9, 'rgba(255,255,255,0.5)');
+    bgrd.addColorStop(1, 'rgba(255,255,255,0)');
+    bg.fillStyle = bgrd;
+    bg.beginPath(); bg.arc(x, y, r, 0, Math.PI * 2); bg.fill();
+  }
+
+  const map = new THREE.CanvasTexture(c);
+  map.colorSpace = THREE.SRGBColorSpace;
+  map.anisotropy = 4;
+  const bump = new THREE.CanvasTexture(bc);
+  const out = { map, bump };
+  _planetTexCache[id] = out;
+  return out;
+}
+
+/* Granulated sun surface with a few sunspots. */
+let _sunTex = null;
+function getSunTexture() {
+  if (_sunTex) return _sunTex;
+  const W = 1024;
+  const H = 512;
+  const rand = mulberry32(7);
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const g = c.getContext('2d');
+  g.fillStyle = '#f8c765';
+  g.fillRect(0, 0, W, H);
+  for (let i = 0; i < 900; i++) {
+    const x = rand() * W;
+    const y = rand() * H;
+    const r = 3 + rand() * 22;
+    const hot = rand() > 0.45;
+    const grd = g.createRadialGradient(x, y, 0, x, y, r);
+    grd.addColorStop(0, hot ? 'rgba(255,238,190,0.16)' : 'rgba(216,120,42,0.14)');
+    grd.addColorStop(1, hot ? 'rgba(255,238,190,0)' : 'rgba(216,120,42,0)');
+    g.fillStyle = grd;
+    g.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+  for (let i = 0; i < 9; i++) {
+    const x = rand() * W;
+    const y = H * 0.2 + rand() * H * 0.6;
+    const r = 5 + rand() * 14;
+    const grd = g.createRadialGradient(x, y, 0, x, y, r);
+    grd.addColorStop(0, 'rgba(120,52,12,0.55)');
+    grd.addColorStop(0.6, 'rgba(160,74,20,0.3)');
+    grd.addColorStop(1, 'rgba(160,74,20,0)');
+    g.fillStyle = grd;
+    g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
+  }
+  _sunTex = new THREE.CanvasTexture(c);
+  _sunTex.colorSpace = THREE.SRGBColorSpace;
+  return _sunTex;
+}
+
 /* ---------- camera: overview orbit ⇄ fly-to-body ---------- */
 function CameraRig({ activeRef, bodiesRef, drag }) {
   const azimuth = useRef(0.4);
@@ -276,8 +419,8 @@ function Sun({ onSelect, showLabel, focused }) {
       onPointerOut={() => setHovered(false)}
     >
       <mesh ref={surface}>
-        <icosahedronGeometry args={[SUN_RADIUS, 3]} />
-        <meshBasicMaterial color="#f6d089" />
+        <sphereGeometry args={[SUN_RADIUS, 48, 32]} />
+        <meshBasicMaterial map={getSunTexture()} />
       </mesh>
       <mesh ref={halo} scale={1.18}>
         <sphereGeometry args={[SUN_RADIUS, 32, 32]} />
@@ -443,6 +586,45 @@ function SatelliteFeature({ radius }) {
   );
 }
 
+/* ---------- asteroid belt between Projects and Skills orbits ---------- */
+function AsteroidBelt() {
+  const ref = useRef();
+  const count = isMobile() ? 130 : 320;
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const rocks = useMemo(() => {
+    const rand = mulberry32(42);
+    return Array.from({ length: count }, () => ({
+      r: 14.0 + rand() * 1.7,
+      a: rand() * Math.PI * 2,
+      y: (rand() - 0.5) * 0.8,
+      s: 0.05 + rand() * 0.13,
+      speed: 0.018 + rand() * 0.022,
+      spin: 0.2 + rand() * 0.6,
+      rx: rand() * Math.PI,
+      rz: rand() * Math.PI,
+    }));
+  }, [count]);
+  useFrame((state) => {
+    if (!ref.current) return;
+    const t = state.clock.elapsedTime;
+    rocks.forEach((rk, i) => {
+      const a = rk.a + t * rk.speed;
+      dummy.position.set(Math.cos(a) * rk.r, rk.y, Math.sin(a) * rk.r);
+      dummy.rotation.set(rk.rx + t * rk.spin, a, rk.rz);
+      dummy.scale.setScalar(rk.s);
+      dummy.updateMatrix();
+      ref.current.setMatrixAt(i, dummy.matrix);
+    });
+    ref.current.instanceMatrix.needsUpdate = true;
+  });
+  return (
+    <instancedMesh ref={ref} args={[undefined, undefined, count]} raycast={() => null}>
+      <dodecahedronGeometry args={[1, 0]} />
+      <meshStandardMaterial color="#93897d" roughness={0.95} metalness={0.05} flatShading />
+    </instancedMesh>
+  );
+}
+
 /* ---------- a planet ---------- */
 function Planet({ def, onSelect, registerBody, showLabel }) {
   const orbitRef = useRef();
@@ -451,6 +633,7 @@ function Planet({ def, onSelect, registerBody, showLabel }) {
   const scaleRef = useRef();
   const pathRef = useRef();
   const [hovered, setHovered] = useState(false);
+  const tex = useMemo(() => getPlanetTextures(def.id, def.color), [def.id, def.color]);
 
   useEffect(() => {
     registerBody(def.id, holderRef.current);
@@ -499,11 +682,21 @@ function Planet({ def, onSelect, registerBody, showLabel }) {
             onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
             onPointerOut={() => setHovered(false)}
           >
-            <group ref={spinRef}>
-              <mesh>
-                <icosahedronGeometry args={[def.radius, 2]} />
-                <meshStandardMaterial color={def.color} flatShading roughness={0.55} metalness={0.12} emissive={def.color} emissiveIntensity={0.1} />
-              </mesh>
+            <group rotation={[0.22, 0, -0.14]}>
+              <group ref={spinRef}>
+                <mesh>
+                  <sphereGeometry args={[def.radius, 48, 32]} />
+                  <meshStandardMaterial
+                    map={tex.map}
+                    bumpMap={tex.bump}
+                    bumpScale={1.4}
+                    roughness={0.92}
+                    metalness={0.04}
+                    emissive={def.color}
+                    emissiveIntensity={0.05}
+                  />
+                </mesh>
+              </group>
             </group>
             {/* tight rim light + wider atmosphere halo */}
             <mesh scale={1.07}>
@@ -590,6 +783,7 @@ export default function SolarSystem({ active, onSelect }) {
         <Starfield />
         <Nebula />
         <Sun onSelect={onSelect} showLabel={showLabels} focused={active === 'home'} />
+        <AsteroidBelt />
         {PLANETS.map((def) => (
           <Planet key={def.id} def={def} onSelect={onSelect} registerBody={registerBody} showLabel={showLabels} />
         ))}
