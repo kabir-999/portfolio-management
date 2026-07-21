@@ -8,7 +8,7 @@ const nodemailer = require('nodemailer');
 const app = express();
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://kabir-portfolio-management.vercel.app',
+  'https://kabir999.vercel.app',
 ];
 
 app.use(cors({
